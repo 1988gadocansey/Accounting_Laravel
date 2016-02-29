@@ -1,0 +1,85 @@
+<?php $__env->startSection("body_class"); ?>
+ class="header-full"
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('app_content'); ?>
+<div id="page_content">
+        <div id="page_content_inner">
+<?php if(isset($singletranscript) && count($singletranscript)>0): ?>
+   <div class="md-card">
+                <div class="md-card-content">
+                    <?php /* <div class="uk-overflow-container">*/ ?>
+                        <table class="uk-table uk-table-nowrap uk-table-condensed" border="2">                            
+                            <tbody>                   
+                            <?php foreach($singletranscript as $transcript): ?>           
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Status</th>
+                                <td class="uk-text-left"><?php echo e(strtoupper($transcript->status)); ?></td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-1-10 uk-text-left">Date Filed</th>
+                                <td class="uk-text-left"><?php echo e($transcript->date); ?></td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10">Tracking N<u>o</u></th>
+                                <td class="uk-text-left"><?php echo e($transcript->trackingno); ?></td>
+                                </tr>
+                                <tr>
+                                <th  class="uk-width-2-10 uk-text-left">Price</th>
+                                <td class="uk-text-left" ><?php echo e($transcript->price); ?></td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Name</th>
+                                <td class="uk-text-left"><?php echo e($transcript->name); ?></td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">College</th>
+                                <td class="uk-text-left"><?php echo e($transcript->college_name->cname); ?></td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Index N<u>o</u></th>                                
+                                <td class="uk-text-left"><?php echo e($transcript->indexno); ?> </td>
+                                </tr>
+                                <tr>
+                                <th class="uk-width-1-10 uk-text-left">Program</th>
+                                <td class="uk-text-left"><?php echo e($transcript->program); ?></td>
+                                </tr>
+                                <tr>                                
+                                <th class="uk-width-2-10 uk-text-left">Year of Admission</th>
+                                <td class="uk-text-left"><?php echo e($transcript->yoc); ?></td>                                  
+                                </tr>
+                                <tr>                                
+                                <th class="uk-width-2-10 uk-text-left">Year of Completion</th>
+                                <td class="uk-text-left"><?php echo e($transcript->yoc); ?></td>                                  
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Delivery Method</th>
+                                  <td class="uk-text-left"><?php echo e($transcript->delivery); ?></td>                                 
+                                </tr>
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Mailing Address</th>
+                                <td class="uk-text-left"><?php echo e($transcript->address); ?></td>
+                                </tr>
+
+                                <tr>
+                                <th class="uk-width-2-10 uk-text-left">Country of Delivery</th>
+                                  <td class="uk-text-left"><?php echo e($transcript->country); ?></td>                                 
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php /* </div> */ ?>
+                   
+                </div>
+                </div>
+
+                 <?php else: ?>
+ <div class="md-card-content">
+ No record found!
+ </div>
+ <?php endif; ?>
+            </div>
+                </div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.altairlayoutmaster', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

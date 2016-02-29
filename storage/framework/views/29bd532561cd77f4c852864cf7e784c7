@@ -1,0 +1,73 @@
+ 
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('flash_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('flash_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Stock found!</p>
+    </div>
+<?php else: ?>
+ 
+ 
+ 
+	<div class="uk-overflow-container">
+           
+                        <table class="uk-table uk-table-nowrap uk-table-hover"> 
+                                  <thead>
+                                         <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                            <th class=" ">No</th>
+                                            <th class=" ">Name</th>
+                                            <th class=" ">Quantity</th>
+                                            <th class=" ">Unit price</th>
+                                            <th class=" ">Ledger Account</th>
+                                            <th class=" ">Re-Order Level</th>
+                                            
+                                          
+                                        </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                         $period=date("Y-m-d");
+                                        ?>
+                                        <?php foreach($data as $datas=> $item): ?> 
+                                       
+                                         
+                                        <tr align="">
+                                            
+                                            <td>   <?php echo $datas+1; ?> </td>   
+                                            <td> <?php echo e($item->ITEM_NAME); ?></td>
+                                            <td> <?php echo e($item->ITEM_QUANTITY); ?></td>
+                                            <td> <?php echo e($item->ITEM_UNIT_PRICE); ?></td>
+
+                                            <td> <?php echo e($item->account->ACCOUNT_NAME); ?></td>
+                                            <td> <?php echo e($item->ITEM_RE_ORDER_LEVEL); ?></td>
+
+                                                                
+                                              
+                                           </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+            
+                             
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script>
+    $(document).ready(function(){
+    window.print();
+    window.close(); 
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,157 @@
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" href="<?php echo url('public/assets/css/bootstrap.min.css'); ?>" media="all">
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('flash_message')); ?>
+
+            </div>
+         <?php endif; ?>
+          <?php if(Session::has('error_message')): ?>
+            <div class="alert alert-danger">
+                <?php echo e(Session::get('flash_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Transaction found!</p>
+      <a href="<?php echo e(url('bank_inquiry')); ?>">Back</a>
+    </div>
+<?php else: ?>
+ <h5>Bank Inquiries</h5>  
+   
+<div class="md-card">
+                <div class="md-card-content">
+
+                <form action="<?php echo url('bank_inquiry'); ?>"  method="get" accept-charset="utf-8" novalidate id="group">
+                   <?php echo csrf_field(); ?>
+
+                    <div class="uk-grid" data-uk-grid-margin="">
+
+                        <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    <?php echo Form::select('account', 
+                                (['' => 'Select Account'] + $account), 
+                                  old("account",""),
+                                    ['class' => 'md-input','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+
+                         </div>
+                        </div>
+                        <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    <?php echo Form::select('type', 
+                                (['' => 'Select Transaction type'] + $type), 
+                                  old("account",""),
+                                    ['class' => 'md-input','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+
+                         </div>
+                        </div>
+                         
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">                                                        
+                             <input type="text"  style="width: 130px" data-uk-datepicker="{format:'DD/MM/YYYY'}" value="<?php echo e(old("from_date")); ?>" name="from_date" id="invoice_dp" class="md-input" placeholder="date from ">
+                             </div>
+                         </div>
+
+                        <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">                            
+                            <input type="text" style="margin-left: 37px;width: 130px" data-uk-datepicker="{format:'DD/MM/YYYY'}" value="<?php echo e(old("to_date")); ?>" name="to_date"  class="md-input" placeholder="date to">
+                            </div>
+                        </div>
+                        
+
+                        <div class="uk-width-medium-1-10" style="margin-top: 12px">
+                            <div class="uk-margin-small-top">                          
+                            <input class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="search_button"  value="Search" />
+                             </div>
+                        </div>
+                         
+                        <div class="uk-width-medium-1-10"  style="margin-top: 25px" >                            
+                            <div class="uk-margin-small-top">
+                            <a  onClick ="$('#gad').tableExport({type:'excel',escape:'false'});" title="Click to export to excel"class="btn-success btn-sm uk-margin-small-top">Export<i title="click to export" class=" fa fa-file-excel-o" ></i></a>
+                            </div>
+                          </div>
+                         
+                    
+                    </div>
+                </form> 
+                    
+                </div>
+            </div>
+ 
+	<div class="uk-overflow-container">
+            
+                        <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                           <th class=" ">No</th>
+                                           <th class=" ">Date</th>
+                                           <th class=" ">Trans ID</th>
+                                            <th class=" ">Type</th>
+                                         
+                                            <th class=" ">Account</th>
+                                            <th class=" ">Debit</th>
+                                            <th class=" ">Credit</th>
+                                            
+                                            <th class=" ">Memo</th>
+                                           
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                         $period=date("Y-m-d");
+                                        ?>
+                                        <?php foreach($data as $datas=> $item): ?> 
+                                       <?php
+                                        if($item->AMOUNT<0) {
+                                             $cr=$item->AMOUNT;
+                                              $dr="";
+                                         }
+                                         else{
+                                             $dr=$item->AMOUNT;
+                                             $cr="";
+                                         }
+                                         ?>
+                                        <tr align="">
+                                            <td>   <?php echo $datas+1; ?> </td>
+                                             <td> <?php echo e($item->DATE); ?></td>
+                                            <td> <?php echo e($item->TRANSACTION_ID); ?></td>
+                                            <td> <?php echo e(@$item->transactionType->typename); ?></td>
+                                            
+                                            <td> <?php echo e($item->account->ACCOUNT_NAME); ?></td>
+                                            <td><?php echo e(@$dr); ?></td>
+                                            <td><?php echo e(@$cr); ?></td>
+                                            <td> <?php echo e($item->MEMO); ?></td>
+                                            
+                                            
+                                            
+
+                                                           
+                                              
+                                        </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+            
+                             <?php echo $data->appends(old())->render(); ?>
+
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+
+
+<script type="text/javascript">
+      
+ 
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

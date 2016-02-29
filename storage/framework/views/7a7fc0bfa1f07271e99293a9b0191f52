@@ -1,0 +1,189 @@
+<?php $__env->startSection('app_content'); ?>
+<div class="uk-width-2-3  uk-container-center">
+
+
+  <?php if(count($errors) > 0): ?>
+  <div class="uk-alert uk-alert-danger">
+    There were some problems processing your order.<br />
+    <ul>
+      <?php foreach($errors->all() as $error): ?>
+      <li><?php echo $error; ?></li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+  <?php endif; ?>
+
+  <?php if($messages=Session::get("messages")): ?>
+  <div class="uk-alert uk-alert-success">
+      <?php foreach($messages as $error): ?>
+      <p><?php echo $error; ?></p>
+      <?php endforeach; ?>
+  </div>
+  <?php endif; ?>
+<div ng-app='app'  ng-controller='FormCtrl'>
+<form class="uk-form uk-form-horizontal" name="transcriptForm"  action="<?php echo url('ordertranscript'); ?>" method="post"    novalidate>
+
+  <ul class="uk-tab"  data-uk-tab="{connect:'#tab-content'}">
+    <li class=""  id="form_tab"><a href="#">  FILL FORM</a></li>
+    <li     ng-class="{ 'uk-disabled' : transcriptForm.$invalid }"       id="payment_tab">
+    <a href="#">PAYMENT</a>
+    </li>
+  </ul>
+
+  <ul id="tab-content" class="uk-switcher uk-margin">  
+      <li class="">
+        <?php echo csrf_field(); ?>
+
+        <div class="uk-form-row">
+          <label for="form-h-t" class="uk-form-label">Contact Address</label>
+          <div class="uk-form-controls">
+            <textarea required="required" ng-model="transcript.contactAddress"  name="contactAddress" placeholder="" rows="2" cols="30" ><?php echo old('contactAddress',''); ?></textarea>
+              <p class=" uk-text-danger " ng-if="transcriptForm.contactAddress.$invalid && transcriptForm.contactAddress.$touched">A contact address is required</p>
+              </div>
+        </div>
+
+        <div class="uk-form-row">
+          <label for="" class="uk-form-label">Phone N<u>o</u></label>
+          <div class="uk-form-controls">
+            <input type="text"  ng-model="transcript.tel"  ng-pattern="/^\d+$/"  maxlength="10" required="required"  ng-minlength="10" name="tel"  value="<?php echo e(old('tel','')); ?>">
+          <p  class=" uk-text-danger "  ng-if="transcriptForm.tel.$invalid && transcriptForm.tel.$touched">Please enter a valid phone number of 10 digits</p>
+          </div>
+        </div>
+
+        <div class="uk-form-row">
+          <label for="form-h-it" class="uk-form-label">Index N<u>o</u></label>
+          <div class="uk-form-controls">
+            <input required="required" ng-model="transcript.indexno" type="text" name="indexno" value="<?php echo old('indexno',''); ?>">
+          <p class="uk-text-danger"  ng-if="transcriptForm.indexno.$invalid && transcriptForm.indexno.$touched">The index number of the applicant is required</p>
+          </div>
+        </div>
+
+        <div class="uk-form-row">
+          <label for="form-h-it" class="uk-form-label">Name of Applicant</label>
+          <div class="uk-form-controls">
+            <input type="text" required="required" ng-model="transcript.name" name="name" value="<?php echo old('name',''); ?>">
+          <p class="uk-text-danger"  ng-if="transcriptForm.name.$invalid && transcriptForm.name.$touched">The name of the applicant is required</p>
+          </div>
+        </div>
+        <div class="uk-form-row">
+          <label for="form-h-it" class="uk-form-label">Email</label>
+          <div class="uk-form-controls">
+            <input type="email"  ng-model="transcript.email" name="email" value="<?php echo old('email',''); ?>">
+          <p class="uk-text-danger"  ng-if="transcriptForm.email.$invalid && transcriptForm.email.$touched">Please enter a valid email address</p>
+          </div>
+        </div>
+                                  <div class="uk-form-row">
+                                    <label for="form-h-t" class="uk-form-label">College</label>
+                                    <div class="uk-form-controls">
+                                      <?php echo Form::select('college',$colleges,null,array('placeholder'=>'Select College',"ng-model"=>"transcript.college","required"=>"required")); ?>
+
+                                    <p class="uk-text-danger"  ng-if="transcriptForm.college.$invalid && transcriptForm.college.$touched">The college attended by the applicant is required</p>
+                                    </div>
+                                  </div>
+
+                                  <div class="uk-form-row">
+                                    <label for="form-h-t" class="uk-form-label">Program</label>
+                                    <div class="uk-form-controls">
+                                      <?php echo Form::select('program',array("DBE"=>"DBE",'UTDBE'=>"UTDBE",'TEACHERS CERT (A)'=>'TEACHERS CERT (A)'),null,array('placeholder'=>'Select Programme',"ng-model"=>"transcript.program","required"=>"required")); ?>
+
+                                      <p class="uk-text-danger"  ng-if="transcriptForm.program.$invalid && transcriptForm.program.$touched">The program taken by the applicant is required</p>
+                                    </div>
+                                  </div>
+
+                                  <div class="uk-form-row">
+                                    <label for="form-h-t" class="uk-form-label">Year of Admission</label>
+                                    <div class="uk-form-controls">
+                                      <?php echo Form::selectYear('yoa',date('Y'),2001,null,array('placeholder'=>'Select Year',"required"=>"required","ng-model"=>"transcript.yoa")); ?>
+
+                                      <p class="uk-text-danger"  ng-if="transcriptForm.yoa.$invalid && transcriptForm.yoa.$touched">The year of admission is required</p>
+                                    </div>
+                                  </div>
+
+                                  <div class="uk-form-row">
+                                    <label for="form-h-t" class="uk-form-label">Year of Completion</label>
+                                    <div class="uk-form-controls">
+                                     <?php echo Form::selectYear('yoc',2001,date('Y'),null,array('placeholder'=>'Select Year',"ng-model"=>"transcript.yoc","required"=>"required")); ?>
+
+                                     <p class="uk-text-danger"  ng-if="transcriptForm.yoc.$invalid && transcriptForm.yoc.$touched">The year of completion is required</p>
+                                   </div>
+                                 </div>
+
+                                 <div class="uk-form-row">
+                                  <label for="form-h-t" class="uk-form-label">Delivery Method</label>
+                                  <div class="uk-form-controls">
+                                    <?php echo Form::select('delivery',array('POST TO DESTINATION'=>'POST TO DESTINATION','PERSONAL PICKUP'=>'PERSONAL PICKUP'),null,array('placeholder'=>'Select Delivery Method',"required"=>"required","ng-model"=>"transcript.delivery")); ?>
+
+                                    <p class="uk-text-danger"  ng-if="transcriptForm.delivery.$invalid && transcriptForm.delivery.$touched">A delivery method is required</p>
+                                  </div>
+                                </div>
+
+                                <div class="uk-form-row" ng-if="transcript.delivery!=''" >
+                                  <label for="form-h-t" class="uk-form-label">Destination Country</label>
+                                  <div class="uk-form-controls">
+                                    <?php echo Form::select('country',$countries,null,array('placeholder'=>'Select Country',"ng-model"=>"transcript.country","ng-required"=>"transcript.delivery!=''")); ?>
+
+                                    <p class="uk-text-danger"  ng-if="transcriptForm.country.$invalid && transcriptForm.country.$touched">Destination country for posting is required</p>
+                                  </div>
+                                </div>
+
+                                <div class="uk-form-row" ng-if="transcript.delivery=='POST TO DESTINATION'">
+                                  <label for="form-h-t" class="uk-form-label">Destination Address</label>
+                                  <div class="uk-form-controls">
+                                    <textarea ng-required="transcript.delivery=='POST TO DESTINATION'" name="address" ng-model="transcript.address" placeholder="" rows="2" cols="30" ><?php echo old('address',''); ?></textarea>
+                                    <p class="uk-text-danger"  ng-if="transcriptForm.address.$invalid && transcriptForm.address.$touched">Destination address is required</p>
+                                  </div>
+                                </div>
+
+                                <div class="uk-form-row">
+                                  <div class="uk-form-controls">
+                              
+                                    <button  ng-disabled="transcriptForm.$invalid"  class=" uk-button uk-button-large"  id="go_next" data-uk-switcher-item="next"    >Go Next</button>
+                                  </div>
+
+                                  <br>
+                                  <br>
+                                </div>
+
+
+                              </li>  
+                              <li class="" >
+                                <?php /* <h2>PLEASE ENTER YOUR AIRTEL MONEY PAYMENT NUMBER ACCOUNT</h2> */ ?>
+
+                        <div class="uk-form-row"   >
+          <label for="form-h-it" class="uk-form-label">ACCOUNT PHONE N<u>O</u></label>
+          <div class="uk-form-controls">
+            <input  ng-minlength="10"  maxlength="10" ng-pattern="/^\d+$/" ng-model="transcript.account" name="account" value="<?php echo old('account',''); ?>" >
+            <p class="uk-text-danger"  ng-if="transcriptForm.account.$invalid && transcriptForm.account.$touched">A registered mobile money phone number is required</p>
+          </div>
+        </div>
+         <div class="uk-form-row">
+                                    <button type="submit"  ng-disabled="!check()" class="uk-button-large uk-button-primary uk-button"  name="submit" placeholder="">Submit  </button>
+                                    <button type="reset"  class="uk-button-large uk-button-primary uk-button"  name="reset" placeholder=""  data-uk-switcher-item="previous"> Cancel</button>
+                                    <button   class="uk-button-large uk-button-primary uk-button"  name="reset" placeholder=""  data-uk-switcher-item="previous"> Back</button>
+                                  </div>
+                                  
+                                </li>  
+                          
+                              </ul>
+                            </form>
+
+                          </div>
+
+</div>
+                          <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('app_js'); ?>
+<script>
+angular.module('app',['ngMessages'])
+.controller('FormCtrl',['$scope','$window',function($scope,$window){
+
+  $scope.check=function(){
+  // console.log(angular.element('input[name=account]').val() .length ==10);
+ return angular.element('input[name=account]').val() .length ==10;
+}
+// $scope.$apply();
+
+}]);
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.altairlayoutmaster', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

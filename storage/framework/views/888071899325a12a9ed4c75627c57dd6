@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>T</title>
+  <link rel="stylesheet" href='<?php echo url( "/css/uikit.gradient.min.css"); ?>' >
+  <link rel="stylesheet" href='<?php echo url( "/css/accordion.gradient.min.css"); ?>' >
+<link rel="stylesheet" href='<?php echo url( "/css/search.gradient.min.css"); ?>' >
+  <?php $__env->startSection('css'); ?>
+  <?php echo $__env->yieldSection(); ?>
+  
+
+</head>
+
+<body>
+  <div class="uk-grid uk-grid-collapse">
+  <div class=" uk-width-1-1">
+    <center>
+      <h3>
+        T
+      </h3>
+    </center>
+  </div>  
+</div>
+
+<div class="uk-grid uk-grid-collapse " >
+<div class="uk-width-1-1 ">
+ 
+  <?php echo $__env->yieldContent('app_content'); ?>
+
+</div>
+</div>
+
+  <script src='<?php echo url("/js/jquery-2_1_0.min.js"); ?>' ></script>
+  <script src='<?php echo url( "/js/uikit/uikit.min.js"); ?>' ></script>
+<script src='<?php echo url( "/js/uikit/accordion.min.js"); ?>' ></script>
+<script src='<?php echo url( "/js/uikit/search.min.js"); ?>' ></script>
+<script src='<?php echo url( "/js/uikit/switcher.min.js"); ?>' ></script>
+<script src='<?php echo url( "/js/uikit/dropdown.min.js"); ?>' ></script>
+<?php $__env->startSection('angular'); ?>
+<script src='<?php echo url( "/js/angular/angular.min.js"); ?>' ></script>
+<script src='<?php echo url( "/js/angular/angular-messages.min.js"); ?>' ></script>
+<?php echo $__env->yieldSection(); ?>
+<?php $__env->startSection('app_js'); ?>
+
+<?php echo $__env->yieldSection(); ?>
+</body>
+</html>
+

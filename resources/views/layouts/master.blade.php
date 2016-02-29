@@ -1,0 +1,466 @@
+<!doctype html>
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="_token" content="{!! csrf_token() !!}"/>
+    <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+
+    <title>Flat Accountant</title>
+
+
+    <!-- uikit -->
+    <link rel="stylesheet" href="{!! url('public/plugins/uikit/css/uikit.almost-flat.min.css') !!} " media="all">
+
+    <!-- flag icons -->
+    <link rel="stylesheet" href="{!! url('public/assets/icons/flags/flags.min.css') !!}" media="all">
+
+    <!-- altair admin -->
+    <link rel="stylesheet" href="{!! url('public/assets/css/main.min.css') !!}" media="all">
+     <link rel="stylesheet" href="{!! url('public/plugins/sweet-alert/sweet-alert.min.css') !!}" media="all">
+     <!-- font awesome -->
+    <link rel="stylesheet" href="{!! url('public/assets/css/fonts/font-awesome.min.css') !!}" media="all">
+    <link rel="stylesheet" href="{!! url('public/assets/css/select2.min.css') !!}" media="all">
+      @yield('css')
+<script type="text/javascript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+</head>
+<body class=" sidebar_main_open sidebar_main_swipe">
+    <!-- main header -->
+    <header id="header_main">
+        <div class="header_main_content">
+            <nav class="uk-navbar">
+                                
+                <!-- main sidebar switch -->
+                <a href="#" id="sidebar_main_toggle" class="sSwitch sSwitch_left">
+                    <span class="sSwitchIcon"></span>
+                </a>
+                
+                <!-- secondary sidebar switch -->
+                <a href="#" id="sidebar_secondary_toggle" class="sSwitch sSwitch_right sidebar_secondary_check">
+                    <span class="sSwitchIcon"></span>
+                </a>
+                
+                    <div id="menu_top_dropdown" class="uk-float-left uk-hidden-small">
+                        <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
+                            <a href="#" class="top_menu_toggle"><i class="material-icons md-24">&#xE8F0;</i></a>
+                            <div class="uk-dropdown uk-dropdown-width-3">
+                                <div class="uk-grid uk-dropdown-grid" data-uk-grid-margin>
+                                    <div class="uk-width-2-3">
+                                        <div class="uk-grid uk-grid-width-medium-1-3 uk-margin-top uk-margin-bottom uk-text-center" data-uk-grid-margin>
+                                            <a href="page_mailbox.html">
+                                                <i class="material-icons md-36">&#xE158;</i>
+                                                <span class="uk-text-muted uk-display-block">Mailbox</span>
+                                            </a>
+                                            <a href="page_invoices.html">
+                                                <i class="material-icons md-36">&#xE53E;</i>
+                                                <span class="uk-text-muted uk-display-block">Invoices</span>
+                                            </a>
+                                            <a href="page_chat.html">
+                                                <i class="material-icons md-36 md-color-red-600">&#xE0B9;</i>
+                                                <span class="uk-text-muted uk-display-block">Chat</span>
+                                            </a>
+                                            <a href="page_scrum_board.html">
+                                                <i class="material-icons md-36">&#xE85C;</i>
+                                                <span class="uk-text-muted uk-display-block">Scrum Board</span>
+                                            </a>
+                                            <a href="page_snippets.html">
+                                                <i class="material-icons md-36">&#xE86F;</i>
+                                                <span class="uk-text-muted uk-display-block">Snippets</span>
+                                            </a>
+                                            <a href="page_user_profile.html">
+                                                <i class="material-icons md-36">&#xE87C;</i>
+                                                <span class="uk-text-muted uk-display-block">User profile</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-1-3">
+                                        <ul class="uk-nav uk-nav-dropdown uk-panel">
+                                            <li class="uk-nav-header">Components</li>
+                                            <li><a href="components_accordion.html">Accordions</a></li>
+                                            <li><a href="components_buttons.html">Buttons</a></li>
+                                            <li><a href="components_notifications.html">Notifications</a></li>
+                                            <li><a href="components_sortable.html">Sortable</a></li>
+                                            <li><a href="components_tabs.html">Tabs</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="uk-navbar-flip">
+                    <ul class="uk-navbar-nav user_actions">
+                        <li><a href="#" id="full_screen_toggle" class="user_action_icon uk-visible-large"><i class="material-icons md-24 md-light">&#xE5D0;</i></a></li>
+                        <li><a href="#" id="main_search_btn" class="user_action_icon"><i class="material-icons md-24 md-light">&#xE8B6;</i></a></li>
+                        <li data-uk-dropdown="{mode:'click'}">
+                            <a href="#" class="user_action_icon"><i class="material-icons md-24 md-light">&#xE7F4;</i><span class="uk-badge">16</span></a>
+                            <div class="uk-dropdown uk-dropdown-xlarge uk-dropdown-flip">
+                                <div class="md-card-content">
+                                    <ul class="uk-tab uk-tab-grid" data-uk-tab="{connect:'#header_alerts',animation:'slide-horizontal'}">
+                                        <li class="uk-width-1-2 uk-active"><a href="#" class="js-uk-prevent uk-text-small">Messages (12)</a></li>
+                                        <li class="uk-width-1-2"><a href="#" class="js-uk-prevent uk-text-small">Alerts (4)</a></li>
+                                    </ul>
+                                    <ul id="header_alerts" class="uk-switcher uk-margin">
+                                        <li>
+                                            <ul class="md-list md-list-addon">
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <span class="md-user-letters md-bg-cyan">jy</span>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading"><a href="pages_mailbox.html">Fugit vero.</a></span>
+                                                        <span class="uk-text-small uk-text-muted">Qui qui natus vel voluptas corporis repudiandae tenetur ut.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_07_tn.png" alt=""/>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading"><a href="pages_mailbox.html">Rerum error.</a></span>
+                                                        <span class="uk-text-small uk-text-muted">Provident assumenda sit ratione aliquam ut.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <span class="md-user-letters md-bg-light-green">ak</span>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading"><a href="pages_mailbox.html">Pariatur dolorem et.</a></span>
+                                                        <span class="uk-text-small uk-text-muted">Iusto in sed odio quo et ea exercitationem est optio possimus.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_02_tn.png" alt=""/>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading"><a href="pages_mailbox.html">Dolor cumque.</a></span>
+                                                        <span class="uk-text-small uk-text-muted">Praesentium aspernatur non quia ullam aspernatur.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_09_tn.png" alt=""/>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading"><a href="pages_mailbox.html">Veritatis ex.</a></span>
+                                                        <span class="uk-text-small uk-text-muted">Facilis earum iusto odit sit alias et ut temporibus iusto nulla sint.</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="uk-text-center uk-margin-top uk-margin-small-bottom">
+                                                <a href="page_mailbox.html" class="md-btn md-btn-flat md-btn-flat-primary js-uk-prevent">Show All</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <ul class="md-list md-list-addon">
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <i class="md-list-addon-icon material-icons uk-text-warning">&#xE8B2;</i>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading">Repellendus sed quidem.</span>
+                                                        <span class="uk-text-small uk-text-muted uk-text-truncate">A nihil ut quia corporis pariatur eius quisquam.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <i class="md-list-addon-icon material-icons uk-text-success">&#xE88F;</i>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading">Dolore voluptas.</span>
+                                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Voluptates aut occaecati eligendi eaque nemo cupiditate dolores.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <i class="md-list-addon-icon material-icons uk-text-danger">&#xE001;</i>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading">Rerum libero harum.</span>
+                                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Aperiam id quia animi eos ut eos.</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="md-list-addon-element">
+                                                        <i class="md-list-addon-icon material-icons uk-text-primary">&#xE8FD;</i>
+                                                    </div>
+                                                    <div class="md-list-content">
+                                                        <span class="md-list-heading">Et illo quo.</span>
+                                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Quia rerum soluta repudiandae non.</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                         <li data-uk-dropdown="{mode:'click'}">
+                             <a href="#" class="user_action_image"><img class="md-user-image" src="{!! url('public/assets/profile/webmaster.jpg') !!}" alt=""/></a>
+                            <div class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
+                                <ul class="uk-nav js-uk-prevent">
+                                    <li><a href="page_user_profile.html"> 
+             my profile
+         </a></li>
+                                    <li><a href="page_settings.html">Settings</a></li>
+                                    <li><a href="logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="header_main_search_form">
+            <i class="md-icon header_main_search_close material-icons">&#xE5CD;</i>
+            <form class="uk-form">
+                <input type="text" class="header_main_search_input" />
+                <button class="header_main_search_btn uk-button-link"><i class="md-icon material-icons">&#xE8B6;</i></button>
+            </form>
+        </div>
+    </header><!-- main header end -->
+    <!-- main sidebar -->
+<!--    <aside id="sidebar_main">
+        
+       <div class="sidebar_main_header" style="background-position: 30px">
+            <div class="sidebar_logo">
+                <a href="" class="sSidebar_hide"><img src="assets/img/logo.png" alt="" height="15" width="71"/></a>
+                <a href="" class="sSidebar_show"><img src="assets/img/logo.png" alt="" height="32" width="32"/></a>
+            </div>
+           <p></p>
+            <div class="sidebar_actions">
+               
+                <p style="margin-left: 12px">  Welcome | {{ Session::get('flatUser.username') }}</p>  
+                
+            </div>
+        </div>
+        
+        
+        <div class="menu_section">
+            <ul>
+                <li title="Dashboard">
+                    <a href="dashboard">
+                        <span class="menu_icon"><i class="material-icons">&#xE871;</i></span>
+                        <span class="menu_title">Dashboard</span>
+                    </a>
+                </li>
+                 
+                <li>
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8D2;</i></span>
+                        <span class="menu_title">Setup</span>
+                    </a>
+                    <ul>
+                        
+                        <li class=''><a href="{{ url('setup') }}" > <i class='fa fa-database'></i> Create Company </a></li>
+                          
+                        <li class=''><a href="{{ url('add_account') }}" > <i class='fa fa-plus-circle'></i> Add Account </a></li>
+                          
+                        <li class=''><a href="{{ url('addstock') }}" > <i class='fa fa-plus-circle'></i> Add Stock </a></li>
+                        <li class=''><a href="{{ url('Addbank') }}" ><i class='fa fa-plus-circle'></i>  Add Banks </a></li>
+                          
+                        <li class=''><a href="{{ url('addPeople') }}" > <i class='fa fa-plus-circle'></i> Add People </a></li>
+                         
+                        <li class=''><a href="{{ url('addassets') }}" > <i class='fa fa-plus-circle'></i>Add Fixed Assets </a></li>
+                        <li class=''><a href="{{ url('view_people') }}" ><i class='fa fa-file-text'></i>  View People </a></li>
+                         
+                        <li class=''><a href="{{ url('view_assets') }}" ><i class='fa fa-file-text'></i>  View Assets </a></li>
+                         <li class=''><a href="{{ url('view_banks') }}" ><i class='fa fa-file-text'></i>  View Banks </a></li>
+                          
+                        <li class=''><a href="{{ url('view_accounts') }}" ><i class='fa fa-file-text'></i>  View Accounts </a></li>
+                        <li class=''><a href="{{ url('view_stock') }}" > <i class='fa fa-file-text'></i> View Stock </a></li>
+                        <li class=''><a href="{{ url('view_assets') }}" ><i class='fa fa-file-text'></i>  View Assets </a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8F1;</i></span>
+                        <span class="menu_title">General Ledger</span>
+                    </a>
+                     <ul> 
+                         <li class=''><a href="{{ url('add_account') }}" > <i class='fa fa-plus-circle'></i> Add Account </a></li>
+                        
+                         <li class=''><a href="{{ url('gl_account') }}" > <i class='fa fa-file-text'></i>GL  Accounts </a></li>
+                         <li class=''><a href="{{ url('gl_account_groups') }}" ><i class='fa fa-file-text'></i> GL Accounts Groups </a></li>
+                         <li class=''><a href="{{ url('gl_charts') }}" ><i class='fa fa-file-text'></i>Charts of Accounts </a></li>
+                       
+                        
+                        <li class=''><a href="{{ url('gl_account_inquiry') }}" ><i class='fa fa-file-text'></i>  GL Accounts Inquiry </a></li>
+                        <li class=''><a href="{{ url('gl_transactions') }}" ><i class='fa fa-file-text'></i>  GL Transactions </a></li>
+                         
+                     
+                     </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="menu_icon"><i class="fa fa-database"></i></span>
+                        <span class="menu_title">Transactions Manager</span>
+                    </a>
+                    <ul>
+                         <li class=''><a href="{{ url('journal_entry') }}"  ><i class='fa fa-file-text'></i>  Journal Entry </a></li>
+                         <li class=''><a href="{{ url('journal_inquiry') }}"  ><i class='fa fa-file-text'></i>  Journal Inquiry </a></li>
+                         
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="menu_icon"><i class="fa fa-users"></i></span>
+                        <span class="menu_title">Suppliers</span>
+                    </a>
+                    <ul>
+                        <li class=''><a href='view_purchase_order' > <i class='fa fa-file-text'></i> View Purchase Order </a></li>
+                          
+                        <li class=''><a href='purchase_journal' ><i class='fa fa-file-text'></i>  Purchase Journal </a></li>
+                          
+                        <li class=''><a href='create_purchase_order' ><i class='fa fa-file-text'></i>  Create Order </a></li>
+                        <li class=''><a href='goods_received' > <i class='fa fa-file-text'></i> Receive Goods </a></li>
+                         
+                    </ul>
+                </li>
+                
+                <li >
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8CB;</i></span>
+                        <span class="menu_title">Asset Manager</span>
+                    </a>
+                    <ul>
+                         <li class=''><a href="{{ url('addassets') }}" > <i class='fa fa-plus-circle'></i>Add Fixed Assets </a></li>
+                      
+                         <li class=''><a href='asset_manager' ><i class='fa fa-file-text'></i>  Asset Register </a></li>
+                    </ul>
+                </li>
+                <li >
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8C0;</i></span>
+                        <span class="menu_title">Inventory Management</span>
+                    </a>
+                    <ul>
+                        <li class=''><a href='stock' ><i class='fa fa-file-text'></i>  Stocks </a></li>
+                    </ul>
+                </li>
+                <li >
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE24D;</i></span>
+                        <span class="menu_title">Banking</span>
+                    </a>
+                    <ul>
+                      
+                         <li class=''><a href="{{url('withdrawals') }}"  ><i class='fa fa-file-text'></i> Withdrawals </a></li>
+                        <li class=''><a href="{{ url('deposit') }}"  ><i class='fa fa-file-text'></i>  Deposits </a></li>
+                        <li class=''><a href="{{ url('transfers') }}"  ><i class='fa fa-file-text'></i>  Bank Account Transfers </a></li>
+                        <li class=''><a href="{{ url('bank_inquiry') }}" ><i class='fa fa-file-text'></i>  Bank Accounts Inquiry </a></li>
+                     
+                    </ul>
+                </li>
+                 <li>
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8F1;</i></span>
+                        <span class="menu_title">Reports</span>
+                    </a>
+                     <ul>
+                       <li class=''><a href='trial_balance' ><i class='fa fa-file-text'></i>  Trial Balance </a></li>
+                          <li class=''><a href='balance_sheet' ><i class='fa fa-file-text'></i>  Balance Sheet </a></li>
+                          <li class=''><a href='income_expenditure' ><i class='fa fa-file-text'></i>  Income and Expenditure </a></li>
+                          <li class=''><a href='cashbook' ><i class='fa fa-file-text'></i>  Cash book </a></li>
+                          
+                          
+
+                    </ul>
+                </li>
+                <li >
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE87B;</i></span>
+                        <span class="menu_title">Settings</span>
+                    </a>
+                    <ul>
+                       <li class=''><a href='{{ url('reset') }}' ><i class='fa fa-file-text'></i>  Reset Account </a></li>
+                         
+                       <li class=''><a href='{{ url('system_log') }}' ><i class='fa fa-file-text'></i>  View Log </a></li>
+                    <li class=''><a href='{{ url('users') }}' ><i class='fa fa-file-text'></i>  Users </a></li>
+                    
+            
+                        <li class=''><a href="{{ url('logout') }}" ><i class='fa fa-file-text'></i>  Logout </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside> main sidebar end -->
+
+    <div id="page_content">
+        <div id="page_content_inner">
+
+            <div class="md-card">
+                <div class="md-card-content">
+                  @yield('content')
+                </div>
+            </div>
+
+          
+            </div>
+
+        </div>
+    </div>
+    <footer><center><small>Ropat Systems Design &copy {{ date('Y')}} | All Rights Reserved</small></center></footer>
+    <!-- google web fonts -->
+     
+</body>
+ <!-- common functions -->
+<script src="{!! url('public/assets/js/common.min.js') !!}"></script>
+<!-- uikit functions -->
+<script src="{!! url('public/assets/js/uikit_custom.min.js') !!}"></script>
+
+<!-- altair common functions/helpers -->
+<script src="{!! url('public/assets/js/altair_admin_common.min.js') !!}"></script>
+<script src="{!! url('public/assets/js/uikit/uikit.min.js') !!}"></script>
+ 
+ <script src="{!! url('public/assets/js/select2.full.min.js') !!}"></script>
+<script src='{!! url( "public/plugins/sweet-alert/sweet-alert.min.js")  !!}' ></script>
+
+<script src="{!! url('public/assets/js/vue.min.js') !!}"></script>
+<script src="{!! url('public/assets/js/vue-form.min.js') !!}"></script>
+
+<script src="{!! url('public/assets/tableexport/tableExport.js') !!}"></script>
+<script src="{!! url('public/assets/tableexport/jquery.base64.js') !!}"></script>
+
+<script src="{!! url('public/assets/tableexport/html2canvas.js') !!}"></script>
+
+<script src="{!! url('public/assets/tableexport/jspdf/libs/sprintf.js') !!}"></script>
+
+<script src="{!! url('public/assets/tableexport/jspdf/jspdf.js') !!}"></script>
+<script src="{!! url('public/assets/tableexport/jspdf/libs/base64.js') !!}"></script>
+
+     @yield('scripts')
+
+     <script type="text/javascript">
+    $.ajaxSetup({
+       headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+    });
+    </script>
+   <script>
+    // load parsley config (altair_admin_common.js)
+    altair_forms.parsley_validation_config();
+    // load extra validators
+    altair_forms.parsley_extra_validators();
+    </script>
+   <script>
+$(document).ready(function(){
+  $('select').select2({ width: "resolve" });
+
+  
+});
+
+
+</script>
+ 
+ </html>

@@ -1,0 +1,95 @@
+
+ 
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('success_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Transaction  found!</p>
+    </div>
+<?php else: ?>
+  <h5>Cashbook | Reports</h5> 
+ 
+ 
+	 
+           
+                       <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                        <tr>
+                                          <th>NO</th>
+                                          <th>DATE</th>
+                                        
+
+                                          <th>CASHBOOK TYPE</th>
+                                          <th>PAYEE</th>
+                                          <th>MEMO</th>
+
+                                          <th>DEPOSIT</th>
+                                          <th>PAYMENT</th>
+                                          <th>BALANCE</th>
+
+                                          <th>TAG</th> 
+              
+                  
+                                        </tr>
+                                    </thead>
+                                <tbody class="selects">
+
+
+                                    <?php foreach($data as $datas=> $item): ?> 
+                                     
+                                     <tr align="">
+
+                                         <td>   <?php echo $datas+1; ?> </td>
+                                         <td> <?php echo e(@$item->DATE); ?></td>
+                                         <td> <?php echo e(@$item->bankType->BANK_ACCOUNT_NAME); ?></td>
+
+                                         <td> <?php echo e(@$item->account->ACCOUNT_NAME); ?></td>
+                                         <td><?php echo e(@$item->MEMO); ?></td>
+
+                                         <td><?php echo e(@$item->DEPOSIT_AMOUNT); ?></td>
+                                         <td><?php echo e(@$item->PAYMENT_AMOUNT); ?></td>
+                                         <td><?php echo e(@$item->RUNNING_BALANCE); ?></td>
+                                         <td><?php echo e(@$item->tags->TAG); ?></td>
+
+
+
+                                      </tr>
+                                     <?php endforeach; ?>
+
+                                </tbody>
+                                     <div style='margin-left:0%'>
+                
+                                        <tr>
+                                            <td colspan=2><div style="margin-left: 205px;float: right"><b><em>Totals</em></b></div></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td ></td>
+                                            
+                                            <td style='color:red;text-align:left;border-top:2px solid black;border-bottom:2px solid black'><b><em><?php echo e(@$data->TOTAL_DEPOSIT); ?></em></b></td> 
+
+                                            <td style='color:red;text-align:left;border-top:2px solid black;border-bottom:2px solid black'><b><em><?php echo e(@$data->TOTAL_PAYMENT); ?></em></b></td>
+                                            <td style='color:red;text-align:left;border-top:2px solid black;border-bottom:2px solid black'><b><em><?php echo e(@$data->BALANCE); ?></em></b></td>
+                                       
+                                        </tr> 
+                                     </div>
+                             </table>
+                             
+        
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script>
+    $(document).ready(function(){
+    window.print();
+    window.close();
+  
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

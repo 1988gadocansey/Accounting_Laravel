@@ -1,0 +1,71 @@
+ 
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('success_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Ledger Account  found!</p>
+    </div>
+<?php else: ?>
+ 
+ 
+ 
+	<div class="uk-overflow-container">
+           
+                       <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                           <th class=" ">No</th>
+                                            <th class=" ">Group</th>
+
+                                            <th class=" ">Account Code</th>
+                                            <th class=" ">Name</th>
+                                         
+                                            <th class=" "style='text-align:center'>Balance (GH&cent;)</th>
+                                               <th class=" ">Affects</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                         $period=date("Y-m-d");
+                                        ?>
+                                        <?php foreach($data as $datas=> $item): ?> 
+                                       
+                                         
+                                        <tr align="">
+                                            <td>   <?php echo $datas+1; ?> </td>
+                                            <td> <?php echo e(@$item->parent_account->PARENT_NAME); ?></td>
+                                            <td> <?php echo e($item->ACCOUNT_CODE); ?></td>
+                                            <td> <?php echo e($item->ACCOUNT_NAME); ?></td>
+                                            
+                                            <?php $ledger = app('App\Http\Controllers\LedgerController'); ?>
+                                            <td style='text-align:center'>  <?php echo e($ledger->getLedgerBalancePeriod($item->ACCOUNT_ID,$period,$year )); ?> </td>
+                                            <td> <?php echo e($item->AFFECTS); ?></td>
+
+                                                           
+                                              
+                                        </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+                             
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script>
+    $(document).ready(function(){
+    window.print();
+  
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

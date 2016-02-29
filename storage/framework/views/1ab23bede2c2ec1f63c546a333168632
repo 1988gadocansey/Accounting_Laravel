@@ -1,0 +1,80 @@
+ 
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('flash_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('flash_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Stock found!</p>
+    </div>
+<?php else: ?>
+ 
+ 
+ 
+	<div class="uk-overflow-container">
+           
+                        <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                            <th style="">No</th>
+                                            <th>Asset Code</th>
+                                            <th>Asset Serial</th>
+                                              <th>Name</th>
+                                              <th>Category</th>
+                                              <th>Ledger Account</th>
+                                              <th>Location</th>
+                                              <th>Date Acquired</th>
+                                              <th>Cost B/F</th>
+                                              <th>Dep Method</th>
+                                              <th>Dep Rate</th>
+                                              <th>Useful Life</th>
+                                                 </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                         $period=date("Y-m-d");
+                                        ?>
+                                        <?php foreach($data as $datas=> $asset): ?> 
+                                       
+                                         
+                                        <tr align="">
+                                            
+                                            <td>   <?php echo $datas+1; ?> </td>   
+                                            <td> <?php echo e($asset->FIXED_ASSET_CODE); ?></td>
+                                            <td> <?php echo e($asset->FIXED_ASSET_SERIAL_NUMBER); ?></td>
+                                            <td> <?php echo e($asset->FIXED_ASSET_NAME); ?></td>
+                                            <td> <?php echo e($asset->category->FIXED_ASSET_CATEGORY); ?></td>
+                                            <td> <?php echo e($asset->account->ACCOUNT_NAME); ?></td>
+                                            <td> <?php echo e($asset->departments->DEPARTMENT_NAME); ?></td>
+                                            <td> <?php echo e($asset->FIXED_ASSETS_DATE_PURCHASE); ?></td>
+                                            <td> <?php echo e($asset->FIXED_ASSET_COST); ?></td>
+                                            <td> <?php echo e($asset->FIXED_ASSET_COST); ?></td>
+                                            <td> <?php echo e($asset->USEFUL_LIFE); ?></td>
+                                            <td> <?php echo e($asset->SALVAGE_VALUE); ?></td>
+
+                                                 
+                                              
+                                        </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+                             
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script>
+    $(document).ready(function(){
+    window.print();
+    window.close(); 
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

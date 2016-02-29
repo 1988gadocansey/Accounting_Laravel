@@ -1,0 +1,106 @@
+<?php $__env->startSection("body_class"); ?>
+ class="header-full"
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('app_content'); ?>
+    <!-- main header -->
+    <header id="header_main">
+     <!--    <div class="header_main_content">
+            <nav class="uk-navbar">
+                                
+                <div class="uk-navbar-flip">
+                    <ul class="uk-navbar-nav user_actions">
+                        <li><a class="user_action_icon uk-visible-large" id="full_screen_toggle" href="#"><i class="material-icons md-24 md-light"></i></a></li>
+
+                        <li data-uk-dropdown="{mode:'click'}">
+                            <a class="user_action_image" href="#"><img alt="" src="<?php echo url('public/assets/img/avatars/user.png'); ?>" class="md-user-image"></a>
+                            <div class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
+                                <ul class="uk-nav js-uk-prevent">
+                                    <li><a href="page_user_profile.html">My profile</a></li>
+                                    <li><a href="page_settings.html">Settings</a></li>
+                                    <li><a href="login.html">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </nav>
+
+        </div> -->
+
+        
+    </header><!-- main header end -->
+    
+    <div id="page_content">
+        <div id="page_content_inner">
+         <div class="md-card uk-margin-medium-bottom">
+            <?php if(count($transcripts)>0): ?>
+                <div class="md-card-content">
+                    <?php /* <div class="uk-overflow-container">                     */ ?>
+                        <table class="uk-table uk-table-nowrap uk-table-condensed" border="2">
+                            <thead>
+                            <tr>
+                            <th class="uk-width-1-10 uk-text-left">#</th>
+                                <th class="uk-width-2-10 uk-text-left">Status</th>
+                                <th class="uk-width-1-10 uk-text-left">Date Filed</th>
+                                <th class="uk-width-2-10">Tracking N<u>o</u></th>
+                                <th  class="uk-width-2-10 uk-text-left">Price</th>
+                                <th class="uk-width-2-10 uk-text-left">Name</th>
+                                <th class="uk-width-2-10 uk-text-left">College</th>
+                                <th class="uk-width-2-10 uk-text-left">Index N<u>o</u></th>                                
+                                <th class="uk-width-1-10 uk-text-left">Program</th>
+                                <th class="uk-width-2-10 uk-text-left">Year of Completion</th>
+                                <th class="uk-width-2-10 uk-text-left">Mailing Address</th>
+                                <th class="uk-width-2-10 uk-text-left">Delivery Method</th>
+                            
+                            </tr>
+                            </thead>
+                            <tbody>
+                          <?php foreach($transcripts as $index=>$transcript): ?>
+                              
+                                <tr>
+                                  <td><?php echo $index+1; ?></td>
+                                   <td class="uk-text-left"><?php echo e(strtoupper($transcript->status)); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->date); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->trackingno); ?></td>
+                                  <td class="uk-text-left" ><?php echo e($transcript->price); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->name); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->college_name->cname); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->indexno); ?> </td>
+                                  <td class="uk-text-left"><?php echo e($transcript->program); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->yoc); ?></td>                                  
+                                  <td class="uk-text-left"><?php echo e($transcript->address); ?></td>
+                                  <td class="uk-text-left"><?php echo e($transcript->delivery); ?></td>
+                                 
+                                </tr>
+                          <?php endforeach; ?>             
+                            </tbody>
+                        </table>
+                    <?php /* </div> */ ?>
+                   
+                </div>
+ <?php else: ?>
+ <div class="md-card-content">
+ No records found!
+ </div>
+ <?php endif; ?>
+
+</div>
+
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection("javascript"); ?>
+@parent
+<script>
+$(document).ready(function(){
+window.print();
+window.close();
+});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.altairlayoutmaster', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

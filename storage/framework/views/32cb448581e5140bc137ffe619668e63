@@ -1,0 +1,76 @@
+ 
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('success_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Ledger Transaction to print!</p>
+    </div>
+<?php else: ?>
+ 
+ 
+ 
+	 
+           
+                      <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                           <th class=" ">No</th>
+                                            <th class=" ">Date</th>
+                                            <th class=" ">Trans Type</th>
+                                            <th class=" ">Trans ID</th>
+                                             
+                                            <th class=" ">Amount(GH&cent;)</th>
+                                      
+                                            <th class=" ">Memo</th>
+                                            <th class=" ">User</th>
+                                            <th style="text-align:left"  >Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                         $period=date("Y-m-d");
+                                        ?>
+                                        <?php foreach($data as $datas=> $item): ?> 
+                                         
+                                        
+                                        
+                                         
+                                        <tr align="">
+                                            <td>   <?php echo $datas+1; ?> </td>
+                                            <td> <?php echo e($item->TRANS_DATE); ?></td>
+                                            <td> <?php echo e(@$item->transactionType->typename); ?></td>
+                                            <td> <?php echo e(@$item->TRANSACTION_ID); ?></td>
+                                          
+                                            <td> <?php echo e($item->DEBIT); ?></td>
+                                            <td> <?php echo e($item->NARRATIVE); ?></td>
+                                              
+                                            <td> <?php echo e($item->actor->USERNAME); ?></td>
+                                                    
+                                              
+                                        </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+                             
+        
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script>
+    $(document).ready(function(){
+    window.print();
+    window.close();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

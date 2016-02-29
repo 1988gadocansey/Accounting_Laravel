@@ -1,0 +1,53 @@
+
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" href="<?php echo url('public/assets/css/bootstrap.min.css'); ?>" media="all">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<?php if($data->isEmpty()): ?>
+<div >
+  <p> No members found!</p>
+</div>
+<?php else: ?>
+	<div class="uk-overflow-container">
+                        <table class="uk-table uk-table-nowrap"> 
+                                  <thead>
+                                        <tr>
+                                            <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->
+                                            <th class=" ">No</th>
+                                            <th class=" ">Account Code</th>
+                                            <th class=" ">Account Name</th>
+                                            <th class=" ">Account Type</th>
+                                            <th class=" "style='text-align:center'>Balance (GH&cent;)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                       
+                                        <?php 
+                                         $year=(date("Y")) ."/". (date("Y") + 1);
+                                        $period=date("Y-m-d");
+                                        $count=0;
+                                        ?>
+                                        <?php foreach($data as $item): ?> 
+                                       
+                                        <?php echo e($count++); ?>
+
+                                          <tr align="">
+                                             <td> <?php echo e($count); ?></td>
+                                             <td> <?php echo e($item->ACCOUNT_CODE); ?></td>
+                                             <td> <?php echo e($item->ACCOUNT_NAME); ?></td>
+                                             <td> <?php echo e($item->parent_account->PARENT_NAME); ?></td>
+                                             <?php $ledger = app('App\Http\Controllers\LedgerController'); ?>
+                                             <td style='text-align:center'>  <?php echo e($ledger->getLedgerBalancePeriod($item->ACCOUNT_ID,$period,$year )); ?> </td>
+                                              
+                                           </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+            
+                             <?php echo $data->render(); ?>
+
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
