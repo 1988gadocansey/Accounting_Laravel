@@ -34,7 +34,7 @@
                                     {!! Form::select('account', 
                                 (['' => 'Select Account'] + $account), 
                                   old("account",""),
-                                    ['class' => 'md-input','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input','id'=>"parent"] )  !!}
                          </div>
                         </div>
                         <div class="uk-width-medium-1-5">
@@ -42,7 +42,7 @@
                                     {!! Form::select('type', 
                                 (['' => 'Select Transaction type'] + $type), 
                                   old("account",""),
-                                    ['class' => 'md-input','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input','id'=>"parent"] )  !!}
                          </div>
                         </div>
                          

@@ -91,6 +91,7 @@ class AssetController extends Controller
            
               
      }
+     
      /*
          * reducing balance method
          */
@@ -384,6 +385,19 @@ class AssetController extends Controller
         $parent = \DB::table('tbl_fixed_asset_categories')
                 ->lists('FIXED_ASSET_CATEGORY', 'ID');
         return $parent;
+    }
+    
+    // get asset
+    public function getAsset($asset){
+        
+       $data=\DB::table('tbl_fixed_assets_manager')->where("ID","=",$asset)->get();
+       
+                 foreach ($data as $output)
+                {
+                     
+                      return $output->FIXED_ASSET_NAME;
+                      
+                 }
     }
     /**
      * Display the specified resource.

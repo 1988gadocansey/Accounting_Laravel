@@ -45,7 +45,7 @@
                                     {!! Form::select('category', 
                                 (['' => 'Select Asset Category'] + $category), 
                                   old("category"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
                              </div>
                         </div>
                           
@@ -55,7 +55,7 @@
                                     {!! Form::select('department', 
                                 (['' => 'Select location'] + $department), 
                                   old("department"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
                              </div>
                         </div>
                          
@@ -64,7 +64,7 @@
                                     {!! Form::select('depreciation', 
                                 (['' => 'Select depreciation method'] + $depreciation), 
                                   old("depreciation"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
                              </div>
                         </div>
                         <div class="uk-width-medium-1-5">
@@ -72,7 +72,7 @@
                                     {!! Form::select('asset', 
                                 (['' => 'Select asset'] + $asset), 
                                   old("asset"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] )  !!}
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
                              </div>
                         </div>
                     </form>

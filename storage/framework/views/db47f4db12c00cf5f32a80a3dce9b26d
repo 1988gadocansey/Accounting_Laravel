@@ -48,7 +48,7 @@
                                     <?php echo Form::select('category', 
                                 (['' => 'Select Asset Category'] + $category), 
                                   old("category"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
                              </div>
                         </div>
@@ -59,7 +59,7 @@
                                     <?php echo Form::select('department', 
                                 (['' => 'Select location'] + $department), 
                                   old("department"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
                              </div>
                         </div>
@@ -69,7 +69,7 @@
                                     <?php echo Form::select('depreciation', 
                                 (['' => 'Select depreciation method'] + $depreciation), 
                                   old("depreciation"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
                              </div>
                         </div>
@@ -78,7 +78,7 @@
                                     <?php echo Form::select('asset', 
                                 (['' => 'Select asset'] + $asset), 
                                   old("asset"),
-                                    ['class' => 'md-input parent','id'=>"parent", 'data-md-selectize'=>''] ); ?>
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
                              </div>
                         </div>

@@ -54,7 +54,7 @@
                                        {!! Form::select('account', 
                                 (['0' => 'Select Account Category'] + $account), 
                                    old('account',$asset->FIXED_ASSET_ACCOUNT),  
-                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                </div>
                               <div class="uk-form-row">
                                 <label>Date Acquired</label>
@@ -67,7 +67,7 @@
                                        {!! Form::select('category', 
                                 (['0' => 'Select Asset Category'] + $category), 
                                     old('category',$asset->FIXED_ASSET_CATEGORY),  
-                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>'','required'=>''] )  !!}
+                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2",'required'=>''] )  !!}
                                </div>
                             <div class="uk-form-row" style="" id="residual">
                                 <label>Residual Value </label>
@@ -88,7 +88,7 @@
                                        {!! Form::select('depreciation_method', 
                                 (['0' => 'Select Depreciation method'] + $depreciation), 
                                     old('category',$asset->FIXED_ASSET_DEPRECIATION_METHOD),
-                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                </div>
                             <div class="uk-form-row">
                                 <label>Depreciation rate (%)</label>
@@ -101,7 +101,7 @@
                                        {!! Form::select('location', 
                                 (['0' => 'Select Asset location'] + $department), 
                                     old('category',$asset->FIXED_ASSET_LOCATION),
-                                    ['class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>'','required'=>''] )  !!}
+                                    ['class' => 'md-input','id'=>"selec_adv_2",'required'=>''] )  !!}
                             </div>
                             
                             <div class="uk-form-row" id='life' >
@@ -156,7 +156,7 @@
                                        {!! Form::select('account', 
                                 (['0' => 'Select Account Category'] + $account), 
                                     null, 
-                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                </div>
                               <div class="uk-form-row">
                                 <label>Date Acquired</label>
@@ -169,7 +169,7 @@
                                        {!! Form::select('category', 
                                 (['0' => 'Select Asset Category'] + $category), 
                                     null, 
-                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>'','required'=>''] )  !!}
+                                    ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2",'required'=>''] )  !!}
                                </div>
                             <div class="uk-form-row" style=""  >
                                 <label>Residual Value </label>
@@ -203,7 +203,7 @@
                                        {!! Form::select('location', 
                                 (['0' => 'Select Asset location'] + $department), 
                                     null, 
-                                    ['class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>'','required'=>''] )  !!}
+                                    ['class' => 'md-input','id'=>"selec_adv_2",  'required'=>''] )  !!}
                             </div>
                             
                             <div class="uk-form-row"  >

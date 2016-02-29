@@ -299,7 +299,8 @@ class ReportController extends Controller
      
     public function incomeExpenditure(Request $request)
     {
-        
+        $ledger=new LedgerController();
+                
         //$this->show_query();
         // this side is for the income side
           $income = GeneralLedgerModel::query()->leftJoin('tbl_accounts', 'tbl_general_ledger_transactions.ACCOUNT', '=', 'tbl_accounts.ACCOUNT_ID')
@@ -317,7 +318,7 @@ class ReportController extends Controller
             $total[]=$ledger->getLedgerBalance_Yearly($row->ACCOUNT);
             $balance=$ledger->getLedgerBalance_Yearly($row->ACCOUNT);
             
-             $income[$item]->TOTALS=  $this->formatCurrency( array_sum($total));
+             $income[$item]->TOTALS=    array_sum($total) ;
              $income[$item]->BALANCE=$balance;
         }
  // expenditures
@@ -332,37 +333,65 @@ class ReportController extends Controller
             $total1[]=$ledger->getLedgerBalance_Yearly($set->ACCOUNT);
             $balance=$ledger->getLedgerBalance_Yearly($set->ACCOUNT);
             
-             $expenditure[$expenses]->TOTALS=  $this->formatCurrency( array_sum($total1));
+             $expenditure[$expenses]->TOTALS=   array_sum($total1);
              $expenditure[$expenses]->BALANCE=$balance;
         }
  
           
-         
-    
+          $assets=new AssetController();
+    /*
+     * Depreciation in the Income and expenditure is charge to the
+     * IE only for the period the IE is prepare
+     */
+       $date=date('t/m/Y');
       // now get depreciation values
-      $depreciation= GeneralLedgerModel::query()->leftJoin('tbl_accounts', 'tbl_general_ledger_transactions.ACCOUNT', '=', 'tbl_accounts.ACCOUNT_ID')
-                ->where("tbl_accounts.PARENT_ACCOUNT", "=", '23')
-                ->where("tbl_accounts.ACTION", "=", '0')
-                ->where("tbl_accounts.AFFECTS", "LIKE", "%Income and Expenditure%")
-                ->paginate("500000");
-       
-        foreach ($depreciation as $expenses => $set) {
-             
-            $total1[]=$ledger->getLedgerBalance_Yearly($set->ACCOUNT);
-            $balance=$ledger->getLedgerBalance_Yearly($set->ACCOUNT);
+      $depreciation= DepreciationCalculation::query()->Where('PERIOD','=',$date)->get();
+                 
+      
+        foreach ($depreciation as $set) {
+           // print_r($set);
+           
+            $totalDep[]=$set->CALCULATION;
+            $asset= $assets->getAsset($set->ASSET);
+            $depreciation->ASSET=$asset;
+            $depreciation->CALCULATION= array_sum($totalDep) ;
             
-             $expenditure[$expenses]->TOTALS=  $this->formatCurrency( array_sum($total1));
-             $expenditure[$expenses]->BALANCE=$balance;
         }
+        $totalDepreciation = $depreciation->CALCULATION;
 
-//the line below ensures the links on the pagination buttons are set to the correct route or url  for this particular search
+        $totalExpenditure = $expenditure[$expenses]->TOTALS;
+
+        $totalPayment = $totalExpenditure + $totalDepreciation;
+ 
+        $totalIncome= $income[$item]->TOTALS;
+        $amount=$totalIncome - $totalPayment;
+        
+       
+               
+        if ($totalIncome < $totalPayment) {
+            $total_amount = "<i style='color:red'>" . abs($totalIncome - $totalPayment) . "</i>";
+           $this->formatCurrency( $total_amount);
+            $balance_bd = "Deficit";
+        } else {
+            $total_amount =  abs($totalIncome - $totalPayment);
+             $this->formatCurrency( $total_amount);
+            $balance_bd = "Suplus";
+        }
+        echo $total_amount;
+
+        // update balance table for the period for balance sheet to use
+        $ledger->getIncomeAndExpenditure( $amount, $date);
+ 
+        
+
         $income->setPath(url("income_expenditure"));
 
         $request->flash();
             $account=new StockController();
             $banks=new BankController();
-            return view("reports.incomeExpenditure")->with("income", $income)->with("account",$account->accountList() )->with("bank",$banks->banks())->with("tag",$banks->tag())->with("expenditure", $expenditure);
-               
+            return view("reports.incomeExpenditure")->with("income", $income)->with("account",$account->accountList() )->with("bank",$banks->banks())->with("tag",$banks->tag())->with("expenditure", $expenditure)
+               ->with("balanceBD",$balance_bd)
+               ->with("totalAmount",$total_amount);
     }
 
     /**

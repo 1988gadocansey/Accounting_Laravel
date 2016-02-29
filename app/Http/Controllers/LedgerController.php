@@ -160,7 +160,22 @@ class LedgerController extends Controller
                 }
                   
       }
-
+    public function getIncomeAndExpenditure($amount,$period){
+            $data=\DB::table('tbl_balances')->where("PERIOD","=",$period)->get();
+       
+                 
+            
+               if(empty($data)){
+                  \DB::table('tbl_balances')->insert(
+                    ['REPORT' => 'Balance b/d Income and Expenditure', 'PERIOD' =>$period,'AMOUNT'=>$amount]);
+            
+                }else{
+                  
+                    \DB::table('tbl_balances')
+                    ->where('PERIOD', $period)
+                    ->update(['AMOUNT' => $amount]);
+                } 
+      }
     /**
      * Remove the specified resource from storage.
      *

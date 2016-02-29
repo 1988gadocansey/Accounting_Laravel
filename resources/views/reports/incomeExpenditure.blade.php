@@ -21,15 +21,15 @@
 @else
  <h5>Income and Expenditure | Reports</h5>  
  <div style="">
-     <div class="uk-width-medium-1-2 uk-text-center" style="margin-left: 780px"  >                            
-                            
-                            <i title="click to print"  class="material-icons md-36 uk-text-success" onclick="window.open('{!! action('ReportController@cashBookPrint',old()) !!}','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500');"  >print</i>
-                       
-                             
-                            <a  onClick ="$('#gad').tableExport({type:'excel',escape:'false'});" title="Click to export to excel"class="md-btn md-btn-success uk-margin-small-top">Export<i title="click to export" class=" fa fa-file-excel-o" ></i></a>
-                            
-                            
- </div>
+     <div class="uk-width-medium-1-2 uk-text-center" style="margin-left: 690px"  >                            
+
+         <i title="click to print"  class="material-icons md-36 uk-text-success" onclick="window.open('{!! action('ReportController@cashBookPrint',old()) !!}','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500');"  >print</i>
+
+
+         <a  onClick ="$('#gad').tableExport({type:'excel',escape:'false'});" title="Click to export to excel"class="md-btn md-btn-success uk-margin-small-top">Export<i title="click to export" class=" fa fa-file-excel-o" ></i></a>
+
+
+     </div>
  </div>
 <div class="md-card">
                 <div class="md-card-content">
@@ -81,7 +81,7 @@
                                                  
                             
                         </div>
-             <input class="md-btn md-btn-primary" style="margin-left:945px;margin-top: -64px" type="submit" name="search_button"  value="Search" />
+             <input class="md-btn md-btn-primary" style="margin-left:901px;margin-top: -35px" type="submit" name="search_button"  value="Search" />
                       
                          
                       </form>          
@@ -167,6 +167,17 @@
                                     <td colspan='1'style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$set->TOTALS }}</em></b></td>
 
                                 </tr>
+                                <!-- Depreciation side -->
+                                
+                                 
+                 
+                                <div style='margin-left:0%;'> 
+
+                                    <tr ><td style='color:blue'colspan='2'>{{@$balanceBD }}</td>
+                                        <td colspan=''style='color:green;text-align:center;border-top:2px solid black;border-bottom:2px solid black'>{{@$totalAmount }}</td> 
+
+                                    </tr>
+                                </div>    
                              
                              </table>
             

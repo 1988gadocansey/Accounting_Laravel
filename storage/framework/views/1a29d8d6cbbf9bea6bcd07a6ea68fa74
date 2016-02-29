@@ -107,7 +107,7 @@
                                 <label>Notes</label>
                                 <input type="text" v-validate="required" v-model="naration"  v-form-ctrl   class="md-input md-input-success" name="naration" value="<?php echo e(old('naration')); ?>" />
                             </div>
-                             <p class="uk-text-danger uk-text-small " v-if="form.naration.required" >The name of the applicant is required</p>                            
+                             
                         </div>
                     </div>
                      

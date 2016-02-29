@@ -44,7 +44,7 @@
                                             <?php echo Form::select('type', 
                                      (['' => 'Select Transaction tag'] + $type), 
                                          null, 
-                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] ); ?>
+                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] ); ?>
 
 
                             </div>
@@ -57,7 +57,7 @@
                                        <?php echo Form::select('bank', 
                                 (['' => 'Select Bank Account '] + $bank), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] ); ?>
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] ); ?>
 
                             </div>
                             <div class="uk-form-row"   >
@@ -80,7 +80,7 @@
                                             <?php echo Form::select('tag', 
                                      (['' => 'Select Transaction tag'] + $tag), 
                                          null, 
-                                         ['class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] ); ?>
+                                         ['class' => 'md-input','id'=>"selec_adv_2"] ); ?>
 
 
                             </div>
@@ -91,7 +91,7 @@
                                        <?php echo Form::select('account', 
                                 (['' => 'Select Account '] + $account), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] ); ?>
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] ); ?>
 
                                </div>
                             <div class="uk-form-row">
@@ -132,8 +132,7 @@
 
  
 <link rel="stylesheet" href="<?php echo url('public/assets/css/select2.min.css'); ?>" media="all">
-<script src="<?php echo url('public/assets/js/pages/forms_advanced.min.js'); ?>"></script>
- 
+  
    
 <?php $__env->stopSection(); ?>
 

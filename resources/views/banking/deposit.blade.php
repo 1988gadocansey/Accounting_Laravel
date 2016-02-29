@@ -42,7 +42,7 @@
                                             {!! Form::select('type', 
                                      (['' => 'Select Transaction tag'] + $type), 
                                          null, 
-                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
 
                             </div>
                    
@@ -54,7 +54,7 @@
                                        {!! Form::select('bank', 
                                 (['' => 'Select cashbook Account '] + $bank), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                             </div>
                             <div class="uk-form-row"   >
                                 <label>Cheque No</label>
@@ -76,7 +76,7 @@
                                             {!! Form::select('tag', 
                                      (['' => 'Select Transaction tag'] + $tag), 
                                          null, 
-                                         ['class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                         ['class' => 'md-input','id'=>"selec_adv_2"] )  !!}
 
                             </div>
                             
@@ -86,7 +86,7 @@
                                        {!!  Form::select('account', 
                                 (['' => 'Select Account '] + $account), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                </div>
                             <div class="uk-form-row">
                                 <label>Amount</label>
@@ -126,7 +126,6 @@
 
  
 <link rel="stylesheet" href="{!! url('public/assets/css/select2.min.css') !!}" media="all">
-<script src="{!! url('public/assets/js/pages/forms_advanced.min.js') !!}"></script>
- 
+  
    
 @endsection
