@@ -46,7 +46,7 @@
 
                                          <td>   <?php echo $datas+1; ?> </td>
                                          <td> <?php echo e(@$item->DATE); ?></td>
-                                         <td> <?php echo e(@$item->bankType->BANK_ACCOUNT_NAME); ?></td>
+                                          <td> <?php echo e(@$item->bankType->ACCOUNT_NAME); ?></td>
 
                                          <td> <?php echo e(@$item->account->ACCOUNT_NAME); ?></td>
                                          <td><?php echo e(@$item->MEMO); ?></td>

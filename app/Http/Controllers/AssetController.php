@@ -157,7 +157,7 @@ class AssetController extends Controller
                              return $output;
                     }
                     else{
-                        return "Depreciation not available now";
+                        return ;
                     }
         
         }
@@ -398,6 +398,26 @@ class AssetController extends Controller
                       return $output->FIXED_ASSET_NAME;
                       
                  }
+    }
+    
+     //get fixed asset code from assets
+         public function getAssetAccount($account){
+        
+        
+      $data=\DB::table('tbl_fixed_assets_manager')->where("ID","=",$account)->get();
+      
+ 
+       if(!empty($data)){
+                 foreach ($data as $output)
+                {
+                     
+                      return $output->ID;
+                      
+                 }
+       }
+       else{
+           return  ;
+       }
     }
     /**
      * Display the specified resource.

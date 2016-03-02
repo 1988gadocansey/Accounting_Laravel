@@ -160,7 +160,30 @@ class LedgerController extends Controller
                 }
                   
       }
-    public function getIncomeAndExpenditure($amount,$period){
+      //GET INCOME TAX
+  public function getIncomeTax(){
+      
+                $tax= \DB::table('tbl_company_info')
+                ->select( \DB::raw('COMPANY_TAX_ID AS TAX'))->get();
+      
+                foreach($tax as $rows=> $row) {
+                    return     $row->TAX ;
+                    
+                }
+  }
+ public function getIncomeAndExpenditure_Balance(){
+     $data=\DB::table('tbl_balances')->SUM("AMOUNT");
+       
+                      
+                
+                      return     $data ;
+                      
+                        
+                      
+                 
+ }
+
+ public function getIncomeAndExpenditure($amount,$period){
             $data=\DB::table('tbl_balances')->where("PERIOD","=",$period)->get();
        
                  

@@ -130,7 +130,9 @@ Route::get('/trial_balance', 'ReportController@trialBalance');
 Route::get('/cashbook', 'ReportController@cashBook');
 Route::get('/cashbookPrint', "ReportController@cashBookPrint");
 Route::get('/income_expenditure', "ReportController@incomeExpenditure");
-
+Route::get('/IEprint', 'ReportController@printIE');
+Route::get('/balance_sheet', "ReportController@balanceSheet");
+Route::get('/BSprint', 'ReportController@printBS');
 
 // Account Management
 Route::get('/system_log', 'UserController@SystemLog');
