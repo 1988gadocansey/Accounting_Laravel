@@ -19,7 +19,10 @@ class LedgerController extends Controller
     {
         //
     }
-
+     public function companyDetails(){
+        $info = \DB::table('tbl_company_info')->get();
+        return $info;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -143,6 +146,14 @@ class LedgerController extends Controller
                     
                 }
           
+      }
+      // person by account
+      public function getBusinessPerson($account){
+          $query= \DB::table('tbl_business_people')
+                 
+                ->where('BP_ID' , $account)
+                ->get(); 
+          return $query;
       }
       
       // get ledger balance per accounting period

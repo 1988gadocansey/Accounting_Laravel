@@ -40,7 +40,7 @@ class bankTransferRequest extends Request
             //
               
              'date'=>'required',
-             'amount' => 'required|numeric',
+             'amount' => 'required',
              'cheque' => 'numeric',
              'type'=>'required',
              'into'=>'required',

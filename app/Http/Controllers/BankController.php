@@ -34,6 +34,116 @@ class BankController extends Controller
 
          return view('setup.banks.view')->with('data',$data);
     }
+public function convert_number($number) {
+
+		if (($number < 0) || ($number > 999999999)) {
+			return "$number";
+		}
+
+		$Gn = floor($number / 1000000); /* Millions (giga) */
+		$number -= $Gn * 1000000;
+		$kn = floor($number / 1000); /* Thousands (kilo) */
+		$number -= $kn * 1000;
+		$Hn = floor($number / 100); /* Hundreds (hecto) */
+		$number -= $Hn * 100;
+		$Dn = floor($number / 10); /* Tens (deca) */
+		$n = $number % 10; /* Ones */
+
+		$res = "";
+
+		if ($Gn) {
+			$res .= $this->convert_number($Gn) . " Million";
+		}
+
+		if ($kn) {
+			$res .= (empty($res) ? "" : " ") .
+			$this->convert_number($kn) . " Thousand";
+		}
+
+		if ($Hn) {
+			$res .= (empty($res) ? "" : " ") .
+			$this->convert_number($Hn) . " Hundred";
+		}
+
+		$ones = array(
+			"",
+			"One",
+			"Two",
+			"Three",
+			"Four",
+			"Five",
+			"Six",
+			"Seven",
+			"Eight",
+			"Nine",
+			"Ten",
+			"Eleven",
+			"Twelve",
+			"Thirteen",
+			"Fourteen",
+			"Fifteen",
+			"Sixteen",
+			"Seventeen",
+			"Eighteen",
+			"Nineteen");
+		$tens = array(
+			"",
+			"",
+			"Twenty",
+			"Thirty",
+			"Fourty",
+			"Fifty",
+			"Sixty",
+			"Seventy",
+			"Eighty",
+			"Ninety");
+
+		if ($Dn ||
+			$n) {
+			if (!empty($res)) {
+				$res .= " and ";
+			}
+
+			if ($Dn <
+				2) {
+				$res .= $ones[$Dn *
+					10 +
+					$n];
+			} else {
+				$res .= $tens[$Dn];
+
+				if ($n) {
+					$res .= "-" . $ones[$n];
+				}
+			}
+		}
+
+		if (empty($res)) {
+			$res = "zero";
+		}
+
+		return $res;
+
+//$thea=explode(".",$res);
+	}
+
+	public function convert($amt) {
+//$amt = "190120.09" ;
+
+		$amt = number_format($amt, 2, '.', '');
+		$thea = explode(".", $amt);
+
+//echo $thea[0];
+
+		$words = $this->convert_number($thea[0]) . " Ghana Cedis ";
+		if ($thea[1] >
+			0) {
+			$words .= $this->convert_number($thea[1]) . " Pesewas";
+		}
+
+		return $words;
+	}
+
 
     /**
      * Show the form for creating a new resource.
@@ -154,7 +264,7 @@ class BankController extends Controller
         
        
         
-        
+         $amount=str_replace(',','',$request['amount']) ;
              
          // insert into db here
             $code = \DB::table('codes')->lists('TRANSACTION');
@@ -176,7 +286,7 @@ class BankController extends Controller
             'ACCOUNT'    => $request['account'],
             'MEMO'    => $request['memo'],
             'CHEQUE'    =>$request['cheque'],
-            'AMOUNT'    => -($request['amount']),
+            'AMOUNT'    => -($amount),
             'TAG'=> $request['tag'],
             'RUNNING_BALANCE'=> $rbalance,
             'TRANSACTION_ID'=> $tcode,
@@ -191,7 +301,7 @@ class BankController extends Controller
             'TRANS_DATE'   => $date,
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['account'],
-            'DEBIT'    => $request['amount'],
+            'DEBIT'    => $amount,
             'CREDIT'    =>'',
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
@@ -207,7 +317,7 @@ class BankController extends Controller
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['bank'],
             'DEBIT'    =>'' ,
-            'CREDIT'    =>$request['amount'],
+            'CREDIT'    =>$amount,
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
             'TRANSACTION_ID'=> $tcode,
@@ -367,13 +477,13 @@ class BankController extends Controller
         
          \DB::transaction(function() use($request)
         {
-             
+              $amount=str_replace(',','',$request['amount']) ;
          // insert into db here
             $code = \DB::table('codes')->lists('TRANSACTION');
             $tcode=$code[0];
             $balance= \DB::table('tbl_cashbook')->sum('RUNNING_BALANCE');
              
-            $rbalance=$balance+ $request['amount'] ;
+            $rbalance=$balance+ $amount ;
             $period= date("t/m/Y");
            
             $year=(date("Y")) ."/". (date("Y") + 1);
@@ -386,7 +496,7 @@ class BankController extends Controller
             'ACCOUNT'    => $request['account'],
             'MEMO'    => $request['memo'],
             'CHEQUE'    =>$request['cheque'],
-            'AMOUNT'    => $request['amount'],
+            'AMOUNT'    => $amount,
             'TAG'=> $request['tag'],
             'RUNNING_BALANCE'=>$rbalance,
             'TRANSACTION_ID'=> $tcode,
@@ -417,7 +527,7 @@ class BankController extends Controller
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['account'],
             'DEBIT'    =>'' ,
-            'CREDIT'    =>$request['amount'],
+            'CREDIT'    =>$amount,
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
             'TRANSACTION_ID'=> $tcode,
@@ -464,26 +574,68 @@ class BankController extends Controller
                  return redirect("deposit")->with('error_message', 'Transaction successfully saved!')->withInput();
                }
                 
-               
-            });
-            \DB::table('codes')->increment('TRANSACTION');
+                $ledger=new LedgerController();
             
-             
-             return redirect("deposit")->with('success_message', 'Transaction successfully saved!');
-       
+              $person= $ledger->getBusinessPerson($request['account']);
+              if($person!=""){
+              
+               \DB::table('codes')->increment('TRANSACTION');
+		$url = url("printreceipt/".trim($tcode));
+		$print_window = "<script >window.parent.open('$url','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500')</script>";
+             $request->session()->flash("success_message",
+			"Deposited made with Transaction code :  <span style='font-weight:bold!important; font-size: 18px!important;'>$tcode</span><br/> Amount : $amount<br/>   $print_window");
+
+              }
+              else{
+                  return redirect("deposit")->with('success_message', 'Transaction successfully saved!')->withInput();
+          
+              }
+              });
+                
+                return redirect("/deposit");
              
          }
-         
+         public function printreceipt(Request $request, $receiptno) {
+
+		// $this->show_query();
+             $ledger=new LedgerController();
+             
+		$payment_transaction = CashbookModel::where("TRANSACTION_ID",
+			$receiptno)->get();
+
+		if (empty($payment_transaction)) {
+			abort(434, "No payment transaction with this Code <span class='uk-text-bold uk-text-large'>$receiptno</span>");
+		}
+
+		
+                foreach($payment_transaction as $row){
+                    $payment_transaction->AMOUNT = $this->convert($row->AMOUNT);
+
+                     $person= $ledger->getBusinessPerson($row->ACCOUNT);
+                     
+                        }
+		  
+                  $companyInfo=$ledger->companyDetails();
+                  
+                  // print receipts to only personal accounts
+              if($person!=""){
+                 
+		return view('banking.printreceipt')->with("payment_transaction",
+			$payment_transaction)->with('company', $companyInfo)
+                        ->with('person', $person);
+              }
+	}
       // process inter bank transfer
       public function doTransfer(Requests\bankTransferRequest $request){
         
          \DB::transaction(function() use($request)
         {
+              $amount=str_replace(',','',$request['amount']) ;
               $period= date("t/m/Y");
         $balance= \DB::table('tbl_cashbook')->sum('RUNNING_BALANCE');
              
             $rbalance=$balance -$request['amount'] ;
-           if($this->getBankBalance($request['from'],$period)>$request['amount']){
+           if($this->getBankBalance($request['from'],$period)>$amount){
        
          // insert into db here
             $code = \DB::table('codes')->lists('TRANSACTION');
@@ -501,7 +653,7 @@ class BankController extends Controller
             'ACCOUNT'    => $request['into'],
             'MEMO'    => $request['memo'],
             'CHEQUE'    =>$request['cheque'],
-            'AMOUNT'    => $request['amount'],
+            'AMOUNT'    => $amount,
             'TAG'=> $request['tag'],
             'RUNNING_BALANCE'=> \DB::raw('RUNNING_BALANCE' + $request['amount']),
             'TRANSACTION_ID'=> $tcode,
@@ -518,7 +670,7 @@ class BankController extends Controller
             'ACCOUNT'    => $request['from'],
             'MEMO'    => $request['memo'],
             'CHEQUE'    =>$request['cheque'],
-            'AMOUNT'    => -($request['amount']),
+            'AMOUNT'    => -($amount),
             'TAG'=> $request['tag'],
             'RUNNING_BALANCE'=>$rbalance,
             'TRANSACTION_ID'=> $tcode,
@@ -535,7 +687,7 @@ class BankController extends Controller
             'TRANS_DATE'   => $date,
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['into'],
-            'DEBIT'    => $request['amount'],
+            'DEBIT'    => $amount,
             'CREDIT'    =>'',
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
@@ -551,7 +703,7 @@ class BankController extends Controller
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['from'],
             'DEBIT'    =>'' ,
-            'CREDIT'    =>$request['amount'],
+            'CREDIT'    =>$amount,
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
             'TRANSACTION_ID'=> $tcode,

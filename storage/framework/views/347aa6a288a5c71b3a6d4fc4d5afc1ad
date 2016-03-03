@@ -97,7 +97,7 @@
                                          <td> <?php echo e(@$item->ACCOUNT_CODE); ?></td>
                                          <td style="text-align:  "> <?php echo e(@$item->account->ACCOUNT_NAME); ?></td>
                                          
-                                         <td style="text-align: center">66</td>
+                                         <td style="text-align: center"> <?php echo e(@$item->DEP); ?></td>
                                          <td colspan='0'style="text-align: center"> <?php echo e(@$item->BALANCE); ?></td>
                                       </tr>
                                      <?php endforeach; ?>
@@ -297,14 +297,14 @@
                     <th>Return on assets ratio</th>
                      
                      
-                    <th>Working capital ratio</th>
+                    <th>Working capital</th>
                      
                     </thead>
                     <tbody>
                         <tr>
                            <td><?php echo e($currentRatio); ?></td>
                             <td><?php echo e($assetRatio); ?></td>
-                            <td><?php echo e($workingCapital); ?>>
+                            <td>GHC<?php echo e($workingCapital); ?></td>
                         </tr>
                     </tbody>
                 </table>

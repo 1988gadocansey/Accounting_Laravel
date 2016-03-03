@@ -122,9 +122,9 @@ class ReportController extends Controller
 
         foreach ($current as $cAsset => $set) {
 
-            $total1[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
+            $totalC[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
-            $current[$cAsset]->CURRENTTOTALS = array_sum($total1);
+            $current[$cAsset]->CURRENTTOTALS = array_sum($totalC);
             $current[$cAsset]->BALANCE = $balance;
         }
 
@@ -141,12 +141,7 @@ class ReportController extends Controller
                 ->where("tbl_accounts.ACTION", "=", '0')
                   ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
 
-
-
-        
-
-       
-
+ 
         if ($request->has('from_date')) {
             $from = $request->input("from_date");
             $liabilty1->where("TRANS_DATE", ">=", $from);
@@ -160,9 +155,9 @@ class ReportController extends Controller
       
         foreach ($liabilty as $data => $set1) {
  
-            $total1[] = $ledger->getLedgerBalance_Yearly($set1->ACCOUNT,$from,$to);
+            $totalH[] = $ledger->getLedgerBalance_Yearly($set1->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set1->ACCOUNT,$from,$to);
-            $liabilty[$data]->LIABILITYTOTALS = array_sum($total1);
+            $liabilty[$data]->LIABILITYTOTALS = array_sum($totalH);
             $liabilty[$data]->BALANCE = $balance;
         }
 
@@ -179,12 +174,7 @@ class ReportController extends Controller
               ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '27')
                 ->where("tbl_accounts.ACTION", "=", '0')
                  ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
-
-
-
-       
-
-        
+ 
         if ($request->has('from_date')) {
              $from = $request->input("from_date");
             $long1->where("TRANS_DATE", ">=", $from);
@@ -199,22 +189,18 @@ class ReportController extends Controller
         
         foreach ($lLiabilty as $lLiab => $set) {
 
-            $total1[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
+            $totalQW[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
-            $lLiabilty[$lLiab]->LONGTOTALS = array_sum($total1);
+            $lLiabilty[$lLiab]->LONGTOTALS = array_sum($totalQW);
             $lLiabilty[$lLiab]->BALANCE = $balance;
         }
 
-        $totalLiabilty= $lLiabilty[$lLiab]->LONGTOTALS + $liabilty[$data]->LIABILITYTOTALS;
+        $totalLiabilty=$lLiabilty[$lLiab]->LONGTOTALS + $liabilty[$data]->LIABILITYTOTALS;
         
         
         
         // capital here and I&E balance
-        
-           
-      
-        
-        
+         
       $capital1 = GeneralLedgerModel::query()->leftJoin('tbl_accounts', 'tbl_general_ledger_transactions.ACCOUNT', '=', 'tbl_accounts.ACCOUNT_ID')
                 ->where("tbl_accounts.PARENT_ACCOUNT", "=", '17')
                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '28')
@@ -241,9 +227,9 @@ class ReportController extends Controller
 
         foreach ($capital as $cap => $set) {
 
-            $total1[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
+            $totalCap[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
-            $capital[$cap]->CAPITALTOTALS = array_sum($total1);
+            $capital[$cap]->CAPITALTOTALS = array_sum($totalCap);
             $capital[$cap]->BALANCE = $balance;
         }
         $IEbalance=$ledger->getIncomeAndExpenditure_Balance();

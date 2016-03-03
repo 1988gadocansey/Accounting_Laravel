@@ -4,7 +4,7 @@
  
 @if(Session::has('success_message'))
             <div style="text-align: center" class="uk-alert uk-alert-success" data-uk-alert="">
-                {{ Session::get('success_message') }}
+                {!! Session::get('success_message') !!}
             </div>
  @endif
   @if(Session::has('error_message'))

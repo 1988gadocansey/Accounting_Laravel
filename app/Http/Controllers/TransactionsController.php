@@ -126,9 +126,10 @@ class TransactionsController extends Controller
     public function store(Requests\TransactionsRequest $request)
     {
         
-        
+       
          \DB::transaction(function() use($request)
         {
+              $amount=str_replace(',','',$request['amount']) ;
          // insert into db here
             $code = \DB::table('codes')->lists('TRANSACTION');
             $tcode=$code[0];
@@ -143,7 +144,7 @@ class TransactionsController extends Controller
             'TRANS_DATE'   => $date,
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['debit'],
-            'DEBIT'    => $request['amount'],
+            'DEBIT'    => $amount,
             'CREDIT'    =>'',
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
@@ -159,7 +160,7 @@ class TransactionsController extends Controller
             'PERIOD'  => $period,
             'ACCOUNT'    => $request['credit'],
             'DEBIT'    =>'' ,
-            'CREDIT'    =>$request['amount'],
+            'CREDIT'    =>$amount,
             'NARRATIVE'    => $request['memo'],
             'TAG'=> $request['tag'],
             'TRANSACTION_ID'=> $tcode,

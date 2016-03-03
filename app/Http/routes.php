@@ -93,6 +93,7 @@ Route::post('/deposit','BankController@doDeposit');
 Route::get('/transfers','BankController@showTransfer');
 Route::post('/transfers','BankController@doTransfer');
 Route::get('/bank_inquiry','BankController@bankEnquiries');
+Route::get('/printreceipt/{receiptno}','BankController@printreceipt');
 
 
 // general ledgerdestroyParent

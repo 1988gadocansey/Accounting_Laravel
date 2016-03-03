@@ -95,7 +95,7 @@
                                          <td> {{ @$item->ACCOUNT_CODE }}</td>
                                          <td style="text-align:  "> {{@$item->account->ACCOUNT_NAME }}</td>
                                          
-                                         <td style="text-align: center">66</td>
+                                         <td style="text-align: center"> {{ @$item->DEP }}</td>
                                          <td colspan='0'style="text-align: center"> {{ @$item->BALANCE }}</td>
                                       </tr>
                                      @endforeach
@@ -295,14 +295,14 @@
                     <th>Return on assets ratio</th>
                      
                      
-                    <th>Working capital ratio</th>
+                    <th>Working capital</th>
                      
                     </thead>
                     <tbody>
                         <tr>
                            <td>{{$currentRatio}}</td>
                             <td>{{$assetRatio}}</td>
-                            <td>{{$workingCapital}}>
+                            <td>GHC{{$workingCapital}}</td>
                         </tr>
                     </tbody>
                 </table>

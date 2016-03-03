@@ -82,7 +82,7 @@
                                        {!! Form::select('account', 
                                     (['0' => 'Select Account Category'] + $account), 
                                          old('account',$bank->GL_ACCOUNT),
-                                        ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                        ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                       
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                                  
                                 <div class="parsley-row">
                                     <label for="val_select" class="uk-form-label">Bank Account Types</label>
-                                     {!!  Form::select('type', array('Savings Account' => 'Savings Account', 'Current Account' => 'Current Account','Cheque Account'=>'Cheque Account','Credit Account'=>'Credit Account',"Cash Account"=>"Cash Account"), null, ['placeholder' => 'select balance type','id'=>'val_select','data-md-selectize'=>'']); !!}
+                                     {!!  Form::select('type', array('Savings Account' => 'Savings Account', 'Current Account' => 'Current Account','Cheque Account'=>'Cheque Account','Credit Account'=>'Credit Account',"Cash Account"=>"Cash Account"), null, ['placeholder' => 'select balance type','id'=>'val_select' ]); !!}
                       
                                 </div>
                             </div>
@@ -154,7 +154,7 @@
                                        {!! Form::select('account', 
                                     (['0' => 'Select Account Category'] + $account), 
                                         null, 
-                                        ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                        ["required"=>"required",'class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                     
                             </div>
                         </div>

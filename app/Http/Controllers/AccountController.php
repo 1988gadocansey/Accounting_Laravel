@@ -39,6 +39,8 @@ class AccountController extends Controller
      */
     public function store(Requests\AddAccountFormRequest $request)
     {
+        $a=$request['balance'];
+        $amount=  str_replace(',','',$a) ;
         $ttype=43;
         $period=\date("t/m/Y");
         $date=date('d/m/Y');
@@ -49,7 +51,7 @@ class AccountController extends Controller
             'PARENT_ACCOUNT'  => $request['type'],
             'ACCOUNT_DESCRIPTION'    => $request['naration'],
             'AFFECTS'      => @implode(",",$request['affects']),
-            'ACCOUNT_BALANCE' => $request['balance'],
+            'ACCOUNT_BALANCE' => $amount,
             'ACCOUNT_CODE'        => $request['code'],
             'BALANCE_TYPE'         => $request['balance_type'],
             'BUSINESS_PERSON'       => $request['people'],
@@ -60,7 +62,7 @@ class AccountController extends Controller
         \DB::table('account_code')->increment('NO');
         
         // if accounts have opening balance do  this
-        if($request['balance']>0){
+        if($amount>0){
             
             
             $code = \DB::table('codes')->lists('TRANSACTION');
@@ -76,7 +78,7 @@ class AccountController extends Controller
             'TRANS_DATE'   => $date,
             'PERIOD'  => $period,
             'ACCOUNT'    => $account,
-            'DEBIT'    => $request['balance'],
+            'DEBIT'    => $amount,
             'CREDIT'    =>'',
             'NARRATIVE'    => 'Openning books of accounts',
             'TAG'=> $request['tag'],
@@ -94,7 +96,7 @@ class AccountController extends Controller
             'PERIOD'  => $period,
             'ACCOUNT'    =>$account,
             'DEBIT'    =>'' ,
-            'CREDIT'    =>$request['balance'],
+            'CREDIT'    =>$amount,
             'NARRATIVE'    => 'Openning books of accounts',
             'TAG'=> $request['tag'],
             'TRANSACTION_ID'=> $tcode,
@@ -114,8 +116,8 @@ class AccountController extends Controller
                 $page= $_SERVER['REQUEST_URI'];
                 $hostname=gethostbyaddr($_SERVER['REMOTE_ADDR']);
                 $event=$request['type'];
-                $amount=$request['amount'];
-                $activity=$request->session()->get('flatUser.username')." has openned ". $request['name']." Account with amount GHC " .$request['balance'];
+                 
+                $activity=$request->session()->get('flatUser.username')." has openned ". $request['name']." Account with amount GHC " .$amount;
 	   
                 // logging 
               systemLogModel::create([
@@ -209,14 +211,15 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-              
+              $a=$request['balance'];
+        $amount=  str_replace(',','',$a) ;
              $account = AccountModel::find($id); //find the primary key of User table
              $action= $account->update ([
                 'ACCOUNT_NAME'    => $request['name'],
                 'PARENT_ACCOUNT'  => $request['type'],
                 'ACCOUNT_DESCRIPTION'    => $request['naration'],
                 'AFFECTS'      => implode(",",$request['affects']),
-                'ACCOUNT_BALANCE' => $request['balance'],
+                'ACCOUNT_BALANCE' => $amount,
                 
                 'BALANCE_TYPE'         => $request['balance_type'],
                 'BUSINESS_PERSON'       => $request['people'],

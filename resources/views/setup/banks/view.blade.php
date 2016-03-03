@@ -29,7 +29,7 @@
 
                          <div class="uk-width-medium-1-5">
                             <div class="uk-margin-small-top">
-                            {!!   Form::select('order_search_query_in',array(""=>"All Fields","BANK_ACCOUNT_NAME"=>"By bank account name","BANK_ACCOUNT_NUMBER"=>"By account Number","BANK_ACCOUNT_TYPE"=>"By account type"),old("order_search_query_in",""),array("data-md-selectize"=>"data-md-selectize","data-md-selectize-bottom"=>"data-md-selectize-bottom"))  !!}
+                            {!!   Form::select('order_search_query_in',array(""=>"All Fields","BANK_ACCOUNT_NAME"=>"By bank account name","BANK_ACCOUNT_NUMBER"=>"By account Number","BANK_ACCOUNT_TYPE"=>"By account type"),old("order_search_query_in","") )  !!}
                             </div>
                         </div>
 

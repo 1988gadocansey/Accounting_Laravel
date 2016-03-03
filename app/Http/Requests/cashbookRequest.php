@@ -10,7 +10,7 @@ class cashbookRequest extends Request
 
       return array(
             'memo.required'=>"The Memo is required and cannot be empty!",
-            'amount.numeric'=>"The withdrawal amount must be a numeric figure!",
+             
             'cheque.numeric'=>"The  cheque number must be a number!",
             'amount.required'=>"The  withdrawal amount is required",
             'type.required'=>"The transaction type  is required",
@@ -41,7 +41,7 @@ class cashbookRequest extends Request
              'date'=>'required',
              'account'=>'required',
              'cheque' => 'numeric',
-             'amount' => 'numeric|numeric',
+             'amount' => 'required',
              'type'=>'required',
              'bank'=>'required',
              'memo'=>'required',

@@ -4,7 +4,7 @@
  
 <?php if(Session::has('success_message')): ?>
             <div style="text-align: center" class="uk-alert uk-alert-success" data-uk-alert="">
-                <?php echo e(Session::get('success_message')); ?>
+                <?php echo Session::get('success_message'); ?>
 
             </div>
  <?php endif; ?>

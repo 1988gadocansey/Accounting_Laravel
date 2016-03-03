@@ -26,7 +26,7 @@ class AddAccountFormRequest extends Request
         $rules = [
             'name' => 'required',
             
-            'balance' => 'required|numeric',
+            
             'type' => 'required',
             'code' => 'required|numeric',
             'people' => 'required',
