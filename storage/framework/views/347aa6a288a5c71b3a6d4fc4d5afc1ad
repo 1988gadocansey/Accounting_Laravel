@@ -123,7 +123,7 @@
                                      <tbody class="selects">
 
 
-                                    <?php foreach($currents as $expenses=> $set): ?> 
+                                    <?php foreach($currents as $cassets=> $set): ?> 
                                      
                                      <tr align="">
 
@@ -141,7 +141,7 @@
                                     <td colspan="4" ><div style="float:  "><b><em>Total Currents</em></b></div></td>
 
                                     <td> </td>                             
-                                    <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$set->TOTALS); ?></em></b></td>
+                                    <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$set->CURRENTTOTALS); ?></em></b></td>
 
                                 </tr>
                                  
@@ -184,7 +184,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Total Currents Liabilties</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$row->TOTALS); ?></em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$row->LIABILITYTOTALS); ?></em></b></td>
 
                     </tr>
 
@@ -218,7 +218,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Total Long term Liabilties</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$rows->TOTALS); ?></em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$rows->LONGTOTALS); ?></em></b></td>
 
                     </tr>
                     
@@ -250,7 +250,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Profit before Tax</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$cap->TOTALS); ?></em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em><?php echo e(@$cap->CAPITALTOTALS); ?></em></b></td>
 
                     </tr>
                     <tr>
@@ -286,7 +286,35 @@
                                     
                                     
                              </table>
-                 </div>
+            <hr>
+            <div>
+                <p>&nbsp;</p>
+                <h4>Accounting Ratios</h4>
+                <table class="uk-table uk-table-nowrap uk-table-hover" align='center'border="1">
+                    <thead>
+                    <th>Current Ratio</th>
+                    
+                    <th>Return on assets ratio</th>
+                     
+                     
+                    <th>Working capital ratio</th>
+                     
+                    </thead>
+                    <tbody>
+                        <tr>
+                           <td><?php echo e($currentRatio); ?></td>
+                            <td><?php echo e($assetRatio); ?></td>
+                            <td><?php echo e($workingCapital); ?>>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+                 
+        
+        
+        
+        </div>
  
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?>

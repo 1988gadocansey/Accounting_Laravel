@@ -37,7 +37,8 @@ class CompanyController extends Controller
      */
     public function store(Requests\ConfigFormRequest $request)
     {
-        SetupModel::create([
+       
+        SetupModel::where('COMAPNY_ID', 1) ->update([
             'COMPANY_NAME'    => $request['name'],
             'COMPANY_LEGAL_NAME'  => $request['legal'],
             'COMPANY_TAX_ID'    => $request['tax'],
@@ -52,7 +53,7 @@ class CompanyController extends Controller
             'END_YEAR'   => $request['year_end'],
             'ACCOUNTING_BASIS'        => $request['basis'],
         ]);
-      $request->session()->flash('alert-success', 'Data successfully saved!');
+      $request->session()->flash('alert-success', 'Data updated saved!');
         return \Redirect::to('setup');
         
     }

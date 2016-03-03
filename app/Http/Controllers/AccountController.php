@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\GeneralLedgerModel;
+use App\Models\systemLogModel;
 use App\Models\AccountModel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -37,13 +39,16 @@ class AccountController extends Controller
      */
     public function store(Requests\AddAccountFormRequest $request)
     {
+        $ttype=43;
         $period=\date("t/m/Y");
+        $date=date('d/m/Y');
         $year=(date("Y")) ."/". (date("Y") + 1);
-        AccountModel::create([
+        $actor=$request->session()->get('flatUser.id');
+      $account=  AccountModel::create([
             'ACCOUNT_NAME'    => $request['name'],
             'PARENT_ACCOUNT'  => $request['type'],
             'ACCOUNT_DESCRIPTION'    => $request['naration'],
-            'AFFECTS'      => implode(",",$request['affects']),
+            'AFFECTS'      => @implode(",",$request['affects']),
             'ACCOUNT_BALANCE' => $request['balance'],
             'ACCOUNT_CODE'        => $request['code'],
             'BALANCE_TYPE'         => $request['balance_type'],
@@ -51,8 +56,83 @@ class AccountController extends Controller
             'PERIOD'    => $period,
             'YEAR'      => $year,
              
-        ]);
+        ])->ACCOUNT_ID;
         \DB::table('account_code')->increment('NO');
+        
+        // if accounts have opening balance do  this
+        if($request['balance']>0){
+            
+            
+            $code = \DB::table('codes')->lists('TRANSACTION');
+            $tcode=$code[0];
+            
+            $period= date("t/m/Y");
+           if($request['balance_type']=='Debit'){
+            $year=(date("Y")) ."/". (date("Y") + 1);
+            $d=$request['date'];
+            $date=date("d/m/Y", strtotime($d));            
+            $actor=$request->session()->get('flatUser.id');
+             GeneralLedgerModel::create([
+            'TRANS_DATE'   => $date,
+            'PERIOD'  => $period,
+            'ACCOUNT'    => $account,
+            'DEBIT'    => $request['balance'],
+            'CREDIT'    =>'',
+            'NARRATIVE'    => 'Openning books of accounts',
+            'TAG'=> $request['tag'],
+            'TRANSACTION_ID'=> $tcode,
+            'TRANSACTION_TYPE'=> $ttype,
+            'YEAR'      => $year,
+            'ACTOR'      => $actor,
+                
+             
+        ]);
+           }
+           else{
+              GeneralLedgerModel::create([
+            'TRANS_DATE'   => $date,
+            'PERIOD'  => $period,
+            'ACCOUNT'    =>$account,
+            'DEBIT'    =>'' ,
+            'CREDIT'    =>$request['balance'],
+            'NARRATIVE'    => 'Openning books of accounts',
+            'TAG'=> $request['tag'],
+            'TRANSACTION_ID'=> $tcode,
+             'TRANSACTION_TYPE'=> $ttype,
+            'YEAR'      => $year,
+            'ACTOR'      => $actor,
+              
+        ]);
+        
+           }
+      }
+        
+        
+           $browser=$_SERVER['HTTP_USER_AGENT'];
+                $user=$request->session()->get('flatUser.id');
+                $ip= $_SERVER['REMOTE_ADDR'];
+                $page= $_SERVER['REQUEST_URI'];
+                $hostname=gethostbyaddr($_SERVER['REMOTE_ADDR']);
+                $event=$request['type'];
+                $amount=$request['amount'];
+                $activity=$request->session()->get('flatUser.username')." has openned ". $request['name']." Account with amount GHC " .$request['balance'];
+	   
+                // logging 
+              systemLogModel::create([
+                    'USERNAME'   => $user,
+                    'EVENT_TYPE'  => $event,
+                    'ACTIVITIES'    => $activity,
+                    'HOSTNAME'    =>$hostname ,
+                    'IP'    =>$ip,
+                    'PAGES_VISITED'    =>$page,
+                    'BROWSER_VERSION'    => $browser,
+                     
+              ]);
+        
+        
+        
+        
+        
       $request->session()->flash('alert-success', 'Data successfully saved!');
         return \Redirect::to('add_account');
     }

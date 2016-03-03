@@ -112,6 +112,18 @@
 
 
                         </div>
+                        <h3 class="uk-accordion-title">
+                            <span class="menu_icon"><i class="fa fa-database"></i></span>
+                            <span class="menu_title">Transactions Manager</span>
+                        </h3>                    
+                        <div class="uk-accordion-content">
+
+                            <p class=''><a target='main'  href="<?php echo e(url('journal_entry')); ?>"  ><i class='fa fa-file-text'></i>  Journal Entry </a></p>
+                            <p class=''><a target='main'  href="<?php echo e(url('journal_inquiry')); ?>"  ><i class='fa fa-file-text'></i>  Journal Inquiry </a></p>
+
+
+
+                        </div>
 
                         <h3 class="uk-accordion-title">
                             <span class="menu_icon"><i class="fa fa-database"></i></span>
@@ -126,18 +138,7 @@
 
                         </div>
 
-                        <h3 class="uk-accordion-title">
-                            <span class="menu_icon"><i class="fa fa-database"></i></span>
-                            <span class="menu_title">Transactions Manager</span>
-                        </h3>                    
-                        <div class="uk-accordion-content">
-
-                            <p class=''><a target='main'  href="<?php echo e(url('journal_entry')); ?>"  ><i class='fa fa-file-text'></i>  Journal Entry </a></p>
-                            <p class=''><a target='main'  href="<?php echo e(url('journal_inquiry')); ?>"  ><i class='fa fa-file-text'></i>  Journal Inquiry </a></p>
-
-
-
-                        </div>
+                        
 
                         <h3 class="uk-accordion-title">
                             <span class="menu_icon"><i class="fa fa-folder-open"></i></span>

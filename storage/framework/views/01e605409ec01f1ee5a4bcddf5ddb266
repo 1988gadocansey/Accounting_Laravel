@@ -1,37 +1,36 @@
-@extends('layouts.master')
-
-@section('content')
-@if (session('alert-success'))
+<?php $__env->startSection('content'); ?>
+<?php if(session('alert-success')): ?>
  
 <div style="text-align: center" class="uk-alert uk-alert-success" data-uk-alert="">
-        {{ session('alert-success') }}
+        <?php echo e(session('alert-success')); ?>
+
     </div>
-@endif
+<?php endif; ?>
 <!-- if there are login errors, show them here -->
-     @if (count($errors) > 0)
+     <?php if(count($errors) > 0): ?>
 
     <div class="uk-form-row">
         <div class="alert alert-danger" style="background-color: red;color: white">
 
               <ul>
-                @foreach ($errors->all() as $error)
-                  <li> {{  $error  }} </li>
-                @endforeach
+                <?php foreach($errors->all() as $error): ?>
+                  <li> <?php echo e($error); ?> </li>
+                <?php endforeach; ?>
           </ul>
     </div>
   </div>
-@endif
+<?php endif; ?>
 <center><h3 class="heading_a">Create Ledger Accounts Here</h3></center>
 <p>&nbsp;</p>
 	 <form action="" novalidate method="post" class="form-horizontal row-border"   id="form"  accept-charset="utf-8"    v-form>
              <div class="uk-grid" data-uk-grid-margin>
-                  <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                  <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="uk-width-medium-1-2">
                             <div class="uk-form-row">
                                 <div class="uk-grid">
                                     <div class="uk-width-medium-1-2" style="display: ">
                                         <label>Account Code</label>
-                                        <input type="text" class="md-input" name="code"   value="{{$data->ACCOUNT_CODE}}"  readonly=""/>
+                                        <input type="text" class="md-input" name="code"   value="<?php echo e($data->ACCOUNT_CODE); ?>"  readonly=""/>
                                     </div>
                                     
                                     <div class="uk-width-medium-1-2">
@@ -42,16 +41,17 @@
                             </div>
                             <div class="uk-form-row">
                                 <label>Account Name</label>
-                                <input type="text" class="md-input" name="name" required=""  value="{{$data->ACCOUNT_NAME}}"/>
+                                <input type="text" class="md-input" name="name" required=""  value="<?php echo e($data->ACCOUNT_NAME); ?>"/>
                             </div>
                             <div class="uk-form-row">
                                <div class="uk-form-row">
                                 <label>Account Type</label>
                                 <p></p>
-                               {!! Form::select('type', 
+                               <?php echo Form::select('type', 
                                 (['' => 'Select Account Category'] + $parent), 
                                    old('type',$data->PARENT_ACCOUNT),
-                                    ['class' => 'md-input','id'=>'val_select' ] )  !!}
+                                    ['class' => 'md-input','id'=>'val_select' ] ); ?>
+
                             </div>
                             </div>
                         </div>
@@ -59,10 +59,11 @@
                             <div class="uk-form-row">
                                 <label>Customers and Suppliers Only</label>
                                 <p></p>
-                               {!! Form::select('people', 
+                               <?php echo Form::select('people', 
                                 (['' => 'Select business person'] + $people), 
                                   old('people',$data->BUSINESS_PERSON), 
-                                    ['class' => 'md-input','id'=>'val_select'] )  !!}
+                                    ['class' => 'md-input','id'=>'val_select'] ); ?>
+
                             </div>
                             
                             <div class="uk-width-medium-1-2">
@@ -92,13 +93,14 @@
                                 <div class="parsley-row">
                                     <label for="val_select" class="uk-form-label">Balance Type*</label>
                                      
-                                     {!!  Form::select('balance_type', array('Credit' => 'Credit', 'Debit' => 'Debit'), null, ['placeholder' => 'select account balance type','id'=>'val_select']); !!}
+                                     <?php echo Form::select('balance_type', array('Credit' => 'Credit', 'Debit' => 'Debit'), null, ['placeholder' => 'select account balance type','id'=>'val_select']);; ?>
+
                         
                                 </div>
                             </div>
                             <div class="uk-form-row">
                                 <label>Notes</label>
-                                <input type="text" v-validate="required" v-model="naration"  v-form-ctrl   class="md-input md-input-success" name="naration" value="{{ $data->ACCOUNT_DESCRIPTION }}" />
+                                <input type="text" v-validate="required" v-model="naration"  v-form-ctrl   class="md-input md-input-success" name="naration" value="<?php echo e($data->ACCOUNT_DESCRIPTION); ?>" />
                             </div>
                               
                         </div>
@@ -113,10 +115,12 @@
                         </div>
         </form>
          
-@endsection
+<?php $__env->stopSection(); ?>
  
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 
    
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

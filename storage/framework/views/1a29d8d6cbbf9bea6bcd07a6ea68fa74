@@ -64,7 +64,7 @@
                                <?php echo Form::select('people', 
                                 (['0' => 'Select business person'] + $people), 
                                     null, 
-                                    ['class' => 'md-input','data-md-selectize'=>''] ); ?>
+                                    ['class' => 'md-input'] ); ?>
 
                                  </div>
                             </div>
@@ -94,8 +94,9 @@
                              <div class="uk-form-row">
                                  
                                 <div class="parsley-row">
-                                    <label for="val_select" class="uk-form-label">Balance Type*</label>
-                                    <select class="md-input" name='balance_type' required data-md-selectize>
+                                    <label for="val_select" class="uk-form-label" style="margin-top: -35px">Balance Type*</label>
+                                     
+                                    <select class="md-input" name='balance_type' required  ="">
                                         <option value="">Choose..</option>
                                          <option value=''>select balance type</option>
                                             <option value='Credit'>Credit</option>

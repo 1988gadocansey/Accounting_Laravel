@@ -42,7 +42,7 @@
                                             {!! Form::select('type', 
                                      (['' => 'Select Transaction tag'] + $type), 
                                          null, 
-                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                         ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
 
                             </div>
                    
@@ -54,7 +54,7 @@
                                        {!! Form::select('debit', 
                                 (['' => 'Select Account '] + $account), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                             </div>
                              <div class="uk-form-row">
                                 <label>Date</label>
@@ -71,7 +71,7 @@
                                             {!! Form::select('tag', 
                                      (['' => 'Select Transaction tag'] + $tag), 
                                          null, 
-                                         ['class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                         ['class' => 'md-input','id'=>"selec_adv_2"] )  !!}
 
                             </div>
                             
@@ -81,7 +81,7 @@
                                        {!!  Form::select('credit', 
                                 (['' => 'Select Account '] + $account), 
                                     null, 
-                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2", 'data-md-selectize'=>''] )  !!}
+                                    ['required'=>'','class' => 'md-input','id'=>"selec_adv_2"] )  !!}
                                </div>
                             <div class="uk-form-row">
                                 <label>Amount</label>

@@ -121,7 +121,7 @@
                                      <tbody class="selects">
 
 
-                                    @foreach($currents as $expenses=> $set) 
+                                    @foreach($currents as $cassets=> $set) 
                                      
                                      <tr align="">
 
@@ -139,7 +139,7 @@
                                     <td colspan="4" ><div style="float:  "><b><em>Total Currents</em></b></div></td>
 
                                     <td> </td>                             
-                                    <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$set->TOTALS }}</em></b></td>
+                                    <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$set->CURRENTTOTALS }}</em></b></td>
 
                                 </tr>
                                  
@@ -182,7 +182,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Total Currents Liabilties</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$row->TOTALS }}</em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$row->LIABILITYTOTALS }}</em></b></td>
 
                     </tr>
 
@@ -216,7 +216,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Total Long term Liabilties</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$rows->TOTALS }}</em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$rows->LONGTOTALS}}</em></b></td>
 
                     </tr>
                     
@@ -248,7 +248,7 @@
                         <td colspan="4" ><div style="float:  "><b><em>Profit before Tax</em></b></div></td>
 
                         <td> </td>                             
-                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$cap->TOTALS }}</em></b></td>
+                        <td colspan=''style='color:blue;text-align:center;border-top:2px solid black;'><b><em>{{@$cap->CAPITALTOTALS }}</em></b></td>
 
                     </tr>
                     <tr>
@@ -284,7 +284,35 @@
                                     
                                     
                              </table>
-                 </div>
+            <hr>
+            <div>
+                <p>&nbsp;</p>
+                <h4>Accounting Ratios</h4>
+                <table class="uk-table uk-table-nowrap uk-table-hover" align='center'border="1">
+                    <thead>
+                    <th>Current Ratio</th>
+                    
+                    <th>Return on assets ratio</th>
+                     
+                     
+                    <th>Working capital ratio</th>
+                     
+                    </thead>
+                    <tbody>
+                        <tr>
+                           <td>{{$currentRatio}}</td>
+                            <td>{{$assetRatio}}</td>
+                            <td>{{$workingCapital}}>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+                 
+        
+        
+        
+        </div>
  
 @endsection
 @section('scripts')

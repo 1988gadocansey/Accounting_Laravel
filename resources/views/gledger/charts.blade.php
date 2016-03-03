@@ -55,6 +55,7 @@
 
                                             <th class=" ">Group</th>
                                             <th class=" ">Section</th>
+                                            <th class=" ">Balance Type</th>
                                             <th class=" ">Balance GH&cent;</th>
                                             
                                         </tr>
@@ -75,6 +76,7 @@
                                             <td> {{ @$item->parent_account->class_account->classname }}</td>
                                            
                                             @inject('ledger', 'App\Http\Controllers\LedgerController')
+                                             <td> {{ @$ledger->getBalanceType($item->ACCOUNT_ID) }}</td>
                                            <?php  $total[]= $ledger->getLedgerBalance_Yearly($item->ACCOUNT_ID) ;?>
                                             <td style='text-align:center'>  {{$ledger->getLedgerBalance_Yearly($item->ACCOUNT_ID,$period,$year ) }} </td>
                                         </tr>
@@ -84,6 +86,7 @@
                                              <td></td>
                                              <td></td>
                                              <td></td>
+                                              <td></td>
                                              <td align="center" style="color: red"><b><u>{{array_sum($total)}}<b></u></td>
                                          </tr>
                                     </tbody>

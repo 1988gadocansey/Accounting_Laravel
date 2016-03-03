@@ -85,9 +85,10 @@ class ReportController extends Controller
          
         foreach ($fixedAsset as $fAsset => $row) {
             
-            $total[] = $ledger->getLedgerBalance_Yearly($row->ACCOUNT,$from,$to);
+            //$total[] = $ledger->getLedgerBalance_Yearly($row->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($row->ACCOUNT,$from,$to);
             $balance= $balance - ($asset->getAccDepreciation($asset->getAssetAccount($row->ACCOUNT), $date));
+            $total[]=$balance;
             $dep=$asset->getAccDepreciation($asset->getAssetAccount($row->ACCOUNT), $date);
             $fixedAsset[$fAsset]->TOTALS =  array_sum($total);
             $fixedAsset[$fAsset]->BALANCE = $balance;
@@ -105,18 +106,15 @@ class ReportController extends Controller
                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '20')
                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '24')
                 ->where("tbl_accounts.ACTION", "=", '0')
-                ->where("tbl_accounts.AFFECTS", "=", "Balance Sheet");
-
-
-
-        $from = $request->input("from_date");
-
-        $to = $request->input("to_date");
+                 ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
+ 
          
         if ($request->has('from_date')) {
+            $from = $request->input("from_date");
             $current1->where("TRANS_DATE", ">=", $from);
         }
         if ($request->has('to_date')) {
+             $to = $request->input("to_date");
             $current1->where("TRANS_DATE", "<=", $to);
         }
         $current1->groupBy('tbl_general_ledger_transactions.ACCOUNT');
@@ -131,8 +129,7 @@ class ReportController extends Controller
         }
 
 
-        $totalAsset = $this->formatCurrency($current[$cAsset]->CURRENTTOTALS + $fixedAsset[$fAsset]->TOTALS);
-
+        $totalAsset =  $current[$cAsset]->CURRENTTOTALS + $fixedAsset[$fAsset]->TOTALS;
 
         // current liabilities
         
@@ -140,31 +137,33 @@ class ReportController extends Controller
           $liabilty1 = GeneralLedgerModel::query()->leftJoin('tbl_accounts', 'tbl_general_ledger_transactions.ACCOUNT', '=', 'tbl_accounts.ACCOUNT_ID')
                 ->where("tbl_accounts.PARENT_ACCOUNT", "=", '8')
                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '19')
-                  
+                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '25')
                 ->where("tbl_accounts.ACTION", "=", '0')
-                ->where("tbl_accounts.AFFECTS", "=", "Balance Sheet");
+                  ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
 
 
 
-        $from = $request->input("from_date");
+        
 
-        $to = $request->input("to_date");
+       
 
         if ($request->has('from_date')) {
+            $from = $request->input("from_date");
             $liabilty1->where("TRANS_DATE", ">=", $from);
         }
         if ($request->has('to_date')) {
+             $to = $request->input("to_date");
             $liabilty1->where("TRANS_DATE", "<=", $to);
         }
         $liabilty1->groupBy('tbl_general_ledger_transactions.ACCOUNT');
         $liabilty = $liabilty1->paginate(333333);
-
-        foreach ($liabilty as $cLiab => $set1) {
-
+      
+        foreach ($liabilty as $data => $set1) {
+ 
             $total1[] = $ledger->getLedgerBalance_Yearly($set1->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set1->ACCOUNT,$from,$to);
-            $liabilty[$cLiab]->TOTALS = array_sum($total1);
-            $liabilty[$cLiab]->BALANCE = $balance;
+            $liabilty[$data]->LIABILITYTOTALS = array_sum($total1);
+            $liabilty[$data]->BALANCE = $balance;
         }
 
     
@@ -175,35 +174,38 @@ class ReportController extends Controller
         
       $long1 = GeneralLedgerModel::query()->leftJoin('tbl_accounts', 'tbl_general_ledger_transactions.ACCOUNT', '=', 'tbl_accounts.ACCOUNT_ID')
                 ->where("tbl_accounts.PARENT_ACCOUNT", "=", '4')
-                ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '26')
+                ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '25')
+              ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '26')
               ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '27')
                 ->where("tbl_accounts.ACTION", "=", '0')
-                ->where("tbl_accounts.AFFECTS", "=", "Balance Sheet");
+                 ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
 
 
 
-        $from = $request->input("from_date");
+       
 
-        $to = $request->input("to_date");
-
+        
         if ($request->has('from_date')) {
+             $from = $request->input("from_date");
             $long1->where("TRANS_DATE", ">=", $from);
         }
         if ($request->has('to_date')) {
+            $to = $request->input("to_date");
+
             $long1->where("TRANS_DATE", "<=", $to);
         }
         $long1->groupBy('tbl_general_ledger_transactions.ACCOUNT');
         $lLiabilty = @$long1->paginate(333333);
-
+        
         foreach ($lLiabilty as $lLiab => $set) {
 
             $total1[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
-            $lLiabilty[$lLiab]->TOTALS = array_sum($total1);
+            $lLiabilty[$lLiab]->LONGTOTALS = array_sum($total1);
             $lLiabilty[$lLiab]->BALANCE = $balance;
         }
 
-        $totalLiabilty= $lLiabilty[$lLiab]->TOTALS +  $liabilty[$cLiab]->TOTALS;
+        $totalLiabilty= $lLiabilty[$lLiab]->LONGTOTALS + $liabilty[$data]->LIABILITYTOTALS;
         
         
         
@@ -218,18 +220,20 @@ class ReportController extends Controller
                 ->orWhere('tbl_accounts.PARENT_ACCOUNT', '=', '28')
                
                 ->where("tbl_accounts.ACTION", "=", '0')
-                ->where("tbl_accounts.AFFECTS", "=", "Balance Sheet");
+                ->where("tbl_accounts.AFFECTS", "LIKE", "%Balance Sheet%");
 
 
 
-        $from = $request->input("from_date");
+        
 
-        $to = $request->input("to_date");
 
         if ($request->has('from_date')) {
+            $from = $request->input("from_date");
             $capital1->where("TRANS_DATE", ">=", $from);
         }
         if ($request->has('to_date')) {
+            
+        $to = $request->input("to_date");
             $capital1->where("TRANS_DATE", "<=", $to);
         }
         $capital1->groupBy('tbl_general_ledger_transactions.ACCOUNT');
@@ -239,18 +243,21 @@ class ReportController extends Controller
 
             $total1[] = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
             $balance = $ledger->getLedgerBalance_Yearly($set->ACCOUNT,$from,$to);
-            $capital[$cap]->TOTALS = array_sum($total1);
+            $capital[$cap]->CAPITALTOTALS = array_sum($total1);
             $capital[$cap]->BALANCE = $balance;
         }
         $IEbalance=$ledger->getIncomeAndExpenditure_Balance();
         // capital +IE balance
-        $totalCapital=$capital[$cap]->TOTALS; + $IEbalance;
+        $totalCapital=$capital[$cap]->CAPITALTOTALS; + $IEbalance;
         $LLLC=$totalCapital +  $totalLiabilty;
         
         
         $tax=$ledger->getIncomeTax();
        $incomeTax=$totalCapital-(round(($totalCapital * $ledger->getIncomeTax()/100),3));
-        
+        $currentRatio=($current[$cAsset]->CURRENTTOTALS)/$liabilty[$data]->LIABILITYTOTALS;
+        $working_capital=($current[$cAsset]->CURRENTTOTALS)-($liabilty[$data]->LIABILITYTOTALS);
+        $assetRatio=$incomeTax/$totalAsset;
+  
         $networth=$incomeTax+$IEbalance+$totalLiabilty;
         $request->flash();
             $account=new StockController();
@@ -263,7 +270,11 @@ class ReportController extends Controller
                     ->with('lLiabilties', $lLiabilty)
                     ->with('cliabilties',$liabilty)
                      ->with('tax',$tax)
-                     ->with('worth',$networth);
+                     ->with('worth',$networth)
+                    ->with('assetRatio', $assetRatio)
+                    ->with('workingCapital', $working_capital)
+                    ->with('currentRatio', $currentRatio);
+            
                     
                     
     }

@@ -122,7 +122,7 @@
                                         <input type="text" name="year_end"    required class="md-input" data-parsley-americandate data-parsley-americandate-message="This value should be a valid date (MM-DD-YYYY)" data-uk-datepicker="{format:'MM-DD-YYYY'}"  />
                                     </div>
                                     <div class="parsley-row">
-                                        <label for="wizard_vehicle_vin">Tax ID<span class="req">*</span></label>
+                                        <label for="wizard_vehicle_vin">Tax %<span class="req">*</span></label>
                                         <input type="text" name="tax" id="" required class="md-input" />
                                     </div>
                                     <div class="parsley-row">

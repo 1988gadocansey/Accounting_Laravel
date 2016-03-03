@@ -119,15 +119,20 @@ class LedgerController extends Controller
     public function getBalanceType($account,$from,$to){
             
           if(empty($from)&&empty($to)){
-             $from="1/1/".date("Y");
-              $to= date("t/m/Y");
+              $query= \DB::table('tbl_general_ledger_transactions')
+                ->select( \DB::raw('SUM(DEBIT) AS debit, SUM(CREDIT) as credit'))
+                 
+                ->where('ACCOUNT' , $account)
+                ->get(); 
           }
+          else{
          $query= \DB::table('tbl_general_ledger_transactions')
                 ->select( \DB::raw('SUM(DEBIT) AS debit, SUM(CREDIT) as credit'))
-                ->whereBetween('TRANS_DATE' ,array($from,$to))
+                ->where('TRANS_DATE' ,'<=',$from)
+                ->where('TRANS_DATE' ,'>=',$to)
                 ->where('ACCOUNT' , $account)
-                ->get();        
-              
+          ->get();   }     
+         
                 foreach($query as $datas=> $row) {
                     if($row->debit > $row->credit){
                          return $balance="Debit";
@@ -143,16 +148,22 @@ class LedgerController extends Controller
       // get ledger balance per accounting period
       public function getLedgerBalance_Yearly($account,$from="",$to=""){
           
-               if(empty($from)&&empty($to)){
-                  $from="1/1/".date("Y");
-                   $to= "31/12/".date("Y");
-                }
+               if(!empty($from)&&!empty($to)){
+                 
                 $ledgers= \DB::table('tbl_general_ledger_transactions')
                 ->select( \DB::raw('SUM(DEBIT) AS debit, SUM(CREDIT) as credit'))
                 ->where('ACCOUNT',$account)
-                ->where('TRANS_DATE','<=',$to)
+                ->where('TRANS_DATE','<=',$from)
+                ->where('TRANS_DATE','>=',$to)
                 ->get();
+               }
+               else{
+                   $ledgers= \DB::table('tbl_general_ledger_transactions')
+                ->select( \DB::raw('SUM(DEBIT) AS debit, SUM(CREDIT) as credit'))
+                ->where('ACCOUNT',$account)
                 
+                ->get();
+               }
  
                 foreach($ledgers as $datas=> $row) {
                  return    abs($row->debit - $row->credit) ;
