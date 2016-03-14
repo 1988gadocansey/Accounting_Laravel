@@ -1,0 +1,268 @@
+
+<?php $__env->startSection('css'); ?>
+ 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('success_message')); ?>
+
+            </div>
+         <?php endif; ?>
+          <?php if(Session::has('error_message')): ?>
+            <div class="alert alert-danger fade">
+                <?php echo e(Session::get('error_message')); ?>
+
+            </div>
+         <?php endif; ?>
+   
+ <h5>General Ledger Groups</h5>  
+   
+<div class="md-card">
+    
+     <?php echo Form::open(['url' => 'add_employees', 'class' => 'form-horizontal']); ?>
+
+
+    
+                          <div class="form-group <?php echo e($errors->has('employee_id') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('employee_id', 'Employee Id: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::number('employee_id', null, ['class' => 'form-control']); ?>
+
+                    <?php echo $errors->first('employee_id', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('employment_id') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('employment_id', 'Employment Id: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('employment_id', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('employment_id', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('first_name') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('first_name', 'First Name: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('first_name', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('first_name', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('last_name') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('last_name', 'Last Name: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('last_name', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('last_name', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('date_of_birth') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('date_of_birth', 'Date Of Birth: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::date('date_of_birth', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('date_of_birth', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('gender') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('gender', 'Gender: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('gender', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('gender', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('maratial_status') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('maratial_status', 'Maratial Status: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('maratial_status', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('maratial_status', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('father_name') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('father_name', 'Father Name: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('father_name', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('father_name', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('nationality') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('nationality', 'Nationality: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('nationality', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('nationality', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('passport_number') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('passport_number', 'Passport Number: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('passport_number', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('passport_number', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('photo') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('photo', 'Photo: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('photo', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('photo', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('photo_a_path') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('photo_a_path', 'Photo A Path: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('photo_a_path', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('photo_a_path', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('present_address') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('present_address', 'Present Address: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::textarea('present_address', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('present_address', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('city') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('city', 'City: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('city', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('city', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('country_id') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('country_id', 'Country Id: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::number('country_id', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('country_id', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('mobile') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('mobile', 'Mobile: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('mobile', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('mobile', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('phone') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('phone', 'Phone: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('phone', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('phone', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('email') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::text('email', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('email', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('designations_id') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('designations_id', 'Designations Id: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::number('designations_id', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('designations_id', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('joining_date') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('joining_date', 'Joining Date: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::date('joining_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('joining_date', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+            <div class="form-group <?php echo e($errors->has('status') ? 'has-error' : ''); ?>">
+                <?php echo Form::label('status', 'Status: ', ['class' => 'col-sm-3 control-label']); ?>
+
+                <div class="col-sm-6">
+                    <?php echo Form::number('status', null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                    <?php echo $errors->first('status', '<p class="help-block">:message</p>'); ?>
+
+                </div>
+            </div>
+       <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-3">
+             <button type="submit" class="btn btn-primary btn-xs">Save</button>
+             <a href="<?php echo e(url('view')); ?>" type="button" class="btn btn-primary btn-xs">Back</a>
+        </div>
+    </div>
+    <?php echo Form::close(); ?>
+
+
+    <?php if($errors->any()): ?>
+        <ul class="alert alert-danger">
+            <?php foreach($errors->all() as $error): ?>
+                <li><?php echo e($error); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+ 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+
+<script src="<?php echo url('public/plugins/parsleyjs/dist/parsley.min.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo url('public/assets/css/select2.min.css'); ?>" media="all">
+<script src="<?php echo url('public/assets/js/pages/forms_advanced.min.js'); ?>"></script>
+
+<script type="text/javascript">
+      
+ 
+
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -121,7 +121,15 @@ Route::get('/journal_inquiry_print', "TransactionsController@print_journal_inqui
 Route::delete('/journal_inquiry','TransactionsController@destroyJournal');
 Route::get('/journal_view/{id}/edit', "TransactionsController@viewJournalTrans");
 
+////////////////// HR //////////////////////////////////////////////////////////
 
+Route::get('/add_departments', 'DepartmentController@show');
+Route::get('/add_employees', 'EmployeeController@create');
+Route::post('/add_employees', 'EmployeeController@store');
+Route::get('/view_employees', 'EmployeeController@index');
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 // asset manager
 Route::get('/asset_manager', 'AssetController@manager');

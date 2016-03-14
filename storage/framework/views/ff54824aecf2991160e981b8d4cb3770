@@ -161,6 +161,76 @@
 
 
                         </div>
+                        
+                        
+                        
+                        <h3 class="uk-accordion-title">
+                            <span class="menu_icon"><i class="fa fa-folder-open"></i></span>
+                            <span class="menu_title">Departments</span>
+                        </h3>                    
+                        <div class="uk-accordion-content">
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_departments')); ?>" ><i class='fa fa-plus-circle'></i>  Add Departments </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('view_departments')); ?>" ><i class='fa fa-file-text'></i>  View Departments </a></span>
+                            </p>
+                             
+                        </div>
+                        <h3 class="uk-accordion-title">
+                            <span class="menu_icon"><i class="fa fa-database"></i></span>
+                            <span class="menu_title"> Employees </span>
+                        </h3>                    
+                        <div class="uk-accordion-content">
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_employees')); ?>" ><i class='fa fa-plus-circle'></i>  Add Employees </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('view_employees')); ?>" ><i class='fa fa-file-text'></i>  View  Employees </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('view_banks')); ?>" ><i class='fa fa-file-text'></i>Employees Documents </a></span>
+                            </p>
+                             
+                        </div>
+                        <h3 class="uk-accordion-title">
+                            <span class="menu_icon"><i class="fa fa-folder-open"></i></span>
+                            <span class="menu_title"> Attendance </span>
+                        </h3>                    
+                        <div class="uk-accordion-content">
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_departments')); ?>" ><i class='fa fa-plus-circle'></i> Manage Attendance </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('view_banks')); ?>" ><i class='fa fa-file-text'></i>  Attendance Report </a></span>
+                            </p>
+                            
+                             
+                        </div>
+                        
+                        <h3 class="uk-accordion-title">
+                            <span class="menu_icon"><i class="fa fa-folder-open"></i></span>
+                            <span class="menu_title"> Leave Management </span>
+                        </h3>                    
+                        <div class="uk-accordion-content">
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_departments')); ?>" ><i class='fa fa-plus-circle'></i>Set working Days </a></span>
+                            </p>
+                             <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_departments')); ?>" ><i class='fa fa-plus-circle'></i>Leave Categories </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('add_departments')); ?>" ><i class='fa fa-plus-circle'></i>Leave </a></span>
+                            </p>
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="<?php echo e(url('view_banks')); ?>" ><i class='fa fa-file-text'></i> Holidays List</a></span>
+                            </p>
+                            
+                             
+                        </div>
+                        
+                        
+                        
                         <h3 class="uk-accordion-title">
                             <span class="menu_icon"><i class="fa fa-folder-open"></i></span>
                             <span class="menu_title">Reports Manager</span>
@@ -214,7 +284,14 @@
 <script src="public/assets/js/plugins_tablesorter.min.js"></script>
 <script src="<?php echo url('public/js/vue.min.js'); ?>"></script> 
 <script src="<?php echo url('public/js/vue-form.min.js'); ?>"></script> 
+<script src="<?php echo url('public/datatables/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?php echo url('public/datatables/dataTables.tableTools.js'); ?>"></script>
+<script src="<?php echo url('public/datatables/dataTables.colVis.js'); ?>"></script>
 
+<script src="<?php echo url('public/datatables/plugins_datatables.min.js'); ?>"></script>
+
+
+ 
 <?php echo $__env->yieldContent('scripts'); ?>
 
 <script type="text/javascript">
