@@ -1,4 +1,6 @@
 @extends('layouts.master')
+
+</style>
 @section('css')
 <link rel="stylesheet" href="{!! url('public/assets/css/bootstrap.min.css') !!}" media="all">
 
@@ -94,7 +96,7 @@
  
 	<div class="uk-overflow-container">
             
-                        <table class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                        <table class="uk-table   uk-table-hover" id="gad"> 
                                   <thead>
                                         <tr>
                                             <!--<th class="col-xs-1 col-sm-1"><input type="checkbox" id="select-all"></th>-->

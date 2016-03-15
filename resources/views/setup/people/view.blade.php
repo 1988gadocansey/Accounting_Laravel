@@ -29,13 +29,13 @@
                         </div>
                          <div class="uk-width-medium-1-5">
                             <div class="uk-margin-small-top">
-                            {!!   Form::select('type_search_query',array(""=>"All people","Customer"=>"customers","Supplier"=>"supplier"),old("type_search_query",""),array("data-md-selectize"=>"data-md-selectize","data-md-selectize-bottom"=>"data-md-selectize-bottom"))  !!}
+                            {!!   Form::select('type_search_query',array(""=>"All people","Customer"=>"customers","Supplier"=>"supplier"),old("type_search_query",""))  !!}
                             </div>
                         </div>
 
                          <div class="uk-width-medium-1-5">
                             <div class="uk-margin-small-top">
-                            {!!   Form::select('order_search_query_in',array(""=>"All Fields","BP_NAME"=>"name","BP_TYPE"=>"person type","BP_PAYMENT_TERM"=>"payment terms"),old("order_search_query_in",""),array("data-md-selectize"=>"data-md-selectize","data-md-selectize-bottom"=>"data-md-selectize-bottom"))  !!}
+                            {!!   Form::select('order_search_query_in',array(""=>"All Fields","BP_NAME"=>"name","BP_TYPE"=>"person type","BP_PAYMENT_TERM"=>"payment terms"),old("order_search_query_in","") )  !!}
                             </div>
                         </div>
 

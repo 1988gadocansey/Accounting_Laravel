@@ -1,16 +1,24 @@
 @extends('layouts.master')
+<style>
+    .uk-table td {
+    border-bottom-color: #E0E0E0;
+    vertical-align: middle !important;
+}
+
+</style>
 @section('css')
- 
+ <link rel="stylesheet" href="{!! url('public/assets/css/bootstrap.min.css') !!}" media="all">
+
 @endsection
 @section('content')
         @if(Session::has('success_message'))
             <div class="alert alert-success">
-                {{ Session::get('flash_message') }}
+                {{ Session::get('success_message') }}
             </div>
          @endif
           @if(Session::has('error_message'))
             <div class="alert alert-danger">
-                {{ Session::get('flash_message') }}
+                {{ Session::get('error_message') }}
             </div>
          @endif
 @if($data->isEmpty())
@@ -24,93 +32,102 @@
 <div class="md-card">
                 <div class="md-card-content">
 
-                <form action="{!!    url('gl_account')  !!}"  method="get" accept-charset="utf-8" novalidate id="group">
+                <form action="{!!    url('journal_inquiry')  !!}"  method="get" accept-charset="utf-8" novalidate id="group">
                    {!!  csrf_field()  !!}
                     <div class="uk-grid" data-uk-grid-margin="">
 
                          
-
-                         <div class=" ">                            
-                            <input type="text" class="md-input" name="order_search_query" value="{{  old("order_search_query")  }}">
+                       <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    {!! Form::select('department', 
+                                (['' => 'Select Department'] + $departments ), 
+                                  old("department"),
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
+                             </div>
                         </div>
                           
 
-                         <div class="uk-width-medium-1-5">
+                          <div class="uk-width-medium-1-5">
                             <div class="uk-margin-small-top">
-                            {!!   Form::select('order_search_query_in',array(""=>"All Fields","ACCOUNT_NAME"=>"By gl account name","ACCOUNT_CODE"=>"By account code"),old("order_search_query_in",""),array("data-md-selectize-bottom"=>"data-md-selectize-bottom"))  !!}
-                            </div>
+                                    {!! Form::select('grades', 
+                                (['' => 'Select Grade'] +$grades ), 
+                                  old("grade"),
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
+                             </div>
+                        </div>
+                         
+                        <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    {!! Form::select('actor', 
+                                (['' => 'Select Position']+$positions ), 
+                                  old("position"),
+                                    ['class' => 'md-input parent','id'=>"parent"] )  !!}
+                             </div>
                         </div>
                         
-
-                          <div class="uk-width-medium-1-10 uk-text-center">                            
-                            <input class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="search_button"  value="Search" />
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                   {!!   Form::select('gender',array(""=>"All Gender","Male"=>"Male","Female"=>"Famale"),old("gender",""))  !!}
+                         
+                             </div>
                         </div>
-             
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                             {!!   Form::select('leave',array("On Leave"=>"On Leave",'on duty'=>"On duty"),old('leave',''),array('placeholder'=>'Select leave status',"required"=>"required","class"=>"md-input",'id'=>"parent","v-form-ctrl"=>"","v-select"=>"leave"))  !!}
+                             </div>
+                        </div>
+                         
                          
                       </form>          
 
-                       <div class="uk-width-medium-1-10 uk-text-center" style="margin-left: -31px"  >                            
-                            
-                              <i title="click to print" style="margin-top: 15px"class="material-icons md-36 uk-text-success" onclick="window.open('{!! action('GeneralLedgerController@print_all',old()) !!}','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500');"  >print</i>
-                        </div>
-                        <div class="uk-width-medium-1-5 uk-text-center" style="margin-left: -82px;margin-top: 23px"  >                            
-                            
-                            <a  onClick ="$('#gad').tableExport({type:'excel',escape:'false'});" title="Click to export to excel"class="btn-success btn-sm uk-margin-small-top">Export<i title="click to export" class=" fa fa-file-excel-o" ></i></a>
-                        </div>
-                        <div class="uk-width-medium-1-5 uk-text-center" style="margin-left: -119px;margin-top: 23px"  >                            
-                            
-                            <a  href="{{ url('add_account') }}" title="Click to add gl accounts"class="btn-danger btn-sm">GL Accounts<i title="click to add more gl accounts" class=" fa fa-plus-circle" ></i></a>
-                        </div>
+                        
                    
                       
                     </div>
                     
                     
                 </div>
-            </div>
  
 	<div class="uk-overflow-container">
             
                         <table id="dt_tableTools"class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
                                   <thead>
                                          <tr>
-                   <th>No</th><th>Employment Id</th><th>First Name</th><th>Last Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Father Name</th><th>Nationality</th><th>Passport Number</th><th>Photo</th><th>Photo A Path</th><th>Present Address</th><th>City</th><th>Country Id</th><th>Mobile</th><th>Phone</th><th>Email</th><th>Designations Id</th><th>Joining Date</th><th>Status</th>
-                   <th>ACTION</th>
+                                             <th>No</th><th>StaffId</th><th>Photo</th><th>First Name</th><th>Last Name</th><th>Other Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Hometown</th><th>Place of Residence</th><th>Grade</th><th>Position</th><th>Dependents</th><th>Leave Status</th><th>SSNIT</th><th>Nationality</th><th>Date Hired</th><th>Phone</th><th>Email</th><th>Actions</th>
                                          </tr>
                                     </thead>
                                     <tbody class="selects">
                                          
                                         
-                                        @foreach($data as   $employee) 
-                                       
+                                        @foreach($data as   $employee=>$row) 
+                                         @inject('obj', 'App\Http\Controllers\EmployeeController')
 
                                         <tr>
-                                            <td> {{ $employee["employee_id"] }} </td>
-                                            <td> {{ $employee["employment_id"] }} </td>
-                                            <td> {{ $employee["first_name"] }} </td>
-                                            <td> {{ $employee["last_name"] }} </td>
-                                            <td> {{ $employee["date_of_birth"] }} </td>
-                                            <td> {{ $employee["gender"] }} </td>
-                                            <td> {{ $employee["maratial_status"] }} </td>
-                                            <td> {{ $employee["father_name"] }} </td>
-                                            <td> {{ $employee["nationality"] }} </td>
-                                            <td> {{ $employee["passport_number"] }} </td>
-                                            <td> {{ $employee["photo"] }} </td>
-                                            <td> {{ $employee["photo_a_path"] }} </td>
-                                            <td> {{ $employee["present_address"] }} </td>
-                                            <td> {{ $employee["city"] }} </td>
-                                            <td> {{ $employee["country_id"] }} </td>
-                                            <td> {{ $employee["mobile"] }} </td>
-                                            <td> {{ $employee["phone"] }} </td>
-                                            <td> {{ $employee["email"] }} </td>
-                                            <td> {{ $employee["designations_id"] }} </td>
-                                            <td> {{ $employee["joining_date"] }} </td>
-                                            <td> {{ $employee["status"] }} </td>
-                                       
+                                            <td>   {!! $employee+1 !!} </td>
+                                            <td> {{ $row->staffID }} </td>
+                                            <td><a href="addMember.php?member={{ $row->staffID }}&&update"><img class=""  <?php   $pic=  $obj->pictureid($row->staffID); echo $obj->picture("public/staffPics/$pic.jpg",90)  ?>   src="<?php echo file_exists("public/staffPics/$pic.jpg") ? "public/staffPics/$pic.jpg":"public/staffPics/user.jpg";?>" alt=" Picture of Employee Here"    /></a></td> 
+                                            <td> {{ $row->Name }} </td>
+                                            <td> {{ $row->surname }} </td>
+                                            <td> {{ $row->othernames }} </td>
+                                            <td> {{ $row->dob }} </td>
+                                            <td> {{ $row->gender }} </td>
+                                            <td> {{ $row->marital }} </td>
+                                            <td> {{ $row->hometown }} </td>
+                                            <td> {{ $row->placeofresidence }} </td>
+                                            <td> {{ $row->grade }} </td>
+                                            <td> {{ $row->position }} </td>
+                                           <td> {{ $row->dependentsNo}} </td>
+                                             <td> {{ $row->leaves}} </td>
+                                             <td> {{ $row->ssnit}} </td>
+                                             <td> {{ $row->nationality}} </td>
+                                             <td> {{ $row->dateHired}} </td>
+                                             <td> {{ $row->phone}} </td>
+                                             <td> {{ $row->email}} </td>
+                                             
                                          <td>
-                                             <a href="{{  url('Addbank/'.$item->BANK_ACCOUNT_ID.'/edit')  }}"      title="click to edit this record"class="btn btn-primary btn-sm">Edit</a>
+                                             <a href="{{  url('Addbank/'.$row->id.'/edit')  }}"      title="click to edit this record"class="btn btn-primary btn-sm">Edit</a>
                                                 
-                                               {!! Form::open(['action' => ['BankController@destroy', "id"=>$item->BANK_ACCOUNT_ID], 'method' => 'DELETE', 'style' => 'display: inline;']) !!}
+                                               {!! Form::open(['action' => ['BankController@destroy', "id"=>$row->id], 'method' => 'DELETE', 'style' => 'display: inline;']) !!}
                                                 <button title="Delete this" type="submit" onclick="return confirm('Are you sure want to delete this record')" class="btn btn-danger btn-sm">Delete</button>
                                                {!! Form::close()!!}
                                               </td> 

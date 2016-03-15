@@ -19,8 +19,7 @@ class EmployeeModel extends Model
      *
      * @var array
      */
-    protected $fillable = ['employee_id', 'employment_id', 'first_name', 'last_name', 'date_of_birth', 'gender', 'maratial_status', 'father_name', 'nationality', 'passport_number', 'photo', 'photo_a_path', 'present_address', 'city', 'country_id', 'mobile', 'phone', 'email', 'designations_id', 'joining_date', 'status'];
-
+    
     public $timestamps = false;
 
 }

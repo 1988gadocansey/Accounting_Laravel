@@ -31,6 +31,11 @@
         }
     //-->
     </script>
+    <style>
+    .table td {
+    vertical-align: middle !important;
+}
+</style>
 </head>
 <body class=" sidebar_main_open ">
 
@@ -188,9 +193,7 @@
                             <p class="">
                                 <span class="md-list-heading"><a target='main'  href="{{ url('view_employees') }}" ><i class='fa fa-file-text'></i>  View  Employees </a></span>
                             </p>
-                            <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('view_banks') }}" ><i class='fa fa-file-text'></i>Employees Documents </a></span>
-                            </p>
+                             
                              
                         </div>
                         <h3 class="uk-accordion-title">
@@ -213,6 +216,9 @@
                             <span class="menu_title"> Leave Management </span>
                         </h3>                    
                         <div class="uk-accordion-content">
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="{{ url('leave_setup') }}" ><i class='fa fa-file-text'></i> Leave Set up</a></span>
+                            </p>
                             <p class="">
                                 <span class="md-list-heading"><a target='main'  href="{{ url('add_departments') }}" ><i class='fa fa-plus-circle'></i>Set working Days </a></span>
                             </p>
@@ -254,6 +260,7 @@
 
                             <p class=''><a target='main'  href='{{ url('system_log') }}' ><i class='fa fa-file-text'></i>  View Log </a></p>
                             <p class=''><a target='main'  href='{{ url('users') }}' ><i class='fa fa-file-text'></i>  Users </a></p>
+                             <p class=''><a target='main'  href='{{ url('gengen/create') }}' ><i class='fa fa-file-text'></i>  Gengen </a></p>
 
 
                             <p class=''><a target='main' onclick="window.parent.location = '{!! url("logout")!!}'"  href="{{ url('logout') }}" ><i class='fa fa-file-text'></i>  Logout </a></p>

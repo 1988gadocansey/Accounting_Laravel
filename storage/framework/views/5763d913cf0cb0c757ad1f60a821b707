@@ -1,0 +1,57 @@
+<?php $__env->startSection('content'); ?>
+
+    <h4>Create New Crud</h4>
+    <hr/>
+    <?php foreach($all_tables as $item): ?>
+     <a type="button" class="btn btn-primary btn-xs"  href="<?php echo e(action('GenGenController@create',array('table_name'=>$item->table_name))); ?>" ><?php echo e($item->table_name); ?></a>
+    <?php endforeach; ?>
+  <table class="table">
+  <thead>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Label</th>
+      <th>Required</th>
+      <th>Select Options</th>
+      <th>Primary Key</th>
+  </thead>
+<?php if(isset($tableinfo)): ?>
+   <?php echo Form::open(array("url"=>array("gengen/create",$table_name))); ?>
+
+
+    <?php foreach($tableinfo as $table): ?>
+    <tr>
+    <td><?php echo e($table->Field); ?><input type="hidden" name="field[<?php echo e($table->Field); ?>]"  value="<?php echo e($table->Field); ?>" /></td>
+    <td><?php echo e($table->Type); ?><input type="hidden" name="type[<?php echo e($table->Field); ?>]"  value="<?php echo e($table->Type); ?>" /></td>
+    <td><input type="display_as" name="label[<?php echo e($table->Field); ?>]" value="<?php echo e($table->Field); ?>"></td>
+    <td>
+    <input type="checkbox"
+    <?php if(empty($table->Key)): ?>
+    checked="true"
+    <?php endif; ?>
+    name="required[<?php echo e($table->Field); ?>]">
+    </td>
+    <td><input type="text" name="select_options[<?php echo e($table->Field); ?>]"></td>
+    <td><?php echo e($table->Key); ?>
+
+    <?php if(!empty($table->Key)): ?>
+    <input type="hidden" name="pk"  value="<?php echo e($table->Key); ?>" />
+    <?php endif; ?>
+    </td>
+    </tr>
+    <?php endforeach; ?>
+    <tr><td><button type="submit" class="btn btn-primary btn-xs"  >Submit</button></td></tr>
+    <?php echo Form::close(); ?>
+
+<?php endif; ?>
+</table>
+
+    <?php if($errors->any()): ?>
+        <ul class="alert alert-danger">
+            <?php foreach($errors->all() as $error): ?>
+                <li><?php echo e($error); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

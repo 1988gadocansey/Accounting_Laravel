@@ -28,9 +28,13 @@ class EmployeeController extends Controller
      */
     public function index()    
     {  
-        $data=  EmployeeModel::query()->get();
+        $data=  EmployeeModel::query()->paginate();
 
-        return view('HR.employees.index')->with("data",$data);    
+        return view('HR.employees.index')->with("data",$data)
+                ->with('country', $this->countries())
+                ->with('positions', $this->position())
+                ->with('grades', $this->grades())
+                ->with('departments', $this->department());
     }
 
     /**
@@ -38,9 +42,34 @@ class EmployeeController extends Controller
      *
      * @return Response
      */
+    public function countries() {
+
+        $country = \DB::table('tbl_country')
+                ->lists('Name', 'Name');
+        return $country;
+    }
+    public function grades() {
+
+         $grade=\DB::table('tbl_employee')->distinct()->where('grade','!=',"")->lists('grade','grade');
+        return $grade ;
+        
+    }
+     public function position() {
+
+         $position=\DB::table('tbl_employee')->distinct()->where('position','!=',"")->lists('position','position');
+        return $position ;
+        
+    }
+    
+     public function department() {
+
+         $department=\DB::table('tbl_department')->lists('DEPARTMENT_NAME','ID');
+        return $department ;
+        
+    }
     public function create()
     {
-        return view('HR.employees.create');
+        return view('HR.employees.create')->with('country', $this->countries());
     }
 
     /**
@@ -50,14 +79,66 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['employment_id' => 'required', 'first_name' => 'required', 'last_name' => 'required', 'date_of_birth' => 'required', 'gender' => 'required', 'maratial_status' => 'required', 'father_name' => 'required', 'nationality' => 'required', 'passport_number' => 'required', 'photo' => 'required', 'photo_a_path' => 'required', 'present_address' => 'required', 'city' => 'required', 'country_id' => 'required', 'mobile' => 'required', 'phone' => 'required', 'email' => 'required', 'designations_id' => 'required', 'joining_date' => 'required', 'status' => 'required', ]);
+         
+        $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required', 'files' => 'required', 'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required' ]);
 
-        EmployeeModel::create($request->all());
+      $code=$this->getStaffID();
+      $employee=new Models\EmployeeModel();
+      $employee->staffID=date('Y').$code[0];
+      $employee->title=$request->input('title');
+      $employee->Name=$request->input('fname');
+      $employee->surname=$request->input('surname');
+      $employee->othernames=$request->input('othernames');
+      $employee->position=$request->input('position');
+      $employee->grade=$request->input('grade');
+      $employee->ssnit=$request->input('ssnit');
+      $employee->placeofresidence=$request->input('residence');
+      $employee->address=$request->input('contact');
+      $employee->phone=$request->input('phone');
+      $employee->dob=$request->input('dob');
+      $employee->email=$request->input('email');
+      $employee->gender= $request->input('gender');
+      $employee->grade= $request->input('grade');
+      $employee->marital=$request->input('marital_status');
+      $employee->nationality=$request->input('country','');
+      $employee->dateHired=$request->input('hired');
+      $employee->leaves=$request->input('leave');     
+      $employee->hometown=$request->input('hometown'); 
+      $employee->education=$request->input('education'); 
+      $employee->dependentsNo=$request->input('dependents');
+      if($employee->save()){
+          $valid_exts = array('jpeg', 'jpg'); // valid extensions
+          $max_size = 400000; // max file size
+          $photo=$request->file('files');
+                    
 
-        Session::flash('flash_message', 'Employee added successfully!');
+               if (!empty($photo)) {
+                // get uploaded file extension
+                $ext = strtolower( $request->file('files')->getClientOriginalExtension());
+                $photo = date('Y').$code[0] . '.' . $ext;
+                $savepath = 'public/staffPics/';
+               if (in_array($ext, $valid_exts)) {
+                    if( $request->file('files')->move($savepath, $photo)){
+                        \DB::table('codes')->increment('STAFF_ID');
+                    }
 
+               }
+                
+            }
+            Session::flash('success_message', 'Employee added successfully!');
+      }
+      else{
+          Session::flash('error_message', 'Error adding Employee!');
+      }
+      
         return redirect('view_employees');
     }
+    public function getStaffID() {
+       $code= \DB::table('codes')
+                   
+                    ->lists('STAFF_ID');
+         return $code;
+   }
 
     /**
      * Display the specified resource.
@@ -216,5 +297,35 @@ public function color_search_results($str1, $str2) {
         return ($str2);
     }
 
+ public function picture($path,$target){
+                if(file_exists($path)){
+                        $mypic = getimagesize($path);
 
+                 $width=$mypic[0];
+                        $height=$mypic[1];
+
+                if ($width > $height) {
+                $percentage = ($target / $width);
+                } else {
+                $percentage = ($target / $height);
+                }
+
+                //gets the new value and applies the percentage, then rounds the value
+                 $width = round($width * $percentage);
+                $height = round($height * $percentage);
+
+               return "width=\"$width\" height=\"$height\"";
+
+
+
+            }else{}
+        
+       
+        }
+        
+        
+	public function pictureid($stuid) {
+
+        return str_replace('/', '', $stuid);
+    }
 }

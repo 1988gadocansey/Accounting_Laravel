@@ -1,0 +1,22 @@
+@extends('layouts.master')
+
+@section('content')
+
+    <h1>%%modelName%%</h1>
+    <div class="table-responsive">    
+    <h1> <a href="{{ url('%%routeGroup%%%%crudName%%') }}" class="btn btn-primary pull-right btn-sm">Back</a></h1>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                   %%formHeadingHtml%%
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                     %%formBodyHtml%%
+                </tr>
+            </tbody>    
+        </table>
+    </div>
+
+@endsection

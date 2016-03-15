@@ -1,0 +1,32 @@
+@extends('layouts.master')
+
+@section('content')
+
+    <h1>Edit %%modelName%%</h1>
+    <hr/>
+
+    {!! Form::model($%%crudNameSingular%%, [
+        'method' => 'PATCH',
+        'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->id],
+        'class' => 'form-horizontal'
+    ]) !!}
+
+    %%formFieldsHtml%%
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 ">
+            <button type="submit" class="btn btn-primary btn-xs ">Update</button>
+            <a href="{{ url('%%routeGroup%%%%crudName%%') }}" type="button" class="btn btn-primary btn-xs ">Back</a>
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+    @if ($errors->any())
+        <ul class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
+@endsection

@@ -151,5 +151,17 @@ Route::post('/users', 'UserController@addUser');
 Route::get('/reset', 'UserController@showReset');
 Route::post('/reset', 'UserController@doReset');
 
+Route::resource('gengen', 'GenGenController');
+Route::post('gengen/create/{table_name}', 'GenGenController@create_crud');
+
+
+
+
+
+
+
+
+
+
 });
 

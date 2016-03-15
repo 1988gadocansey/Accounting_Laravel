@@ -3,6 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Ropacc</title>
+<style>
+  .uk-table td {
+    border-bottom-color: #E0E0E0;
+    vertical-align: middle !important;
+}
+</style>
 </head>
 
 <frameset rows="*" cols="219,924">

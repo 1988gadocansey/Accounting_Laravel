@@ -1,17 +1,25 @@
 
+<style>
+    .uk-table td {
+    border-bottom-color: #E0E0E0;
+    vertical-align: middle !important;
+}
+
+</style>
 <?php $__env->startSection('css'); ?>
- 
+ <link rel="stylesheet" href="<?php echo url('public/assets/css/bootstrap.min.css'); ?>" media="all">
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
         <?php if(Session::has('success_message')): ?>
             <div class="alert alert-success">
-                <?php echo e(Session::get('flash_message')); ?>
+                <?php echo e(Session::get('success_message')); ?>
 
             </div>
          <?php endif; ?>
           <?php if(Session::has('error_message')): ?>
             <div class="alert alert-danger">
-                <?php echo e(Session::get('flash_message')); ?>
+                <?php echo e(Session::get('error_message')); ?>
 
             </div>
          <?php endif; ?>
@@ -26,89 +34,113 @@
 <div class="md-card">
                 <div class="md-card-content">
 
-                <form action="<?php echo url('gl_account'); ?>"  method="get" accept-charset="utf-8" novalidate id="group">
+                <form action="<?php echo url('journal_inquiry'); ?>"  method="get" accept-charset="utf-8" novalidate id="group">
                    <?php echo csrf_field(); ?>
 
                     <div class="uk-grid" data-uk-grid-margin="">
 
                          
+                       <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    <?php echo Form::select('department', 
+                                (['' => 'Select Department'] + $departments ), 
+                                  old("department"),
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
-                         <div class=" ">                            
-                            <input type="text" class="md-input" name="order_search_query" value="<?php echo e(old("order_search_query")); ?>">
+                             </div>
                         </div>
                           
 
-                         <div class="uk-width-medium-1-5">
+                          <div class="uk-width-medium-1-5">
                             <div class="uk-margin-small-top">
-                            <?php echo Form::select('order_search_query_in',array(""=>"All Fields","ACCOUNT_NAME"=>"By gl account name","ACCOUNT_CODE"=>"By account code"),old("order_search_query_in",""),array("data-md-selectize-bottom"=>"data-md-selectize-bottom")); ?>
+                                    <?php echo Form::select('grades', 
+                                (['' => 'Select Grade'] +$grades ), 
+                                  old("grade"),
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
 
-                            </div>
+                             </div>
+                        </div>
+                         
+                        <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    <?php echo Form::select('actor', 
+                                (['' => 'Select Position']+$positions ), 
+                                  old("position"),
+                                    ['class' => 'md-input parent','id'=>"parent"] ); ?>
+
+                             </div>
                         </div>
                         
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                   <?php echo Form::select('gender',array(""=>"All Gender","Male"=>"Male","Female"=>"Famale"),old("gender","")); ?>
 
-                          <div class="uk-width-medium-1-10 uk-text-center">                            
-                            <input class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="search_button"  value="Search" />
+                         
+                             </div>
                         </div>
-             
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                             <?php echo Form::select('leave',array("On Leave"=>"On Leave",'on duty'=>"On duty"),old('leave',''),array('placeholder'=>'Select leave status',"required"=>"required","class"=>"md-input",'id'=>"parent","v-form-ctrl"=>"","v-select"=>"leave")); ?>
+
+                             </div>
+                        </div>
+                         
                          
                       </form>          
 
-                       <div class="uk-width-medium-1-10 uk-text-center" style="margin-left: -31px"  >                            
-                            
-                              <i title="click to print" style="margin-top: 15px"class="material-icons md-36 uk-text-success" onclick="window.open('<?php echo action('GeneralLedgerController@print_all',old()); ?>','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500');"  >print</i>
-                        </div>
-                        <div class="uk-width-medium-1-5 uk-text-center" style="margin-left: -82px;margin-top: 23px"  >                            
-                            
-                            <a  onClick ="$('#gad').tableExport({type:'excel',escape:'false'});" title="Click to export to excel"class="btn-success btn-sm uk-margin-small-top">Export<i title="click to export" class=" fa fa-file-excel-o" ></i></a>
-                        </div>
-                        <div class="uk-width-medium-1-5 uk-text-center" style="margin-left: -119px;margin-top: 23px"  >                            
-                            
-                            <a  href="<?php echo e(url('add_account')); ?>" title="Click to add gl accounts"class="btn-danger btn-sm">GL Accounts<i title="click to add more gl accounts" class=" fa fa-plus-circle" ></i></a>
-                        </div>
+                        
                    
                       
                     </div>
                     
                     
                 </div>
-            </div>
  
 	<div class="uk-overflow-container">
             
                         <table id="dt_tableTools"class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
                                   <thead>
                                          <tr>
-                   <th>No</th><th>Employment Id</th><th>First Name</th><th>Last Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Father Name</th><th>Nationality</th><th>Passport Number</th><th>Photo</th><th>Photo A Path</th><th>Present Address</th><th>City</th><th>Country Id</th><th>Mobile</th><th>Phone</th><th>Email</th><th>Designations Id</th><th>Joining Date</th><th>Status</th>
-                </tr>
+                                             <th>No</th><th>StaffId</th><th>Photo</th><th>First Name</th><th>Last Name</th><th>Other Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Hometown</th><th>Place of Residence</th><th>Grade</th><th>Position</th><th>Dependents</th><th>Leave Status</th><th>SSNIT</th><th>Nationality</th><th>Date Hired</th><th>Phone</th><th>Email</th><th>Actions</th>
+                                         </tr>
                                     </thead>
                                     <tbody class="selects">
                                          
                                         
-                                        <?php foreach($data as   $employee): ?> 
-                                       
+                                        <?php foreach($data as   $employee=>$row): ?> 
+                                         <?php $obj = app('App\Http\Controllers\EmployeeController'); ?>
 
                                         <tr>
-                                            <td> <?php echo e($employee["employee_id"]); ?> </td>
-                                            <td> <?php echo e($employee["employment_id"]); ?> </td>
-                                            <td> <?php echo e($employee["first_name"]); ?> </td>
-                                            <td> <?php echo e($employee["last_name"]); ?> </td>
-                                            <td> <?php echo e($employee["date_of_birth"]); ?> </td>
-                                            <td> <?php echo e($employee["gender"]); ?> </td>
-                                            <td> <?php echo e($employee["maratial_status"]); ?> </td>
-                                            <td> <?php echo e($employee["father_name"]); ?> </td>
-                                            <td> <?php echo e($employee["nationality"]); ?> </td>
-                                            <td> <?php echo e($employee["passport_number"]); ?> </td>
-                                            <td> <?php echo e($employee["photo"]); ?> </td>
-                                            <td> <?php echo e($employee["photo_a_path"]); ?> </td>
-                                            <td> <?php echo e($employee["present_address"]); ?> </td>
-                                            <td> <?php echo e($employee["city"]); ?> </td>
-                                            <td> <?php echo e($employee["country_id"]); ?> </td>
-                                            <td> <?php echo e($employee["mobile"]); ?> </td>
-                                            <td> <?php echo e($employee["phone"]); ?> </td>
-                                            <td> <?php echo e($employee["email"]); ?> </td>
-                                            <td> <?php echo e($employee["designations_id"]); ?> </td>
-                                            <td> <?php echo e($employee["joining_date"]); ?> </td>
-                                            <td> <?php echo e($employee["status"]); ?> </td>
+                                            <td>   <?php echo $employee+1; ?> </td>
+                                            <td> <?php echo e($row->staffID); ?> </td>
+                                            <td><a href="addMember.php?member=<?php echo e($row->staffID); ?>&&update"><img class=""  <?php   $pic=  $obj->pictureid($row->staffID); echo $obj->picture("public/staffPics/$pic.jpg",90)  ?>   src="<?php echo file_exists("public/staffPics/$pic.jpg") ? "public/staffPics/$pic.jpg":"public/staffPics/user.jpg";?>" alt=" Picture of Employee Here"    /></a></td> 
+                                            <td> <?php echo e($row->Name); ?> </td>
+                                            <td> <?php echo e($row->surname); ?> </td>
+                                            <td> <?php echo e($row->othernames); ?> </td>
+                                            <td> <?php echo e($row->dob); ?> </td>
+                                            <td> <?php echo e($row->gender); ?> </td>
+                                            <td> <?php echo e($row->marital); ?> </td>
+                                            <td> <?php echo e($row->hometown); ?> </td>
+                                            <td> <?php echo e($row->placeofresidence); ?> </td>
+                                            <td> <?php echo e($row->grade); ?> </td>
+                                            <td> <?php echo e($row->position); ?> </td>
+                                           <td> <?php echo e($row->dependentsNo); ?> </td>
+                                             <td> <?php echo e($row->leaves); ?> </td>
+                                             <td> <?php echo e($row->ssnit); ?> </td>
+                                             <td> <?php echo e($row->nationality); ?> </td>
+                                             <td> <?php echo e($row->dateHired); ?> </td>
+                                             <td> <?php echo e($row->phone); ?> </td>
+                                             <td> <?php echo e($row->email); ?> </td>
+                                             
+                                         <td>
+                                             <a href="<?php echo e(url('Addbank/'.$row->id.'/edit')); ?>"      title="click to edit this record"class="btn btn-primary btn-sm">Edit</a>
+                                                
+                                               <?php echo Form::open(['action' => ['BankController@destroy', "id"=>$row->id], 'method' => 'DELETE', 'style' => 'display: inline;']); ?>
+
+                                                <button title="Delete this" type="submit" onclick="return confirm('Are you sure want to delete this record')" class="btn btn-danger btn-sm">Delete</button>
+                                               <?php echo Form::close(); ?>
+
+                                              </td> 
                                         </tr>
                                          <?php endforeach; ?>
                                     </tbody>

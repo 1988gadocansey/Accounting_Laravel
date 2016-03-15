@@ -13,187 +13,402 @@
                 {{ Session::get('error_message') }}
             </div>
          @endif
-   
- <h5>General Ledger Groups</h5>  
-   
-<div class="md-card">
-    
-     {!! Form::open(['url' => 'add_employees', 'class' => 'form-horizontal']) !!}
-
-    
-                          <div class="form-group {{ $errors->has('employee_id') ? 'has-error' : ''}}">
-                {!! Form::label('employee_id', 'Employee Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::number('employee_id', null, ['class' => 'form-control']) !!}
-                    {!! $errors->first('employee_id', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('employment_id') ? 'has-error' : ''}}">
-                {!! Form::label('employment_id', 'Employment Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('employment_id', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('employment_id', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('first_name') ? 'has-error' : ''}}">
-                {!! Form::label('first_name', 'First Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('first_name', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('first_name', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('last_name') ? 'has-error' : ''}}">
-                {!! Form::label('last_name', 'Last Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('last_name', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('last_name', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('date_of_birth') ? 'has-error' : ''}}">
-                {!! Form::label('date_of_birth', 'Date Of Birth: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::date('date_of_birth', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('date_of_birth', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('gender') ? 'has-error' : ''}}">
-                {!! Form::label('gender', 'Gender: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('gender', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('gender', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('maratial_status') ? 'has-error' : ''}}">
-                {!! Form::label('maratial_status', 'Maratial Status: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('maratial_status', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('maratial_status', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('father_name') ? 'has-error' : ''}}">
-                {!! Form::label('father_name', 'Father Name: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('father_name', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('father_name', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('nationality') ? 'has-error' : ''}}">
-                {!! Form::label('nationality', 'Nationality: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('nationality', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('nationality', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('passport_number') ? 'has-error' : ''}}">
-                {!! Form::label('passport_number', 'Passport Number: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('passport_number', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('passport_number', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('photo') ? 'has-error' : ''}}">
-                {!! Form::label('photo', 'Photo: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('photo', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('photo', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('photo_a_path') ? 'has-error' : ''}}">
-                {!! Form::label('photo_a_path', 'Photo A Path: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('photo_a_path', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('photo_a_path', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('present_address') ? 'has-error' : ''}}">
-                {!! Form::label('present_address', 'Present Address: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::textarea('present_address', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('present_address', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('city') ? 'has-error' : ''}}">
-                {!! Form::label('city', 'City: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('city', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('city', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('country_id') ? 'has-error' : ''}}">
-                {!! Form::label('country_id', 'Country Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::number('country_id', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('country_id', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('mobile') ? 'has-error' : ''}}">
-                {!! Form::label('mobile', 'Mobile: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('mobile', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('mobile', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('phone') ? 'has-error' : ''}}">
-                {!! Form::label('phone', 'Phone: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('phone', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('phone', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}}">
-                {!! Form::label('email', 'Email: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::text('email', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('designations_id') ? 'has-error' : ''}}">
-                {!! Form::label('designations_id', 'Designations Id: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::number('designations_id', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('designations_id', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('joining_date') ? 'has-error' : ''}}">
-                {!! Form::label('joining_date', 'Joining Date: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::date('joining_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('joining_date', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-            <div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
-                {!! Form::label('status', 'Status: ', ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
-                    {!! Form::number('status', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
-                </div>
-            </div>
-       <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-             <button type="submit" class="btn btn-primary btn-xs">Save</button>
-             <a href="{{ url('view') }}" type="button" class="btn btn-primary btn-xs">Back</a>
-        </div>
-    </div>
-    {!! Form::close() !!}
-
-    @if ($errors->any())
+   @if ($errors->any())
         <ul class="alert alert-danger">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
     @endif
+ <h5>Add Employees</h5>  
+   
+<div class="md-card">
+    
+       <form  novalidate id="wizard_advanced_form" class="uk-form-stacked"   action="{!!  url('add_employees')  !!}" method="post" accept-charset="utf-8"  name="employeeForm" enctype="multipart/form-data" v-form>
+
+                {!!  csrf_field() !!}
+                <div data-uk-observe="" id="wizard_advanced" role="application" class="wizard clearfix">
+                    <div class="steps clearfix">
+                        <ul role="tablist">
+                            <li role="tab" class="fill_form_header first current" aria-disabled="false" aria-selected="true" v-bind:class="{ 'error' : !in_payment_section}">
+                                <a aria-controls="wizard_advanced-p-0" href="#wizard_advanced-h-0" id="wizard_advanced-t-0">
+                                    <span class="current-info audible">current step: </span><span class="number">1</span> <span class="title">Step 1</span>
+                                </a>
+                            </li>
+                            <li role="tab" class="payment_header disabled" aria-disabled="true"   v-bind:class="{ 'error' : in_payment_section}" >
+                                <a aria-controls="wizard_advanced-p-1" href="#wizard_advanced-h-1" id="wizard_advanced-t-1">
+                                    <span class="number">2</span> <span class="title">Step 2</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class=" clearfix " style="box-sizing: border-box;display: block;padding:15px!important;position: relative;">
+
+                        <!-- first section -->
+                        {{-- <h3 id="wizard_advanced-h-0" tabindex="-1" class="title current">Fill Form</h3> --}}
+                        <section id="fill_form_section" role="tabpanel" aria-labelledby="fill form section" class="body step-0 current" data-step="0" aria-hidden="false"   v-bind:class="{'uk-hidden': in_payment_section} ">
+
+                              <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-4 uk-grid-width-large-1-4">
+
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">First Name :</label><input type="text" id="fname" name="fname" class="md-input"   required="required"    value="{{ old('fname','') }}"   v-model="fname"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.fname.$error.required">Please enter your first name</p>                                      
+                                    </div>
+                                </div>
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Last Name :</label><input type="text" id="surname" name="surname" class="md-input"   required="required"    value="{{ old('surname','') }}"   v-model="surname"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.surname.$error.required">Please enter your surname</p>                                      
+                                    </div>
+                                </div>
+                                  
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_skype">Other Names :</label><input type="text" id="oname" name="othernames" v-form-ctrl  class="md-input"   value="{{ old('othernames','') }}"  v-model="othernames"      /><span class="md-input-bar"></span></div>         
+                                         
+                                    </div>
+                                </div>
+
+                                  <div class="parsley-row">
+                                      <div class="uk-input-group">
+
+                                          <label for="">Title :</label>     
+                                          <div class="md-input-wrapper md-input-filled">
+                                              {!!   Form::select('title',array("Mr"=>"Mr",'Mrs'=>"Mrs",'Miss'=>'Miss'),old('title',''),array('placeholder'=>'Select title',"required"=>"required","class"=>"md-input","v-model"=>"title","v-form-ctrl"=>"","v-select"=>"title"))  !!}
+                                              <span class="md-input-bar"></span>
+                                          </div>    
+                                          <p class="uk-text-danger uk-text-small"  v-if="employeeForm.title.$error.required">Title is required</p>                                        
+                                      </div>
+                                  </div>
+
+                            </div>
+                            
+                            
+                            
+                            <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-4 uk-grid-width-large-1-4">
+
+
+                               <div class="parsley-row">
+                                      <div class="uk-input-group">
+
+                                          <label for="">Gender :</label>     
+                                          <div class="md-input-wrapper md-input-filled">
+                                              {!!   Form::select('gender',array("Male"=>"Male",'Female'=>"Female"),old('gender',''),array('placeholder'=>'Select gender',"required"=>"required","class"=>"md-input","v-model"=>"gender","v-form-ctrl"=>"","v-select"=>"gender"))  !!}
+                                              <span class="md-input-bar"></span>
+                                          </div>    
+                                          <p class="uk-text-danger uk-text-small"  v-if="employeeForm.gender.$error.required">Gender is required</p>                                        
+                                      </div>
+                                  </div>
+                                 <div class="parsley-row">
+                                      <div class="uk-input-group">
+
+                                          <label for="">Marital Status :</label>     
+                                          <div class="md-input-wrapper md-input-filled">
+                                              {!!   Form::select('marital_status',array("Married"=>"Married",'Single'=>"Single"),old('marital_status',''),array('placeholder'=>'Select marital status',"required"=>"required","class"=>"md-input","v-model"=>"marital_status","v-form-ctrl"=>"","v-select"=>"marital_status"))  !!}
+                                              <span class="md-input-bar"></span>
+                                          </div>    
+                                          <p class="uk-text-danger uk-text-small"  v-if="employeeForm.marital_status.$error.required">Marital Status is required</p>                                        
+                                      </div>
+                                  </div>
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                        
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Phone N<u>o</u> :</label><input type="text" id="tel" name="phone" class="md-input" data-parsley-type="digits" minlength="10"  required="required"   maxlength="10" value="{{ old('tel','') }}"  pattern='^[0-9]{10}$'  v-model="tel"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.tel.$invalid">Please enter a valid phone number of 10 digits</p>                                      
+                                    </div>
+                                </div>
+
+                                
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                        
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_twitter">Date of Birth :</label><input type="text" name="dob" class="md-input" data-uk-datepicker="{format:'DD/MM/YYYY'}" required="required" value="{{  old('dob','') }}"  v-model="dob"  v-form-ctrl   ><span class="md-input-bar"></span></div>
+                                        <p class="uk-text-danger uk-text-small " v-if="employeeForm.dob.$error.required" >Date of birth is required</p>                                           
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-4 uk-grid-width-large-1-4">
+                                 <div class="parsley-row">
+                                <div class="uk-input-group">
+
+                                    <label for="">Leave Status :</label>     
+                                    <div class="md-input-wrapper md-input-filled">
+                                        {!!   Form::select('leave',array("On Leave"=>"On Leave",'on duty'=>"On duty"),old('leave',''),array('placeholder'=>'Select leave status',"required"=>"required","class"=>"md-input","v-model"=>"leave","v-form-ctrl"=>"","v-select"=>"leave"))  !!}
+                                        <span class="md-input-bar"></span>
+                                    </div>    
+                                    <p class="uk-text-danger uk-text-small"  v-if="employeeForm.leave.$error.required">Leave Status is required</p>                                        
+                                </div>
+                            </div>
+                              
+                           
+
+                          <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Nationality :</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  {!!   Form::select('country',$country,old('country',''),array("required"=>"required","class"=>"md-input","id"=>"country","v-model"=>"country","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"{{old('country')}}")   )  !!}
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.country.$error.required">Nationality is required</p>                                        
+                          </div>
+                      </div>
+
+                    <div class="parsley-row">
+                        <div class="uk-input-group">
+
+                            <div class="md-input-wrapper md-input-filled"><label for="wizard_skype">Place of residence :</label><input type="text" id="residence" name="residence" v-form-ctrl  class="md-input"   value="{{ old('residence','') }}"  v-model="residence"      /><span class="md-input-bar"></span></div>         
+
+                        </div>
+                    </div>
+                     <div class="parsley-row">
+                    <div class="uk-input-group">
+
+                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Contact Address :</label><input type="text" id="contact" name="contact" class="md-input"   required="required"    value="{{ old('contact','') }}"   v-model="contact"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.contact.$error.required">Contact Address is required</p>                                      
+                    </div>
+                </div>
+                        
+
+
+                </div>
+
+                 <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-4 uk-grid-width-large-1-4">
+
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Hometown :</label><input type="text" id="hometown" name="hometown" class="md-input"   required="required"    value="{{ old('hometown','') }}"   v-model="hometown"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.hometown.$error.required">Hometown is required</p>                                      
+                                    </div>
+                                </div>
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Level of Education :</label><input type="text" id="education" name="education" class="md-input"   required="required"    value="{{ old('education','') }}"   v-model="education"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.education.$error.required">Leave of education is required</p>                                      
+                                    </div>
+                                </div>
+                                  
+                                 <div class="parsley-row">
+                                     <div class="uk-input-group">
+
+                                         <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Email :</label><input type="email" id="email" name="email" class="md-input"  value="{{ old('email','') }}"  v-model="email"v-form-ctrl  ><span class="md-input-bar"></span></div>                                            
+                                         <p class="uk-text-danger uk-text-small "  v-if="employeeForm.email.$invalid"  >Please enter a valid email address</p>
+                                     </div>
+                                 </div>
+
+                                 <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">SSNIT :</label><input type="text" id="ssnit" name="ssnit" class="md-input"   required="required"    value="{{ old('ssnit','') }}"   v-model="ssnit"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.ssnit.$error.required">SSNIT is required</p>                                      
+                                    </div>
+                                </div>
+
+                            
+                 </div>
+
+
+                             <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-4 uk-grid-width-large-1-4">
+
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Dependents No :</label><input type="number" id="dependents" name="dependents" class="md-input"       value="{{ old('dependents','') }}"   v-model="dependents"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                                                         
+                                    </div>
+                                </div>
+
+                                <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Date Hired :</label><input type="text" id="hired" name="hired" class="md-input"  data-uk-datepicker="{format:'DD/MM/YYYY'}"    value="{{ old('hired','') }}"   v-model="hired"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        
+                                    </div>
+                                </div>
+                                 
+                                 <div class="parsley-row">
+                                    <div class="uk-input-group">
+                                         
+                                        <div class="md-input-wrapper md-input-filled"><label for="wizard_email">Position :</label><input type="text" id="position" name="position" class="md-input"   required="required"    value="{{ old('position','') }}"   v-model="position"  v-form-ctrl><span class="md-input-bar"></span></div>                
+                                        <p  class=" uk-text-danger uk-text-small  "   v-if="employeeForm.position.$error.required">Position is required</p>                                      
+                                    </div>
+                                </div>
+                                  <div class="parsley-row">
+                                      <div class="uk-input-group">
+
+                                          <label for="">Grade :</label>     
+                                          <div class="md-input-wrapper md-input-filled">
+                                              {!!   Form::select('grade',array("Junior"=>"Junior",'Intermediate'=>"Intermediate",'Senior'=>"Senior",'Intermediate'=>"Intermediate"),old('grade',''),array('placeholder'=>'Select marital status' ,"class"=>"md-input","v-model"=>"grade","v-form-ctrl"=>"","v-select"=>"grade"))  !!}
+                                              <span class="md-input-bar"></span>
+                                          </div>    
+                                              </div>
+                                  </div>
+
+                            
+                 </div>
+      </section>
+                        
+      <!-- second section -->
+      {{-- <h3 id="payment-heading-1" tabindex="-1" class="title">Payment</h3> --}}
+      <section id="payment_section" role="tabpanel" aria-labelledby="payment section" class="body step-1 "  v-bind:class="{'uk-hidden': !in_payment_section} "  data-step="1"  aria-hidden="true">
+         
+                        <div class="uk-width-1-1">
+                            <div id="file_upload-drop" style="margin-left:0px" class="uk-file-upload">
+                                  <div  class="fileinput fileinput-new" data-provides="fileinput" align="center">
+                                <div class="fileinput-new thumbnail" style="width: 200px; height: 186px;">
+                                       </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
+                                </div>
+                                <div>
+                                    <span class="btn default btn-file">
+                                        <span class="md-btn md-btn-success fileinput-new">
+                                            Select image </span>
+                                        <span class="md-btn md-btn-warning fileinput-exists">
+                                            Change </span>
+                                        
+                                        <input type="file" name="files" required=""  >
+                                    </span>
+                                    <a href="javascript:;" class="md-btn md-btn-danger fileinput-exists" data-dismiss="fileinput">
+                                        Remove </a>
+                                        <button type="submit" name="photos" class="md-btn md-btn-primary">
+                                            Upload </button>
+                                </div>
+
+
+
+                            </div>
+                             
+                            
+                            </div>
+                            
+                        </div>
+                   
+
  
+</section>
+ 
+</div>
+<div class="actions clearfix "  >
+    <ul aria-label="Pagination" role="menu">
+        <li class="button_previous " aria-disabled="true"  v-on:click="go_to_fill_form_section()"  v-show="in_payment_section==true"  >
+            <a role="menuitem" href="#previous" >
+                <i class="material-icons"></i> Previous
+            </a>
+        </li>
+        <li class="button_next button"   v-on:click="go_to_payment_section()"  aria-hidden="false" aria-disabled="false"  v-show="employeeForm.$valid && in_payment_section==false"  > 
+            <a role="menuitem" href="#next"  >Next 
+                <i class="material-icons">
+                </i>
+            </a>
+        </li>
+        <li class="button_finish "    aria-hidden="true"  v-show="employeeForm.$valid && in_payment_section==true"  >
+            <input class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="submit_order"  value="Submit"   v-on:click="submit_form"  />
+        </li>
+    </ul>
+</div>
+</div>
+ 
+       </form>
+
+    <div class="uk-modal" id="confirm_modal"   >
+    <div class="uk-modal-dialog"  v-el:confirm_modal>
+        <div class="uk-modal-header uk-text-large uk-text-success uk-text-center" >Confirm Order Details?</div>
+        Are you certain of all the info
+        {{-- <div class="uk-modal-footer ">
+        <center>
+          <button class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="submit_order" > Cancel</button>
+          <button class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="submit_order" > Ok</button>
+          </center>
+        </div> --}}
+    </div>
+</div>
+</div>
 @endsection
 @section('scripts')
 
-<script src="{!! url('public/plugins/parsleyjs/dist/parsley.min.js') !!}"></script>
-<link rel="stylesheet" href="{!! url('public/assets/css/select2.min.css') !!}" media="all">
-<script src="{!! url('public/assets/js/pages/forms_advanced.min.js') !!}"></script>
+<link rel="stylesheet" href="{!! url('public/css/select2.min.css') !!}" media="all">
+<script src="{!! url('public/js/select2.min.js') !!}"></script>
 
-<script type="text/javascript">
-      
- 
+<script src="{!! url('public/js/vue.min.js') !!}"></script>
+<script src="{!! url('public/js/vue-form.min.js') !!}"></script>
+ <link rel="stylesheet" href="public/plugins/bootstrap-fileinput/bootstrap-fileinput.css" media="all">
+<script src="{!! url('public/plugins/bootstrap-fileinput/bootstrap-fileinput.js') !!}"></script>
+<script>
+
+
+//code for ensuring vuejs can work with select2 select boxes
+Vue.directive('select', {
+  twoWay: true,
+  priority: 1000,
+  params: [ 'options'],
+  bind: function () {
+    var self = this
+    $(this.el)
+      .select2({
+        data: this.params.options,
+         width: "resolve"
+      })
+      .on('change', function () {
+        self.vm.$set(this.name,this.value)
+        Vue.set(self.vm.$data,this.name,this.value)
+      })
+  },
+  update: function (newValue,oldValue) {
+    $(this.el).val(newValue).trigger('change')
+  },
+  unbind: function () {
+    $(this.el).off().select2('destroy')
+  }
+})
+
+
+var vm = new Vue({
+  el: "body",
+  ready : function() {
+  },
+ data : {
+  college : "{{  old("college",'') }}",
+  program : "{{  old("program",'') }}",
+  yoa : "{{  old("yoa",'') }}",
+  yoc : "{{  old("yoc",'') }}",
+  delivery : "{{  old("delivery",'') }}",
+  country : "{{  old("country",'') }}",
+ options: [      
+    ],
+    in_payment_section : false,
+  },
+  methods : {
+    go_to_payment_section : function (event){
+    UIkit.modal.confirm(vm.$els.confirm_modal.innerHTML, function(){
+        
+      vm.$data.in_payment_section=true
+})
+
+    },
+    submit_form : function(){
+      return (function(modal){ modal = UIkit.modal.blockUI("<div class='uk-text-center'>Processing Transcript Order<br/><img class='uk-thumbnail uk-margin-top' src='{!! url('public/assets/img/spinners/spinner.gif')  !!}' /></div>"); setTimeout(function(){ modal.hide() }, 50000) })();
+    },
+        
+    go_to_fill_form_section : function (event){    
+      vm.$data.in_payment_section=false
+    }
+  }
+})
 
 </script>
 @endsection
