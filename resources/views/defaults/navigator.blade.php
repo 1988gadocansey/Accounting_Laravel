@@ -216,22 +216,27 @@
                             <span class="menu_title"> Leave Management </span>
                         </h3>                    
                         <div class="uk-accordion-content">
+                            
+                            
                             <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('leave_setup') }}" ><i class='fa fa-file-text'></i> Leave Set up</a></span>
-                            </p>
-                            <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('add_departments') }}" ><i class='fa fa-plus-circle'></i>Set working Days </a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('add_leave_category') }}" ><i class='fa fa-plus-circle'></i>Add Leave Categories </a></span>
                             </p>
                              <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('add_departments') }}" ><i class='fa fa-plus-circle'></i>Leave Categories </a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('view_leave_category') }}" ><i class='fa fa-plus-circle'></i>Leave Categories </a></span>
                             </p>
                             <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('add_departments') }}" ><i class='fa fa-plus-circle'></i>Leave </a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('add_leave_setup') }}" ><i class='fa fa-file-text'></i> Add Leave Set up</a></span>
+                            </p>
+                             <p class="">
+                                <span class="md-list-heading"><a target='main'  href="{{ url('view_leave_setup') }}" ><i class='fa fa-file-text'></i> View Leave Set up</a></span>
                             </p>
                             <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('view_banks') }}" ><i class='fa fa-file-text'></i> Holidays List</a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('apply_leave') }}" ><i class='fa fa-plus-circle'></i>Leave Request Form </a></span>
                             </p>
-                            
+                            <p class="">
+                                <span class="md-list-heading"><a target='main'  href="{{ url('view_leaves') }}" ><i class='fa fa-file-text'></i>View Leaves Requests </a></span>
+                            </p>
+                           
                              
                         </div>
                         

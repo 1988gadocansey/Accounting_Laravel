@@ -87,25 +87,62 @@
                     
                     
                 </div>
- 
+      <div class="md-card-content">
+
+                <form action="{!!    url('view_employees')  !!}"  method="get" accept-charset="utf-8" novalidate>
+                   {!!  csrf_field()  !!}
+                    <div class="uk-grid" data-uk-grid-margin="">
+
+                         
+
+                         <div class=" ">                            
+                             <input type="text" class="md-input" name="search" placeholder="search employee here" value="{{  old("search")  }}">
+                        </div>
+                         <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                            {!!   Form::select('by',array(""=>"All people","staffID"=>"Staff ID","surname"=>"Surname","othernames"=>"Other Name"),old("by",""))  !!}
+                            </div>
+                        </div>
+
+                          
+
+                          <div class="uk-width-medium-1-10 uk-text-center">                            
+                            <input class="md-btn md-btn-primary uk-margin-small-top" type="submit" name="search_button"  value="Search" />
+                        </div>
+
+                        
+                        <div class="uk-width-medium-1-10 uk-text-center" style="margin-left: 12px"  >                            
+                            
+                              <i title="click to print" style="margin-top: 9px"class="material-icons md-36 uk-text-success" onclick="window.open('{!! action('PeopleController@print_all',old()) !!}','','location=1,status=1,menubar=yes,scrollbars=yes,resizable=yes,width=1000,height=500');"  >print</i>
+                        </div>
+                        
+                         
+                        
+                      
+                    </div>
+                    </form>
+                </div>
+     
+    
 	<div class="uk-overflow-container">
             
                         <table id="dt_tableTools"class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
                                   <thead>
                                          <tr>
-                                             <th>No</th><th>StaffId</th><th>Photo</th><th>First Name</th><th>Last Name</th><th>Other Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Hometown</th><th>Place of Residence</th><th>Grade</th><th>Position</th><th>Dependents</th><th>Leave Status</th><th>SSNIT</th><th>Nationality</th><th>Date Hired</th><th>Phone</th><th>Email</th><th>Actions</th>
+                                             <th>No</th><th>StaffId</th><th>Photo</th><th>First Name</th><th>Last Name</th><th>Other Name</th><th>Date Of Birth</th><th>Gender</th><th>Maratial Status</th><th>Hometown</th><th>Place of Residence</th><th>Grade</th><th>Position</th><th>Dependents</th><th>Leave Status</th><th>SSNIT</th><th>Nationality</th><th>Date Hired</th><th>Phone</th><th>Email</th><th>Designations</th><th>Supervisor</th><th>Department</th><th>Actions</th>
                                          </tr>
                                     </thead>
                                     <tbody class="selects">
                                          
                                         
-                                        @foreach($data as   $employee=>$row) 
+                                       @foreach($data as   $employee=>$row) 
                                          @inject('obj', 'App\Http\Controllers\EmployeeController')
 
                                         <tr>
                                             <td>   {!! $employee+1 !!} </td>
                                             <td> {{ $row->staffID }} </td>
-                                            <td><a href="addMember.php?member={{ $row->staffID }}&&update"><img class=""  <?php   $pic=  $obj->pictureid($row->staffID); echo $obj->picture("public/staffPics/$pic.jpg",90)  ?>   src="<?php echo file_exists("public/staffPics/$pic.jpg") ? "public/staffPics/$pic.jpg":"public/staffPics/user.jpg";?>" alt=" Picture of Employee Here"    /></a></td> 
+                                             <td><a href="addMember.php?member={{ $row->staffID }}&&update"><img class=""  <?php   $pic=  $obj->pictureid($row->staffID); echo $obj->picture("public/staffPics/$pic.jpg",90)  ?>   src="<?php echo file_exists("public/staffPics/$pic.jpg") ? "public/staffPics/$pic.jpg":"public/staffPics/user.jpg";?>" alt=" Picture of Employee Here"    /></a></td> 
+        
                                             <td> {{ $row->Name }} </td>
                                             <td> {{ $row->surname }} </td>
                                             <td> {{ $row->othernames }} </td>
@@ -123,14 +160,23 @@
                                              <td> {{ $row->dateHired}} </td>
                                              <td> {{ $row->phone}} </td>
                                              <td> {{ $row->email}} </td>
+                                             <td> {{ $row->Designation}} </td>
+                                             <td> {{ $row->supervisor}} </td>
+                                             <td> {{ @$row->departments->DEPARTMENT_NAME}} </td>
                                              
                                          <td>
                                              <a href="{{  url('Addbank/'.$row->id.'/edit')  }}"      title="click to edit this record"class="btn btn-primary btn-sm">Edit</a>
                                                 
-                                               {!! Form::open(['action' => ['BankController@destroy', "id"=>$row->id], 'method' => 'DELETE', 'style' => 'display: inline;']) !!}
+                                               {!! Form::open(['action' => ['EmployeeController@destroy', "id"=>$row->id], 'method' => 'DELETE', 'style' => 'display: inline;']) !!}
                                                 <button title="Delete this" type="submit" onclick="return confirm('Are you sure want to delete this record')" class="btn btn-danger btn-sm">Delete</button>
                                                {!! Form::close()!!}
-                                              </td> 
+                                               <?php
+                                               if($row->leaves=='on duty'){
+                                                   ?>
+                                              <a href="{{  url('apply_leave/'.$row->id.'/person')  }}"      title="click to edit this record"class="btn btn-primary btn-sm">Apply for leave</a>
+                                             
+                                             <?php  } ?>
+                                         </td> 
                                         </tr>
                                          @endforeach
                                     </tbody>

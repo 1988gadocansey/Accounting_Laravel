@@ -19,7 +19,17 @@ class EmployeeModel extends Model
      *
      * @var array
      */
+     protected $primaryKey="id";
+     protected $guarded = ['ID'];
     
-    public $timestamps = false;
+    public function departments(){
+        return $this->belongsTo('App\Models\DepartmentModel', "department","ID");
+    }
+    public function leave() {
+        return $this->belongsTo('App\Models\LeaveApplicationModel', "id","Employee");
+    }
+    
+    
+    
 
 }

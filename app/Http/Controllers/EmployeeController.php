@@ -26,16 +26,24 @@ class EmployeeController extends Controller
      *
      * @return Response
      */
-    public function index()    
+    public function index(Request $request)    
     {  
-        $data=  EmployeeModel::query()->paginate();
-
+        
+        $employee=  EmployeeModel::query() ;
+        if ($request->has('search') && trim($request->input('search')) != "") {
+           // dd($request);
+            $employee->where($request->input('by'), "LIKE", "%" . $request->input("search", "") . "%");
+          }
+             
+            $data = $employee->paginate(500);
         return view('HR.employees.index')->with("data",$data)
                 ->with('country', $this->countries())
                 ->with('positions', $this->position())
                 ->with('grades', $this->grades())
-                ->with('departments', $this->department());
+                ->with('departments', $this->department())
+                ->with('designation', $this->designation());
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -67,9 +75,38 @@ class EmployeeController extends Controller
         return $department ;
         
     }
+    public function getLeave(Request $request){
+           $employee=new DepartmentController();
+        $leaveType=new LeaveSetupController();
+         
+        // employee is in session
+        $request->session()->put('type', $request->input('type'));
+        
+        
+        $type= Models\LeaveSetUpModel::where('Type', $request->input('type'))->first();
+         
+        redirect('apply_leave')->with('leaveDetails', $type);
+     
+        
+    }
+
+    public function getEmployee(Request $request){
+        
+        
+    }
+    public function designation() {
+
+         $design=\DB::table('tbl_designation')->lists('designation','designation');
+        return $design ;
+        
+    }
     public function create()
     {
-        return view('HR.employees.create')->with('country', $this->countries());
+         $employee=\DB::table('tbl_employee')->lists('staffID','id');
+         
+        return view('HR.employees.create')->with('country', $this->countries())
+                ->with('department', $this->department())->with('designation', $this->designation())
+                ->with('employee', $employee);
     }
 
     /**
@@ -80,7 +117,7 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
          
-        $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required', 'files' => 'required', 'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required' ]);
+        $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required', 'files' => 'required', 'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required','supervisor' => 'required' ]);
 
       $code=$this->getStaffID();
       $employee=new Models\EmployeeModel();
@@ -105,6 +142,10 @@ class EmployeeController extends Controller
       $employee->leaves=$request->input('leave');     
       $employee->hometown=$request->input('hometown'); 
       $employee->education=$request->input('education'); 
+      $employee->department=$request->input('department'); 
+      $employee->designation=$request->input('designation'); 
+      
+      $employee->supervisor=$request->input('supervisor');
       $employee->dependentsNo=$request->input('dependents');
       if($employee->save()){
           $valid_exts = array('jpeg', 'jpg'); // valid extensions
@@ -194,13 +235,13 @@ class EmployeeController extends Controller
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        EmployeeModel::destroy($id);
+        EmployeeModel::destroy($request->input("id"));
 
-        Session::flash('flash_message', 'TblEmployee deleted!');
+        Session::flash('success_message', ' Employee deleted!');
 
-        return redirect('tblemployee');
+        return redirect('view_employees');
     }
 
 

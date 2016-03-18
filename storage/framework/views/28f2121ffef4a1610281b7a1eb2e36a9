@@ -270,6 +270,50 @@
 
                             
                  </div>
+                <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-2 uk-grid-width-large-1-2">
+
+
+                     <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Department :</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  <?php echo Form::select('department',$department,old('department',''),array("required"=>"required","class"=>"md-input","id"=>"department","v-model"=>"department","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"<?php echo e(old('department')); ?>")   ); ?>
+
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.department.$error.required">Department is required</p>                                        
+                          </div>
+                      </div>
+                    <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Supervisor :</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  <?php echo Form::select('supervisor',$employee,old('department',''),array("required"=>"required","class"=>"md-input","id"=>"supervisor","v-model"=>"supervisor","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"<?php echo e(old('supervisor')); ?>")   ); ?>
+
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.supervisor.$error.required">Supervisor is required</p>                                        
+                          </div>
+                      </div>
+
+                    <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Designation:</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  <?php echo Form::select('designation',$designation,old('designation',''),array("required"=>"required","class"=>"md-input","id"=>"designation","v-model"=>"designation","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"<?php echo e(old('designation')); ?>")   ); ?>
+
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.designation.$error.required">Designation is required</p>                                        
+                          </div>
+                      </div>    
+                 </div>
       </section>
                         
       <!-- second section -->
@@ -391,11 +435,11 @@ var vm = new Vue({
   ready : function() {
   },
  data : {
-  college : "<?php echo e(old("college",'')); ?>",
-  program : "<?php echo e(old("program",'')); ?>",
-  yoa : "<?php echo e(old("yoa",'')); ?>",
-  yoc : "<?php echo e(old("yoc",'')); ?>",
-  delivery : "<?php echo e(old("delivery",'')); ?>",
+  department : "<?php echo e(old("department",'')); ?>",
+  position : "<?php echo e(old("position",'')); ?>",
+  grade : "<?php echo e(old("grade",'')); ?>",
+  title : "<?php echo e(old("title",'')); ?>",
+  marital: "<?php echo e(old("marital",'')); ?>",
   country : "<?php echo e(old("country",'')); ?>",
  options: [      
     ],

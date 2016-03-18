@@ -1,58 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\DepartmentModel;
-use App\Http\Controllers\Controller;
+
 use App\Http\Requests;
-use App\Models;
+use App\Http\Controllers\Controller;
+
+use App\Models\LeaveSetUpModel;
 use Illuminate\Http\Request;
+use App\Models;
+use Carbon\Carbon;
+use Session;
 
-class DepartmentController extends Controller {
+class LeaveSetupController extends Controller
+{
 
-	 
-    
-    public function show_query() {
-
-		\DB::listen(function ($sql, $binding, $timing) {
-			print_r("<pre>");
-			var_dump($sql);
-			var_dump($binding);
-		}
-		);
-	}
-    
-    public function create(){
-        return view('HR.departments.create')->with('employee', $this->employees());
+    public function log_query() {
+        \DB::listen(function ($sql, $binding, $timing) {
+            \Log::info('showing query', array('sql' => $sql, 'bindings' => $binding));
+        }
+        );
     }
-    public function employees() {
 
-        $employee = \DB::table('tbl_employee')
-                ->lists('STAFFID', 'ID');
-        return $employee;
-    }
-    
-    public function store(Request $request){
-        $this->validate($request, ['name' => 'required', 'phone' => 'required', 'hod' => 'required', ]);
-
-          
-         $department=new DepartmentModel();
-      
-         $department->DEPARTMENT_NAME=$request->input('name');
-         $department->DEPARTMENT_HEAD=$request->input('hod');
-         $department->DEPARTMENT_CONTACT=$request->input('phone');
-         $department->NOTE=$request->input('note');
-      if($department->save()){
-        \Session::flash('success_message', 'Department added!');
-        return redirect('view_departments');
-      }
-      else{
-          \Session::flash('error_message', 'Error adding department!');
-      }
-        
-    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
     public function index()    
     {  
-        $table = (new DepartmentModel)->getTable();
+            $table = (new LeaveSetUpModel)->getTable();
         $table = '`' . str_replace("'", "", $table) . '`';
         $query = \DB::select(\DB::raw("show full columns from " . $table));
         //add properties or attributes for datatables
@@ -63,7 +39,7 @@ class DepartmentController extends Controller {
             $value->searchable = true;
             $value->orderable = true;
             $value->visible = true;
-            $value->title = studly_case($value->Field);
+            $value->title = $value->Field;
 
             if(str_contains($value->Type,"blob")){
             $value->searchable = false;
@@ -73,14 +49,123 @@ class DepartmentController extends Controller {
         }
 
         //hide and make id column unsearchable
-        @$data['ID']->searchable = false;
-        $data[$value->Field] = $value;
-        
-        @$data['ID']->visible = false;
-        return view('HR.departments.index')->with("data",$data);    
+        @$data['id']->searchable = false;
+        @$data['id']->visible = false;
+ return view('HR.leave.view_setup')->with("data",$data);  
     }
-    public function search(Request $request){
-         $table = (new  DepartmentModel)->getTable();
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('HR.leave.add_setup')->with('leave', $this->types());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, ['type' => 'required', 'duration' => 'required', 'pay' => 'required', 'qualify' => 'required', ]);
+
+          
+        $leave=new  LeaveSetUpModel();
+      
+        $leave->Type = $request->input('type');
+        $leave->Paid = $request->input('pay');
+        $leave->duration = $request->input('duration');
+        $leave->Working_Days = $request->input('qualify');
+        $leave->note = $request->input('note');
+        if($leave->save()){
+        Session::flash('success_message', 'Leave Setup added!');
+
+        return redirect('view_leave_setup');
+      }
+      else {
+          Session::flash('error_message', 'Leave Setup Item exist!');
+
+        return redirect('view_leave_setup');
+      }
+    }
+    public function types() {
+
+        $type = \DB::table('tbl_leave_category')
+                ->lists('category', 'id');
+        return $type;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $tblleavesetup = LeaveSetUpModel::findOrFail($id);
+
+        return view('HR.leave.view_setup', compact('tblleavesetup'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $data = LeaveSetUpModel::find($id);
+
+        return view('HR.leave.edit_setup')->with('data', $data)->with('leave', $this->types());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     *
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        
+        $tblleavesetup = LeaveSetUpModel::findOrFail($id);
+        $tblleavesetup->update($request->all());
+
+        Session::flash('success_message', 'Leave Setup Item updated!');
+
+       return redirect('view_leave_setup');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        LeaveSetUpModel::destroy($id);
+
+        Session::flash('success_message', 'Leave Setup Item deleted!');
+
+        return redirect('view_leave_setup');
+    }
+
+
+   
+   public function search(Request $request) {
+        // $this->log_query();
+        $table = (new LeaveSetUpModel)->getTable();
         $table = '`' . str_replace("'", "", $table) . '`';
         // get column info from table
         $column_query = collect(\DB::select(\DB::raw("show full columns from " . $table)));
@@ -92,7 +177,7 @@ class DepartmentController extends Controller {
         $start = $request['start'];
         $search_item = $request['search']['value'];
         // $query = \DB::table(\DB::raw($table));
-        $query = DepartmentModel::query();
+        $query = LeaveSetUpModel::query();
        //add columns to search
         foreach ($request['columns'] as $key => $column) {
             if ($column['searchable'] == "true") {
@@ -102,6 +187,7 @@ class DepartmentController extends Controller {
             }
         }
         //add order to search by
+        if($request->has('order')){
         foreach ($request['order'] as $key => $value) {
             //get info abt column being used for ordering from requests["columns"]
             $request_column = $request["columns"][$value['column']];
@@ -110,9 +196,9 @@ class DepartmentController extends Controller {
 
             }
         }
-
+        }
         // $total_table_records = \DB::table(\DB::raw($table))->count();
-        $total_table_records = DepartmentModel::count();
+        $total_table_records = LeaveSetUpModel::count();
         $query_results_total = $query->count();
         $query_results = $query->take($len)->skip($start)->get();
         $query_results = $query_results->toArray();
@@ -128,7 +214,7 @@ class DepartmentController extends Controller {
             }
             //add the counter column to help with numbering
             $query_results[$keys]["thecounter"] = $keys + $start + 1;
-            $query_results[$keys]["button_actions"] = $this->addButtonActions($query_results[$keys]['ID']);
+            $query_results[$keys]["button_actions"] = $this->addButtonActions($query_results[$keys]['id']);
 
         }
 
@@ -141,11 +227,13 @@ class DepartmentController extends Controller {
     }
 
     public function addButtonActions($id) {
-        $string = "<a href='" . route('view_departments.edit', array($id)) . "' class='md-btn md-btn-primary md-btn-small'>Edit</a>&nbsp;";
-        $string .= "<a href='" . url('view_departments', array($id)) . "' class='md-btn md-btn-success md-btn-small'>View</a>&nbsp;";
+        $string = "<a href='". route('view_leave_setup.edit', array($id)) . "' class='btn btn-success btn-xs'>Edit</a>&nbsp;";
+    
         return $string;
     }
-    public function color_search_results($str1, $str2) {
+
+
+public function color_search_results($str1, $str2) {
         $kwicLen = strlen($str1);
 
         $kwicArray = array();
@@ -169,7 +257,5 @@ class DepartmentController extends Controller {
         return ($str2);
     }
 
-    
 
 }
-

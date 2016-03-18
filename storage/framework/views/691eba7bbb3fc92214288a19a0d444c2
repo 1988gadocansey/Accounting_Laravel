@@ -1,0 +1,84 @@
+<?php $__env->startSection('content'); ?>
+<?php if(session('alert-success')): ?>
+ 
+<div style="text-align: center" class="uk-alert uk-alert-success" data-uk-alert="">
+        <?php echo e(session('alert-success')); ?>
+
+    </div>
+<?php endif; ?>
+<!-- if there are login errors, show them here -->
+     <?php if(count($errors) > 0): ?>
+
+    <div class="uk-form-row">
+        <div class="alert alert-danger" style="background-color: red;color: white">
+
+              <ul>
+                <?php foreach($errors->all() as $error): ?>
+                  <li> <?php echo e($error); ?> </li>
+                <?php endforeach; ?>
+          </ul>
+    </div>
+  </div>
+<?php endif; ?>
+<center><h3 class="heading_a">Create Departments  Here</h3></center>
+<p>&nbsp;</p>
+	 <form action=""   method="post" class="form-horizontal row-border"   id="form"  accept-charset="utf-8"    v-form>
+             <div class="uk-grid" data-uk-grid-margin>
+                  <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <div class="uk-width-medium-1-2">
+                            <div class="uk-form-row">
+                                <div class="uk-grid">
+                                    
+                                    
+                                    <div class="uk-width-medium-1-2">
+                                        <label> Department Name</label>
+                                        <input type="text" class="md-input" name="name" required=""   />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-form-row">
+                                <label>Department Telephone</label>
+                                <input type="text" class="md-input" name="phone" required="" />
+                            </div>
+                            <div class="uk-form-row">
+                               
+                                <label>Head of Department</label>
+                                <div class="uk-width-medium-1-1">
+                               <?php echo Form::select('hod', 
+                                (['0' => 'Select HOD'] + $employee), 
+                                    null, 
+                                    ['class' => 'md-input'] ); ?>
+
+                               </div>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            
+                             
+                              
+                            <div class="uk-form-row">
+                                <label>Notes</label>
+                                <input type="text" v-validate="required" v-model="note"  v-form-ctrl   class="md-input md-input-success" name="note" value="<?php echo e(old('note')); ?>" />
+                            </div>
+                             
+                        </div>
+                    </div>
+                     
+              
+
+                 <div class="uk-grid" align='center'>
+                            <div class="uk-width-1-1">
+                                <button type="submit" class="md-btn md-btn-primary" v-if="valid">Save</button>
+                            </div>
+                        </div>
+        </form>
+         
+<?php $__env->stopSection(); ?>
+ 
+
+<?php $__env->startSection('scripts'); ?>
+
+   
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

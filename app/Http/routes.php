@@ -123,11 +123,48 @@ Route::get('/journal_view/{id}/edit', "TransactionsController@viewJournalTrans")
 
 ////////////////// HR //////////////////////////////////////////////////////////
 
-Route::get('/add_departments', 'DepartmentController@show');
+Route::get('/add_departments', 'DepartmentController@create');
+Route::post('/add_departments', 'DepartmentController@store');
+Route::get('/view_departments', 'DepartmentController@index');
+Route::any('/view_departments/search', 'DepartmentController@search');
+Route::resource('view_departments', 'DepartmentController');
+
+Route::get('/add_leave_category', 'LeaveController@create');
+Route::post('/add_leave_category', 'LeaveController@store');
+ 
+Route::any('/view_leave_category/search', 'LeaveController@search');
+Route::resource('view_leave_category', 'LeaveController');
+
+ 
+Route::get('/add_leave_setup', 'LeaveSetupController@create');
+Route::post('/add_leave_setup', 'LeaveSetupController@store');
+Route::resource('/view_leave_setup', 'LeaveSetupController');
+Route::any('view_leave_setup/search', 'LeaveSetupController@search');
+
+
+ 
+Route::post('/apply_leave', 'LeaveController@storeLeave');
+
+Route::get('/apply_leave/{id}/person', 'LeaveController@createLeave');
+
+Route::post('/getEmployee', 'EmployeeController@getEmployee');
+
+Route::post('/getLeave', 'EmployeeController@getLeave');
+
+
+
+Route::get('/view_leaves', 'LeaveController@viewLeave');
+Route::get('/edit_leaves/{id}/edit', "LeaveController@showLeaveEdit");
+Route::post('/edit_leaves/{id}/edit', "LeaveController@LeaveEdit");
+Route::delete('/view_leaves','LeaveController@destroyLeave');
+
+Route::any('view_leaves/searchLeave', 'LeaveController@searchLeave');
+
+
 Route::get('/add_employees', 'EmployeeController@create');
 Route::post('/add_employees', 'EmployeeController@store');
 Route::get('/view_employees', 'EmployeeController@index');
-
+Route::delete('/add_employees','EmployeeController@destroy');
 
 ////////////////////////////////////////////////////////////////////////////////
 

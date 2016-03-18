@@ -261,6 +261,47 @@
 
                             
                  </div>
+                <div data-uk-grid-margin="" class="uk-grid uk-grid-width-medium-1-2 uk-grid-width-large-1-2">
+
+
+                     <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Department :</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  {!!   Form::select('department',$department,old('department',''),array("required"=>"required","class"=>"md-input","id"=>"department","v-model"=>"department","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"{{old('department')}}")   )  !!}
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.department.$error.required">Department is required</p>                                        
+                          </div>
+                      </div>
+                    <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Supervisor :</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  {!!   Form::select('supervisor',$employee,old('department',''),array("required"=>"required","class"=>"md-input","id"=>"supervisor","v-model"=>"supervisor","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"{{old('supervisor')}}")   )  !!}
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.supervisor.$error.required">Supervisor is required</p>                                        
+                          </div>
+                      </div>
+
+                    <div class="parsley-row">
+                            <div class="uk-input-group">
+                                 
+                                <label for="">Designation:</label>     
+                                <div class="md-input-wrapper md-input-filled">
+                                  {!!   Form::select('designation',$designation,old('designation',''),array("required"=>"required","class"=>"md-input","id"=>"designation","v-model"=>"designation","v-form-ctrl"=>"","style"=>"width: 226px;","v-select"=>"{{old('designation')}}")   )  !!}
+                            <span class="md-input-bar"></span>
+                                </div> 
+                                
+                              <p class="uk-text-danger uk-text-small"  v-if="employeeForm.designation.$error.required">Designation is required</p>                                        
+                          </div>
+                      </div>    
+                 </div>
       </section>
                         
       <!-- second section -->
@@ -382,11 +423,11 @@ var vm = new Vue({
   ready : function() {
   },
  data : {
-  college : "{{  old("college",'') }}",
-  program : "{{  old("program",'') }}",
-  yoa : "{{  old("yoa",'') }}",
-  yoc : "{{  old("yoc",'') }}",
-  delivery : "{{  old("delivery",'') }}",
+  department : "{{  old("department",'') }}",
+  position : "{{  old("position",'') }}",
+  grade : "{{  old("grade",'') }}",
+  title : "{{  old("title",'') }}",
+  marital: "{{  old("marital",'') }}",
   country : "{{  old("country",'') }}",
  options: [      
     ],

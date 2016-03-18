@@ -89,7 +89,7 @@
                                              <td> {{ $item->BANK_ACCOUNT_NUMBER }}</td>
                                              <td> {{ $item->BANK_ACCOUNT_TYPE }}</td>
                                              <td> {{ $item->BANK_CURRENCY }}</td>
-                                             <td> {{ $item->account->ACCOUNT_NAME }}</td>
+                                             <td> {{ @$item->account->ACCOUNT_NAME }}</td>
                                              <td>
                                              <a href="{{  url('Addbank/'.$item->BANK_ACCOUNT_ID.'/edit')  }}"      title="click to edit this record"class="btn btn-primary btn-sm">Edit</a>
                                                 
