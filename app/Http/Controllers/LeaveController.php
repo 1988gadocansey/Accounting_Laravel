@@ -103,7 +103,7 @@ class LeaveController extends Controller
         $employee=new DepartmentController();
         $leaveType=new LeaveSetupController();
         
-          
+          @$leave=$leaveType->types();
         // employee is in session
        
         $request->session()->put('employee', $id);
@@ -115,17 +115,24 @@ class LeaveController extends Controller
         if($request->has('type')){
          $request->session()->put('type', $request->input('type'));
         
-        
+         foreach($leave as $r){
+             @$tt= $r;
+         }
+         
         $leaveDetails=LeaveSetUpModel::where('Type', $request->input('type'))->first();
         //dd($leaveDetails->duration);
         
         }
+         
         return view('HR.leave.leave_application')->with('employee', $employee->employees())
                 ->with('leaveDetails', @$leaveDetails)->with('person', @$gad)
                 ->with('type', $leaveType->types())->with('duration', @$leaveDetails->duration)
                 ->with('pay', @$leaveDetails->Paid)
                 ->with('qualify', @$leaveDetails->Working_Days)
-               ->with('note', @$leaveDetails->note);
+               ->with('note', @$leaveDetails->note)
+                ->with('occurance', @$leaveDetails->occurance)
+                ->with('leave',@$tt);
+                 
          
     }
 
@@ -138,49 +145,145 @@ class LeaveController extends Controller
       
         $type=$request->input('type');
         $leaveType=\DB::table('tbl_leave_setup')->where('id',"$type")->get();
-      /*dd($leaveType);
-        foreach ($leaveType as $row => $value) {
-            
-          
-            $leaveType[$row]->$duration = $value->duration; 
-             $leaveType[$row]->$qualify = $value->Working_Days;
+     
+        
+        // first get info about employee 
+        $emp=  $this->employee($request->input('employee'));
+        foreach($emp as $ob=>$row){
+            @$lastLeave=$row->last_leave_date;
+            $status=$row->leaves;
         }
+        // first check if employee is at post
+       if($status=='on duty'){
+           // second check wheather days between last leave and 
+           // current leave is more than a 
+         
+         // difference between last leave and start of current leave is equal
+         // to occurance then valid for processing
         
-        */
-        
-        
-        $leave->Type = $request->input('type');
+         $occurance= $request->input('occurance');
+        // @$difference=  @$this->diffDays(  @$lastLeave,$request->input('start'));
+         if($lastLeave==""){
+             $leave->Type = $request->session()->get('type');
         $leave->Employee = $request->input('employee');
         $leave->Start= $request->input('start');
         $leave->Duration = $request->input('duration');
         $leave->Reasons = $request->input('reasons');
-        $leave->Due = $request->input('end');
         
-        // processing leave
-       /* $empDuration=$request->input('duration');
-        $startDuration=$request->input('start');
-        $leaveDuration= $leaveType[$row]->$duration;
-        $oldDate = \Carbon::create($startDuration);
-        $newDate = $oldDate->addDays($leaveDuration);
-        
-        
-        $date1=strtotime($newDate);
-        $date2=strtotime($empDuration);
+        $leave->Employee_Replaced_By = $request->input('replace');
+         $dueDate=   Carbon::createFromFormat('d/m/Y', $request->input('start'));
          
-        $report=$date1-$date2;
-        $report=date("d/m/Y",$report);
+         $dueDate->toDateTimeString();            // 2012-01-31 00:00:00
+
+         $dueDate->addDays($request->input('duration')); 
+         
+         $leave->Due = $dueDate->format('d/m/Y');
         
-        */
-        if($leave->save()){
-        Session::flash('success_message', 'You will be reporting on  if your leave is approved');
+        
+            $report=$dueDate->format('d/m/Y');
+         if($leave->save()){
+             
+         // update last leave on employee table
+                    $employ = EmployeeModel::find($request->input('employee'));
+
+                    $employ->last_leave_date = $report;
+                    
+                    $employ->save();
+                    Session::flash('success_message', "You will be reporting on  <b>". $report. " </b> if your leave is approved");
+
+           return redirect('view_leaves')->with('report',$report);
+         }
+         }
+         else{
+        
+            @$today_dt = new \DateTime($request->input('start'));
+            @$expire_dt = new \DateTime($lastLeave);
+
+        // check so that employee does reply for leave while 
+        // current leave is pending
+        if ($today_dt < $expire_dt  ) { 
+                
+                 
+        $leave->Type = $request->session()->get('type');
+        $leave->Employee = $request->input('employee');
+        $leave->Start= $request->input('start');
+        $leave->Duration = $request->input('duration');
+        $leave->Reasons = $request->input('reasons');
+        
+        $leave->Employee_Replaced_By = $request->input('replace');
+         $dueDate=   Carbon::createFromFormat('d/m/Y', $request->input('start'));
+         
+         $dueDate->toDateTimeString();            // 2012-01-31 00:00:00
+
+         $dueDate->addDays($request->input('duration')); 
+         
+         $leave->Due = $dueDate->format('d/m/Y');
+        
+        
+            $report=$dueDate->format('d/m/Y');
+         if($leave->save()){
+             
+         // update last leave on employee table
+                    $employ = EmployeeModel::find($request->input('employee'));
+
+                    $employ->last_leave_date = $report;
+                    
+                    $employ->save();
+                    Session::flash('success_message', "You will be reporting on  <b>". $report. " </b> if your leave is approved");
+
+           return redirect('view_leaves')->with('report',$report);
+         }
+            }
+            else {
+          Session::flash('error_message', 'Your leave cannot be process because you have a leave pending!');
 
         return redirect('view_leaves');
       }
+       }
+       
+    }
       else {
-          Session::flash('error_message', 'Error processing Leave Request!');
+          Session::flash('error_message', 'Your leave cannot be process because is invalid!');
 
         return redirect('view_leaves');
       }
+    }
+    function addDays($timestamp, $days, $skipdays = array("Saturday", "Sunday"), $skipdates = NULL) {
+     $dueDate=   Carbon::createFromFormat('d/m/Y', $timestamp);
+         
+         $dueDate->toDateTimeString();            // 2012-01-31 00:00:00
+
+        $dueDate->addDays($days); 
+         $timestamp = $dueDate->format('Y-m-d');
+      //echo $timestamp17=$timestamp1->date; 
+      $i = 1;
+
+        while ($days >= $i) {
+            $timestamp = strtotime("+1 day", $timestamp);
+            if ( (in_array(date("l", $timestamp), $skipdays)) || (in_array(date("Y-m-d", $timestamp), $skipdates)) )
+            {
+                $days++;
+            }
+            $i++;
+        }
+
+       return date("d/m/Y",$timestamp);
+    }
+    
+    public function diffDays($start1,$end1){
+       $start1= new Carbon($start1);
+        $end1=new Carbon($end1);
+        if(!empty($end1)){
+        @$start = new Carbon($start1);
+        @$end = new Carbon($end1);
+        @$difference = ($end->diff($start)->days < 1);
+           if($difference>0){
+         return $end->diffForHumans($start);
+           }
+           else{
+               return 0;
+           }
+        }
     }
     /**
      * Store a newly created resource in storage.
@@ -263,6 +366,51 @@ class LeaveController extends Controller
 
          return redirect('view_leaves');
     }
+     public function approveLeave($approve, Request $request)
+    {
+            $employ = LeaveApplicationModel::find($approve);
+
+            $employ->Status ='Approved';
+            
+            $employee=$employ->Employee;
+            $employ->save();
+            $employeeInfo=EmployeeModel::find($employee);
+            $employeeInfo->leaves='On Leave';
+            if($employeeInfo->save()){
+           
+                $sms=new SMSController();
+                $message="Hi $employeeInfo->title $employeeInfo->Name $employeeInfo->surname your leave has been approved"
+                        . "\n Starting on $employ->Start and Return date is $employ->Due. Thanks ";
+                $sms->send_sms($employeeInfo->phone, $message);
+                return redirect('view_leaves')->with('success_message', 'Leave has been approved and sms sent to employee');
+            }
+            else{
+              return redirect('view_leaves')->with('error_message', 'Error in processing leave');
+            }
+             
+    }
+    public function rejectLeave($reject, Request $request)
+    {
+            $employ = LeaveApplicationModel::find($reject);
+
+            $employ->Status ='Rejected';
+
+            $employ->save();
+            $employee=$employ->Employee;
+            $employeeInfo=EmployeeModel::find($employee);
+            $employeeInfo->leaves='on duty';
+            if($employeeInfo->save()){
+           
+                $sms=new SMSController();
+                $message="Hi $employeeInfo->title $employeeInfo->Name $employeeInfo->surname your leave has been rejected"
+                        . "\n Contact HR for more clarification. Thanks ";
+                $sms->send_sms($employeeInfo->phone, $message);
+                return redirect('view_leaves')->with('success_message', 'Leave has been rejected');
+            }
+            else{
+              return redirect('view_leaves')->with('error_message', 'Error in processing leave');
+            }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -279,6 +427,12 @@ class LeaveController extends Controller
          return redirect('view_leave_category');
     }
 
+    public function employee($id) {
+
+        $employee = \DB::table('tbl_employee')
+                ->where('id', $id)->get();
+        return $employee;
+    }
     
     public function destroyLeave($id)
     {
@@ -292,6 +446,7 @@ class LeaveController extends Controller
     
     
      public function searchLeave(Request $request) {
+         $this->log_query();
             $table = (new LeaveApplicationModel)->getTable();
         $table = '`' . str_replace("'", "", $table) . '`';
         // get column info from table
@@ -299,20 +454,28 @@ class LeaveController extends Controller
         //pick only the field and type
         $column_type_info = $column_query->pluck('Type', 'Field');
 
+        
         // print_r($column_type_info['id']);
         $len = $request['length'];
         $start = $request['start'];
         $search_item = $request['search']['value'];
         // $query = \DB::table(\DB::raw($table));
         $query = LeaveApplicationModel::query();
+        
+       
        //add columns to search
-        foreach ($request['columns'] as $key => $column) {
+        $query->where(function($query) use($request,$column_type_info,$search_item){
+            
+             foreach ($request['columns'] as $key => $column) {
             if ($column['searchable'] == "true") {
                 if (str_contains($column_type_info[$column['data']], "blob") == false) {
                     $query->orWhere($column['data'], 'like', '%' . trim($search_item) . '%');
                 }
             }
         }
+            
+        });
+       
         //add order to search by
         if($request->has('order')){
         foreach ($request['order'] as $key => $value) {
@@ -324,22 +487,42 @@ class LeaveController extends Controller
             }
         }
         }
+       
+        $query->with('employee','type','approval');
+        $results = $query->get();
+       \Log::info('a',array('as'=>$results));
+         
+       
         // $total_table_records = \DB::table(\DB::raw($table))->count();
         $total_table_records = LeaveApplicationModel::count();
         $query_results_total = $query->count();
         $query_results = $query->take($len)->skip($start)->get();
         $query_results = $query_results->toArray();
         // print_r($query_results);
+        //dd($query_results);
         foreach ($query_results as $keys => $item) {
+           
             foreach ($item as $key => $value) {
             //check for blob type in the search results and set it to empty string so it doesnt mess up the results with binary data
-                if (str_contains($column_type_info[$key], "blob") == true) {
+                if (isset($column_type_info[$key]) && !is_array($column_type_info[$key]) && str_contains($column_type_info[$key], "blob") == true) {
                     $query_results[$keys][$key] = "";
                 }
                 //highlight the search item in the results .
+                if(!is_array($query_results[$keys][$key])){
                 $query_results[$keys][$key] = $this->color_search_results2($search_item, $query_results[$keys][$key]);
             }
-            //add the counter column to help with numbering
+            }
+            $query_results[$keys]["Employee"] = $query_results[$keys]["employee"]['Name']." ".$query_results[$keys]["employee"]['othernames'].' '.$query_results[$keys]["employee"]['surname'];
+             
+             $query_results[$keys]["Approved_By"] = $query_results[$keys]["employee"]['Name']." ".$query_results[$keys]["employee"]['othernames'].' '.$query_results[$keys]["employee"]['surname'];
+          
+             $query_results[$keys]["Employee_Replaced_By"] = $query_results[$keys]["employee"]['Name']." ".$query_results[$keys]["employee"]['othernames'].' '.$query_results[$keys]["employee"]['surname'];
+          
+            
+            $query_results[$keys]["Type"] = $query_results[$keys]["type"]['category'] ;
+          
+             
+           //add the counter column to help with numbering
             $query_results[$keys]["thecounter"] = $keys + $start + 1;
             $query_results[$keys]["button_actions"] = $this->addButtonActions2($query_results[$keys]['id']);
 
@@ -354,10 +537,10 @@ class LeaveController extends Controller
     }
 
     public function addButtonActions2($id) {
-        $string = "<a href='" . url('edit_leaves/'.$id.'/edit') . "' class='btn btn-primary btn-xs'>Edit</a>&nbsp;";
-        $string .= "<a onclick=\"return confirm('Are you sure you want to approve this leave')\" href='" . url('edit_leaves/'.$id.'/approve') . "' class='btn btn-success btn-xs'>Approve</a>&nbsp;";
+        //$string = "<a href='" . url('edit_leaves/'.$id.'/edit') . "' class='btn btn-primary btn-xs'>Edit</a>&nbsp;";
+        $string= "<a onclick=\"return confirm('Are you sure you want to approve this leave')\" href='" . url('check_leaves/'.$id.'/approve') . "' class='btn btn-success btn-xs'>Approve</a>&nbsp;";
       
-        $string .= "<a onclick=\"return confirm('Are you sure you want to reject this leave')\" href='" . url('edit_leaves/'.$id.'/reject') . "' class='btn btn-danger btn-xs'>Reject</a>&nbsp;";
+        $string .= "<a onclick=\"return confirm('Are you sure you want to reject this leave')\" href='" . url('check_leaves/'.$id.'/reject') . "' class='btn btn-danger btn-xs'>Reject</a>&nbsp;";
       
         
         return $string;

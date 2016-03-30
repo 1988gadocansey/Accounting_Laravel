@@ -102,6 +102,7 @@ class DepartmentController extends Controller {
             }
         }
         //add order to search by
+        if($request->has('order')){
         foreach ($request['order'] as $key => $value) {
             //get info abt column being used for ordering from requests["columns"]
             $request_column = $request["columns"][$value['column']];
@@ -109,6 +110,7 @@ class DepartmentController extends Controller {
                 $query->orderBy($request_column['data'], $value['dir']);
 
             }
+        }
         }
 
         // $total_table_records = \DB::table(\DB::raw($table))->count();

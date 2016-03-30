@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\EmployeeModel;
 use App\Models\LeaveSetUpModel;
+
+use App\Models\AttendanceModel;
 use Illuminate\Http\Request;
 use App\Models;
 use Carbon\Carbon;
 use Session;
 
-class LeaveSetupController extends Controller
+class AttendanceController extends Controller
 {
 
     public function log_query() {
@@ -26,32 +29,31 @@ class LeaveSetupController extends Controller
      *
      * @return Response
      */
-    public function index()    
+    public function index(Request $request)    
     {  
-            $table = (new LeaveSetUpModel)->getTable();
-        $table = '`' . str_replace("'", "", $table) . '`';
-        $query = \DB::select(\DB::raw("show full columns from " . $table));
-        //add properties or attributes for datatables
-        //each table column has four main properties a)searchable, orderable, visible take true/false
-        //b) title is used as the display title for the column when shown in the age
-        $data =array();
-        foreach ($query as $key => $value) {
-            $value->searchable = true;
-            $value->orderable = true;
-            $value->visible = true;
-            $value->title = $value->Field;
-
-            if(str_contains($value->Type,"blob")){
-            $value->searchable = false;
-            $value->orderable = false;            
+            
+        $attendance= AttendanceModel::query() ;
+         
+          if ($request->has('employee') && trim($request->input('employee')) != "") {
+                 $attendance->where("employee_id","=",$request->input("employee",""));
             }
-            $data[$value->Field] = $value;
-        }
-
-        //hide and make id column unsearchable
-        @$data['id']->searchable = false;
-        @$data['id']->visible = false;
- return view('HR.leave.view_setup')->with("data",$data);  
+            if ($request->has('datefrom') && trim($request->input('datefrom')) != "") {
+                
+                 $attendance->where("date","=", $request->input("datefrom",""));
+                 //dd($request->input('datefrom'));
+            }
+            if ($request->has('dateto') && $request->has($request->input('dateto'))    && $request->input('datefrom')!=""&&$request->has('datefrom')) {
+                 $attendance->where("date",'>=',$request->input("datefrom",""))
+                         ->where("date",'<=',$request->input("dateto",""));
+            
+                 
+            }
+             
+            $data = $attendance->paginate(100);
+             
+        return view('HR.attendance.view_attendance')->with("data",$data)
+                ->with('employees',  $this->getEmployees());
+    
     }
 
     /**
@@ -61,9 +63,17 @@ class LeaveSetupController extends Controller
      */
     public function create()
     {
-        return view('HR.leave.add_setup')->with('leave', $this->types());
+        return view('HR.attendance.create')->with('gad', $this->getEmployees())
+                
+                ->with('count',count($this->getEmployees()));
     }
 
+    public function getEmployees(){
+                 
+         $employee = EmployeeModel::query()->paginate(100);
+                 
+         return $employee;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -71,26 +81,30 @@ class LeaveSetupController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['type' => 'required', 'duration' => 'required', 'pay' => 'required', 'qualify' => 'required', 'occurance' => 'required']);
+        $this->validate($request, ['employee' => 'required', 'attendance' => 'required']);
 
-          
-        $leave=new  LeaveSetUpModel();
-      
-        $leave->Type = $request->input('type');
-        $leave->Paid = $request->input('pay');
-        $leave->duration = $request->input('duration');
-        $leave->occurance = $request->input('occurance');
-        $leave->Working_Days = $request->input('qualify');
-        $leave->note = $request->input('note');
-        if($leave->save()){
-        Session::flash('success_message', 'Leave Setup added!');
+        $counter=$request->input('counter');
+        $employee=$request->input('employee');
+        $mark=$request->input('attendance');
+                
+       for($i=0;$i<$counter;$i++){
+         $attendence=new AttendanceModel();
 
-        return redirect('view_leave_setup');
+        $attendence->employee_id = $employee[$i];
+        $attendence->attendance_status = $mark[$i];
+        $attendence->date = date('d/m/Y');
+        $attendence->marked_by=\Session::get('flatUser.id');
+        $save= $attendence->save();
+       }
+        if($save){
+        Session::flash('success_message', 'Attendance added!');
+
+        return redirect('view_attendance');
       }
       else {
-          Session::flash('error_message', 'Leave Setup Item exist!');
+          Session::flash('error_message', 'Attendance could not be added!');
 
-        return redirect('view_leave_setup');
+        return redirect('create_attendance');
       }
     }
     public function types() {
@@ -99,7 +113,31 @@ class LeaveSetupController extends Controller
                 ->lists('category', 'id');
         return $type;
     }
+    public function countries() {
 
+        $country = \DB::table('tbl_country')
+                ->lists('Name', 'Name');
+        return $country;
+    }
+    public function grades() {
+
+         $grade=\DB::table('tbl_employee')->distinct()->where('grade','!=',"")->lists('grade','grade');
+        return $grade ;
+        
+    }
+     public function position() {
+
+         $position=\DB::table('tbl_employee')->distinct()->where('position','!=',"")->lists('position','position');
+        return $position ;
+        
+    }
+    
+     public function department() {
+
+         $department=\DB::table('tbl_department')->lists('DEPARTMENT_NAME','ID');
+        return $department ;
+        
+    }
     /**
      * Display the specified resource.
      *

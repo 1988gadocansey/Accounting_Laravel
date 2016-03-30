@@ -326,8 +326,7 @@
                                     </span>
                                     <a href="javascript:;" class="md-btn md-btn-danger fileinput-exists" data-dismiss="fileinput">
                                         Remove </a>
-                                        <button type="submit" name="photos" class="md-btn md-btn-primary">
-                                            Upload </button>
+                                         
                                 </div>
 
 
@@ -442,7 +441,7 @@ var vm = new Vue({
 
     },
     submit_form : function(){
-      return (function(modal){ modal = UIkit.modal.blockUI("<div class='uk-text-center'>Processing Transcript Order<br/><img class='uk-thumbnail uk-margin-top' src='{!! url('public/assets/img/spinners/spinner.gif')  !!}' /></div>"); setTimeout(function(){ modal.hide() }, 50000) })();
+      return (function(modal){ modal = UIkit.modal.blockUI("<div class='uk-text-center'>Saving Data<br/><img class='uk-thumbnail uk-margin-top' src='{!! url('public/assets/img/spinners/spinner.gif')  !!}' /></div>"); setTimeout(function(){ modal.hide() }, 50000) })();
     },
         
     go_to_fill_form_section : function (event){    

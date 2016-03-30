@@ -202,10 +202,10 @@
                         </h3>                    
                         <div class="uk-accordion-content">
                             <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('add_departments') }}" ><i class='fa fa-plus-circle'></i> Manage Attendance </a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('create_attendance') }}" ><i class='fa fa-plus-circle'></i> Manage Attendance </a></span>
                             </p>
                             <p class="">
-                                <span class="md-list-heading"><a target='main'  href="{{ url('view_banks') }}" ><i class='fa fa-file-text'></i>  Attendance Report </a></span>
+                                <span class="md-list-heading"><a target='main'  href="{{ url('view_attendance') }}" ><i class='fa fa-file-text'></i>  Attendance Report </a></span>
                             </p>
                             
                              
@@ -230,9 +230,9 @@
                              <p class="">
                                 <span class="md-list-heading"><a target='main'  href="{{ url('view_leave_setup') }}" ><i class='fa fa-file-text'></i> View Leave Set up</a></span>
                             </p>
-                            <p class="">
+                            <!--<p class="">
                                 <span class="md-list-heading"><a target='main'  href="{{ url('apply_leave') }}" ><i class='fa fa-plus-circle'></i>Leave Request Form </a></span>
-                            </p>
+                            </p>-->
                             <p class="">
                                 <span class="md-list-heading"><a target='main'  href="{{ url('view_leaves') }}" ><i class='fa fa-file-text'></i>View Leaves Requests </a></span>
                             </p>

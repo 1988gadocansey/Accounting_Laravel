@@ -1,0 +1,130 @@
+<style>
+    .uk-table td {
+    border-bottom-color: #E0E0E0;
+    vertical-align: middle !important;
+}
+
+</style>
+<?php $__env->startSection('css'); ?>
+   <link rel="stylesheet" href="<?php echo url('public/assets/css/bootstrap.min.css'); ?>" media="all">
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+        <?php if(Session::has('success_message')): ?>
+            <div class="alert alert-success">
+                <?php echo e(Session::get('success_message')); ?>
+
+            </div>
+         <?php endif; ?>
+          <?php if(Session::has('error_message')): ?>
+            <div class="alert alert-danger">
+                <?php echo e(Session::get('error_message')); ?>
+
+            </div>
+         <?php endif; ?>
+<?php if($data->isEmpty()): ?>
+    <div >
+      <p> No Attendance found!</p>
+      <a href="<?php echo e(url('view_attendance')); ?>">Back</a>
+    </div>
+<?php else: ?>
+ <h5>Attendance Manager</h5>  
+   
+<div class="md-card">
+                <div class="md-card-content">
+
+                <form action=""  method="get" accept-charset="utf-8" novalidate id="group">
+                   <?php echo csrf_field(); ?>
+
+                    <div class="uk-grid" data-uk-grid-margin="">
+
+                         
+                       <div class="uk-width-medium-1-5">
+                            <div class="uk-margin-small-top">
+                                    </div>
+                        </div>
+                          
+ <div class="uk-width-medium-1-10">                                                        
+                             <input type="text"  style="width: 130px" data-uk-datepicker="{format:'DD/MM/YYYY'}" value="<?php echo e(old("datefrom")); ?>" name="datefrom" id="invoice_dp" class="md-input" placeholder="date from ">
+                        </div>
+
+                        <div class="uk-width-medium-1-10">                            
+                            <input type="text" style="margin-left: 37px;width: 130px" data-uk-datepicker="{format:'DD/MM/YYYY'}" value="<?php echo e(old("dateto")); ?>" name="dateto"  class="md-input" placeholder="date to">
+                        </div
+                        <div class="uk-width-medium-1-10 uk-text-center" >                            
+                            <input class="md-btn md-btn-primary" style="margin-left: 109px;margin-top: 10px" type="submit" name="search_button"  value="Search" />
+                        </div>
+                        
+                         
+                         
+                         
+                      </form>          
+
+                        
+                   
+                      
+                    </div>
+                    
+                    
+                </div>
+      
+    
+	<div class="uk-overflow-container">
+            
+                        <table id="dt_tableTools"class="uk-table uk-table-nowrap uk-table-hover" id="gad"> 
+                                  <thead>
+                                         <tr>
+                                             <th>ID</th>
+                                             <th>Employee</th>
+                                             <th>Date</th>
+                                             <th>Status</th>
+                                            
+                                         </tr>
+                                    </thead>
+                                    <tbody class="selects">
+                                         
+                                        
+                                       <?php foreach($data as   $employee=>$row): ?> 
+                                         
+                                        <tr>
+                                            <td>   <?php echo $employee+1; ?> </td>
+                                            <td> <?php echo e($row->employee->title.' '.$row->employee->surname.' '.$row->employee->Name); ?> </td>
+                                              
+                                            <td> <?php echo e($row->date); ?> </td>
+                                            <td> <?php echo e($row->attendance_status); ?> </td>
+                                             
+                                              
+                                         
+                                        </tr>
+                                         <?php endforeach; ?>
+                                    </tbody>
+                             </table>
+            
+                             <?php echo $data->appends(old())->render(); ?>
+
+        </div>
+ <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<!--<script src="<?php echo url('public/datatables/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?php echo url('public/datatables/dataTables.tableTools.js'); ?>"></script>
+<script src="<?php echo url('public/datatables/dataTables.colVis.js'); ?>"></script>
+
+<script src="<?php echo url('public/datatables/plugins_datatables.min.js'); ?>"></script>
+-->
+
+<script type="text/javascript">
+      
+$(document).ready(function(){
+// console.log($('select[name="status"]'));
+$(".parent").on('change',function(e){
+ 
+   $("#group").submit();
+ 
+});
+});
+
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,8 +1,7 @@
 @extends('layouts.master')
  
 @section('css')
- <link rel="stylesheet" href="{!! url('public/assets/css/bootstrap.min.css') !!}" media="all">
-
+  
 @endsection
 @section('content')
         @if(Session::has('success_message'))
@@ -40,6 +39,7 @@
 <script src="{!! url('public/datatables/jquery.dataTables.min.js') !!}"></script>
  
 <script src="{!! url('public/datatables/plugins_datatables.min.js') !!}"></script>
+ <script src="{!! url('public/datatables/datatables_uikit.min.js') !!}"></script> 
 
 <script type="text/javascript">
         var theGrid = null;

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LeaveSetUpModel extends Model
+class AttendanceModel extends Model
 {
 
     /**
@@ -12,17 +12,17 @@ class LeaveSetUpModel extends Model
      *
      * @var string
      */
-    protected $table = 'tbl_leave_setup';
+    protected $table = 'tbl_attendance';
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    
-protected $guarded=array("id");
-protected $fillable=array("Type","duration",'Working_Days','Paid','note','occurance');
-
+    protected $guarded = ['id'];
+    public function employee() {
+        return $this->belongsTo('App\Models\EmployeeModel', "employee_id","id");
+    }
 
     public $timestamps = false;
 

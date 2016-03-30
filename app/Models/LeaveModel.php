@@ -20,6 +20,9 @@ class LeaveModel extends Model
      * @var array
      */
     protected $fillable = ['id', 'category', 'note'];
+    public function department() {
+        return $this->belongsTo('App\Models\EmployeeModel', "ID","department");
+    }
 
     public $timestamps = false;
 

@@ -48,9 +48,9 @@
                                </div>
                             </div>
                             <div class="uk-form-row">
-                                <label>Leave Duration (Days)</label>
-                                {!!  Form::select('duration', array('100' => '100', '95' => '95','90'=>'90','85'=>'85','80'=>'80','75'=>'75','70'=>'70','65'=>'65','60'=>'60','55'=>'55','50'=>'50','45'=>'45','40'=>'40','35'=>'35','30'=>'30','25'=>'25','20'=>'20','15'=>'15','10'=>'10','5'=>'5'), old('duration',$data->duration), ['placeholder' => ''  ,'required'=>'']); !!} 
-                  
+                                <label>Leave Duration (in no. of  days)</label>
+                                <input type="number" class="md-input md-input-success" name="duration" required=""  value="{{$data->duration}}" />
+                                
                             </div>
                             <div class="uk-form-row">
                                
@@ -70,7 +70,14 @@
                                  </div>
                             </div>
                             
-                             
+                             <div class="uk-form-row">
+                               
+                                <label>Leave Occurance(in no. of  days)</label>
+                                <div class="uk-width-medium-1-1">
+                                    <input type="number" class="md-input md-input-success" name="occurance" required=""  value="{{$data->occurance}}"  />
+                               
+                               </div>
+                            </div>
                              
                             <div class="uk-form-row">
                                 <label>Notes</label>

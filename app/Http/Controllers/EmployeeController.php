@@ -34,16 +34,49 @@ class EmployeeController extends Controller
            // dd($request);
             $employee->where($request->input('by'), "LIKE", "%" . $request->input("search", "") . "%");
           }
+          if ($request->has('department') && trim($request->input('department')) != "") {
+                 $employee->where("department","LIKE","%".$request->input("department","")."%");
+            }
+            if ($request->has('grades') && trim($request->input('grades')) != "") {
+                 $employee->where("grade","LIKE","%".$request->input("grades","")."%");
+            }
+            if ($request->has('position') && trim($request->input('position')) != "") {
+                 $employee->where("position","=",$request->input("position",""));
+            }
+            if ($request->has('gender') && trim($request->input('gender')) != "") {
+                 $employee->where("gender","=",$request->input("gender",""));
+            }
+            if ($request->has('leave') && trim($request->input('leave')) != "") {
+                 $employee->where("leaves","=",$request->input("leave",""));
+            }
              
-            $data = $employee->paginate(500);
+            $data = $employee->paginate(100);
+            \Session::put('employees', $data);
         return view('HR.employees.index')->with("data",$data)
                 ->with('country', $this->countries())
                 ->with('positions', $this->position())
                 ->with('grades', $this->grades())
                 ->with('departments', $this->department())
                 ->with('designation', $this->designation());
+        
     }
-    
+     
+    public function sendSMS(Request $request){
+        $query=\Session::get('employees');
+        $sms= new SMSController();
+        
+        foreach($query as $rtmt=> $member) {
+           
+            
+             if ($sms->sendSMS($member->phone, $request->input("id", ""), "Reminder")) {
+
+                \Session::forget('employees');
+            } else {
+                return redirect("view_employees")->withErrors("SMS could not be sent.. please verify if you have sms data and internet access.");
+            }
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -90,10 +123,7 @@ class EmployeeController extends Controller
         
     }
 
-    public function getEmployee(Request $request){
-        
-        
-    }
+     
     public function designation() {
 
          $design=\DB::table('tbl_designation')->lists('designation','designation');
@@ -117,7 +147,7 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
          
-        $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required', 'files' => 'required', 'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required','supervisor' => 'required' ]);
+        $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required',  'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required','supervisor' => 'required' ]);
 
       $code=$this->getStaffID();
       $employee=new Models\EmployeeModel();
@@ -206,7 +236,10 @@ class EmployeeController extends Controller
     {
         $tblemployee = EmployeeModel::findOrFail($id);
 
-        return view('crud.tblemployee.edit', compact('tblemployee'));
+        return view('HR.employees.edit')->with('country', $this->countries())
+                ->with('department', $this->department())->with('designation', $this->designation())
+                ->with('employee', $tblemployee)
+                ->with('supervisor', $this->getSupervisor());
     }
 
     /**
@@ -218,14 +251,64 @@ class EmployeeController extends Controller
      */
     public function update($id, Request $request)
     {
-        $this->validate($request, ['employment_id' => 'required', 'first_name' => 'required', 'last_name' => 'required', 'date_of_birth' => 'required', 'gender' => 'required', 'maratial_status' => 'required', 'father_name' => 'required', 'nationality' => 'required', 'passport_number' => 'required', 'photo' => 'required', 'photo_a_path' => 'required', 'present_address' => 'required', 'city' => 'required', 'country_id' => 'required', 'mobile' => 'required', 'phone' => 'required', 'email' => 'required', 'designations_id' => 'required', 'joining_date' => 'required', 'status' => 'required', ]);
+        
+       
+      $this->validate($request, ['title' => 'required', 'fname' => 'required', 'surname' => 'required', 'position' => 'required', 'gender' => 'required', 'marital_status' => 'required', 'leave' => 'required', 'country' => 'required', 'ssnit' => 'required',  'education' => 'required', 'contact' => 'required', 'hometown' => 'required', 'dob' => 'required', 'phone' => 'required', 'email' => 'required', 'residence' => 'required','supervisor' => 'required' ]);
 
-        $tblemployee = EmployeeModel::findOrFail($id);
-        $tblemployee->update($request->all());
+       
+      $employee=EmployeeModel::findOrFail($id);
+       
+      $employee->title=$request->input('title');
+      $employee->Name=$request->input('fname');
+      $employee->surname=$request->input('surname');
+      $employee->othernames=$request->input('othernames');
+      $employee->position=$request->input('position');
+      $employee->grade=$request->input('grade');
+      $employee->ssnit=$request->input('ssnit');
+      $employee->placeofresidence=$request->input('residence');
+      $employee->address=$request->input('contact');
+      $employee->phone=$request->input('phone');
+      $employee->dob=$request->input('dob');
+      $employee->email=$request->input('email');
+      $employee->gender= $request->input('gender');
+      $employee->grade= $request->input('grade');
+      $employee->marital=$request->input('marital_status');
+      $employee->nationality=$request->input('country','');
+      $employee->dateHired=$request->input('hired');
+      $employee->leaves=$request->input('leave');     
+      $employee->hometown=$request->input('hometown'); 
+      $employee->education=$request->input('education'); 
+      $employee->department=$request->input('department'); 
+      $employee->designation=$request->input('designation'); 
+      
+      $employee->supervisor=$request->input('supervisor');
+      $employee->dependentsNo=$request->input('dependents');
+      if($employee->save()){
+          $valid_exts = array('jpeg', 'jpg'); // valid extensions
+          $max_size = 400000; // max file size
+          $photo=$request->file('files');
+                    
 
-        Session::flash('flash_message', 'TblEmployee updated!');
+               if (!empty($photo)) {
+                // get uploaded file extension
+                $ext = strtolower( $request->file('files')->getClientOriginalExtension());
+                $photo =$employee->staffID . '.' . $ext;
+                $savepath = 'public/staffPics/';
+               if (in_array($ext, $valid_exts)) {
+                    if( $request->file('files')->move($savepath, $photo)){
+                        \DB::table('codes')->increment('STAFF_ID');
+                    }
 
-        return redirect('tblemployee');
+               }
+                
+            }
+            Session::flash('success_message', 'Employee updated successfully!');
+      }
+      else{
+          Session::flash('error_message', 'Error updating Employee!');
+      }
+      
+        return redirect('view_employees');
     }
 
     /**
@@ -368,5 +451,10 @@ public function color_search_results($str1, $str2) {
 	public function pictureid($stuid) {
 
         return str_replace('/', '', $stuid);
+    }
+    public function getSupervisor(){
+         $employee = \DB::table('tbl_employee')
+                ->lists('staffID','Name');
+        return $employee;
     }
 }

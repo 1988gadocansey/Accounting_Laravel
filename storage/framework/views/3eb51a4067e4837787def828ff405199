@@ -1,7 +1,6 @@
  
 <?php $__env->startSection('css'); ?>
- <link rel="stylesheet" href="<?php echo url('public/assets/css/bootstrap.min.css'); ?>" media="all">
-
+  
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
         <?php if(Session::has('success_message')): ?>
@@ -41,6 +40,7 @@
 <script src="<?php echo url('public/datatables/jquery.dataTables.min.js'); ?>"></script>
  
 <script src="<?php echo url('public/datatables/plugins_datatables.min.js'); ?>"></script>
+ <script src="<?php echo url('public/datatables/datatables_uikit.min.js'); ?>"></script> 
 
 <script type="text/javascript">
         var theGrid = null;

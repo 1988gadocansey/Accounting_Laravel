@@ -135,15 +135,26 @@ Route::post('/add_leave_category', 'LeaveController@store');
 Route::any('/view_leave_category/search', 'LeaveController@search');
 Route::resource('view_leave_category', 'LeaveController');
 
+
+Route::get('/create_attendance', 'AttendanceController@create');
+Route::post('/create_attendance', 'AttendanceController@store');
+Route::get('/view_attendance', 'AttendanceController@index');
  
 Route::get('/add_leave_setup', 'LeaveSetupController@create');
 Route::post('/add_leave_setup', 'LeaveSetupController@store');
 Route::resource('/view_leave_setup', 'LeaveSetupController');
 Route::any('view_leave_setup/search', 'LeaveSetupController@search');
 
+Route::post('/edit_employee/{id}/employee', 'EmployeeController@update');
+
+Route::get('/edit_employee/{id}/employee', 'EmployeeController@edit');
+
+Route::get('/view_employee/printAll', 'EmployeeController@printAll');
+
+Route::get('/view_employee/sendSMS', 'EmployeeController@sendSMS');
 
  
-Route::post('/apply_leave', 'LeaveController@storeLeave');
+Route::post('/apply_leave/{id}/person', 'LeaveController@storeLeave');
 
 Route::get('/apply_leave/{id}/person', 'LeaveController@createLeave');
 
@@ -151,6 +162,9 @@ Route::post('/getEmployee', 'EmployeeController@getEmployee');
 
 Route::post('/getLeave', 'EmployeeController@getLeave');
 
+Route::get('/check_leaves/{approve}/approve', 'LeaveController@approveLeave');
+
+Route::get('/check_leaves/{reject}/reject', 'LeaveController@rejectLeave');
 
 
 Route::get('/view_leaves', 'LeaveController@viewLeave');

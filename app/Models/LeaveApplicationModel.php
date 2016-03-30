@@ -25,4 +25,13 @@ class LeaveApplicationModel extends Model
     public function employee() {
         return $this->belongsTo('App\Models\EmployeeModel', "Employee","id");
     }
+    public function supervisor() {
+        return $this->belongsTo('App\Models\EmployeeModel', "Employee","id");
+    }
+    public function approval() {
+        return $this->belongsTo('App\Models\EmployeeModel', "Approved_By","id");
+    }
+    public function type() {
+        return $this->belongsTo('App\Models\LeaveModel', "Type","id");
+    }
 }

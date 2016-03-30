@@ -5,7 +5,7 @@
 <?php $__env->startSection('content'); ?>
         <?php if(Session::has('success_message')): ?>
             <div class="alert alert-success">
-                <?php echo e(Session::get('success_message')); ?>
+                <?php echo Session::get('success_message'); ?>
 
             </div>
          <?php endif; ?>
